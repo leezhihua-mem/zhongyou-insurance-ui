@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>用药提醒 - UI原型</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: #f5f5f5;
+            max-width: 375px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+        .header {
+            background: linear-gradient(135deg, #F57C00 0%, #EF6C00 100%);
+            color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .header-title { font-size: 18px; font-weight: 600; }
+        .add-btn { font-size: 24px; margin-left: auto; cursor: pointer; }
+        
+        .today-summary {
+            background: white;
+            margin: 12px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .summary-title { font-size: 14px; color: #999; margin-bottom: 8px; }
+        .summary-stats { display: flex; justify-content: space-around; margin: 16px 0; }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #F57C00; }
+        .stat-label { font-size: 12px; color: #999; margin-top: 4px; }
+        
+        .plan-list {
+            background: white;
+            margin: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .plan-header {
+            padding: 16px;
+            border-bottom: 1px solid #F0F0F0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .plan-item {
+            padding: 16px;
+            border-bottom: 1px solid #F0F0F0;
+            display: flex;
+            align-items: center;
+        }
+        .plan-item:last-child { border-bottom: none; }
+        .plan-time {
+            width: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        .plan-time.passed { color: #999; }
+        .plan-drug {
+            flex: 1;
+            margin-left: 12px;
+        }
+        .drug-name { font-size: 15px; color: #333; font-weight: 500; }
+        .drug-dosage { font-size: 13px; color: #999; margin-top: 4px; }
+        .plan-status {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-done { background: #C8E6C9; color: #2E7D32; }
+        .status-pending { background: #FFF3E0; color: #EF6C00; }
+        .status-missed { background: #FFCDD2; color: #C62828; }
+        
+        .add-plan-btn {
+            background: linear-gradient(135deg, #F57C00 0%, #EF6C00 100%);
+            color: white;
+            margin: 16px 12px;
+            padding: 14px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(245,124,0,0.3);
+        }
+        
+        .history-section {
+            background: white;
+            margin: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+        .history-item:last-child { border-bottom: none; }
+        .history-date { font-size: 13px; color: #999; }
+        .history-rate { font-size: 14px; font-weight: 600; }
+        .rate-good { color: #2E7D32; }
+        .rate-normal { color: #F57C00; }
+        .rate-bad { color: #C62828; }
+        
+        .footer-btns {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+        }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-primary { background: #F57C00; color: white; }
+        .btn-secondary { background: #FFF3E0; color: #F57C00; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="back-btn" onclick="location.href='UI原型_手机端_首页.html'">←</div>
+        <div class="header-title">用药提醒</div>
+        <div class="add-btn" onclick="alert('添加新用药计划')">+</div>
+    </div>
+    
+    <div class="today-summary">
+        <div class="summary-title">今日服药进度</div>
+        <div class="summary-stats">
+            <div class="stat-item">
+                <div class="stat-value">2/3</div>
+                <div class="stat-label">已服药</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">67%</div>
+                <div class="stat-label">完成率</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1</div>
+                <div class="stat-label">待服用</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="plan-list">
+        <div class="plan-header">今日计划</div>
+        <div class="plan-item">
+            <div class="plan-time passed">08:00</div>
+            <div class="plan-drug">
+                <div class="drug-name">氨氯地平 5mg</div>
+                <div class="drug-dosage">1片 · 饭后服用</div>
+            </div>
+            <div class="plan-status status-done">已服用</div>
+        </div>
+        <div class="plan-item">
+            <div class="plan-time passed">12:00</div>
+            <div class="plan-drug">
+                <div class="drug-name">二甲双胍 500mg</div>
+                <div class="drug-dosage">1片 · 随餐服用</div>
+            </div>
+            <div class="plan-status status-done">已服用</div>
+        </div>
+        <div class="plan-item">
+            <div class="plan-time">20:00</div>
+            <div class="plan-drug">
+                <div class="drug-name">氨氯地平 5mg</div>
+                <div class="drug-dosage">1片 · 睡前服用</div>
+            </div>
+            <div class="plan-status status-pending">待服用</div>
+        </div>
+    </div>
+    
+    <div class="add-plan-btn" onclick="alert('创建新的用药计划')">+ 添加用药计划</div>
+    
+    <div class="history-section">
+        <div class="section-title">服药历史（近7天）</div>
+        <div class="history-item">
+            <div class="history-date">今天 (04-08)</div>
+            <div class="history-rate rate-good">67%</div>
+        </div>
+        <div class="history-item">
+            <div class="history-date">昨天 (04-07)</div>
+            <div class="history-rate rate-good">100%</div>
+        </div>
+        <div class="history-item">
+            <div class="history-date">04-06</div>
+            <div class="history-rate rate-normal">67%</div>
+        </div>
+        <div class="history-item">
+            <div class="history-date">04-05</div>
+            <div class="history-rate rate-good">100%</div>
+        </div>
+        <div class="history-item">
+            <div class="history-date">04-04</div>
+            <div class="history-rate rate-bad">33%</div>
+        </div>
+    </div>
+    
+    <div class="footer-btns">
+        <div class="action-btn btn-secondary" onclick="alert('查看服药统计')">📊 统计</div>
+        <div class="action-btn btn-primary" onclick="alert('设置提醒方式')">⚙️ 设置提醒</div>
+    </div>
+</body>
+</html>
