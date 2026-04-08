@@ -216,16 +216,35 @@
     <script>
         document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
         
+        // 更新进度
+        function updateProgress() {
+            const total = document.querySelectorAll('.reminder-check').length;
+            const done = document.querySelectorAll('.reminder-check.done').length;
+            const percent = Math.round((done / total) * 100);
+            
+            document.querySelector('.progress-fill').style.width = percent + '%';
+            document.querySelector('.progress-text').textContent = '已完成 ' + done + '/' + total + ' 次';
+        }
+        
+        // 服药打卡
         document.querySelectorAll('.reminder-check').forEach(check => {
             check.addEventListener('click', function() {
                 this.classList.toggle('done');
                 this.textContent = this.classList.contains('done') ? '✓' : '';
+                updateProgress();
             });
         });
         
+        // 添加提醒
         document.querySelector('.add-btn').addEventListener('click', () => {
-            alert('添加新提醒功能开发中...');
+            const drugName = prompt('请输入药品名称：');
+            if (drugName) {
+                alert('已添加提醒：' + drugName + '\n完整功能将在开发阶段实现。');
+            }
         });
+        
+        // 初始化进度
+        updateProgress();
     </script>
 </body>
 </html>

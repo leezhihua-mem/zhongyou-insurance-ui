@@ -189,14 +189,51 @@
     <script>
         document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
         
+        // 接收首页搜索参数
+        const params = new URLSearchParams(location.search);
+        const query = params.get('q');
+        if (query) {
+            document.querySelector('.input-field').value = query;
+        }
+        
+        // 快捷问题
         document.querySelectorAll('.quick-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelector('.input-field').value = this.textContent;
             });
         });
         
-        document.querySelector('.send-btn').addEventListener('click', () => {
-            alert('AI回答功能开发中...');
+        // 发送消息
+        const sendBtn = document.querySelector('.send-btn');
+        const inputField = document.querySelector('.input-field');
+        const chatArea = document.querySelector('.chat-area');
+        
+        function sendMessage() {
+            const text = inputField.value.trim();
+            if (!text) return;
+            
+            // 添加用户消息
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message message-user';
+            userMsg.innerHTML = '<div class="bubble">' + text + '</div>';
+            chatArea.appendChild(userMsg);
+            
+            // 清空输入框
+            inputField.value = '';
+            
+            // 模拟AI回复
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message message-ai';
+                aiMsg.innerHTML = '<div class="bubble">感谢您的提问！这是原型演示，完整功能将在开发阶段实现。<br><br>如需真实医疗咨询，请咨询专业医生。</div><div class="source">来源：AI助手</div>';
+                chatArea.appendChild(aiMsg);
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 500);
+        }
+        
+        sendBtn.addEventListener('click', sendMessage);
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
         });
     </script>
 </body>

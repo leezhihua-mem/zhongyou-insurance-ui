@@ -314,7 +314,24 @@
         
         // 分析按钮
         document.querySelector('.analyze-btn').addEventListener('click', () => {
-            alert('已选择症状，正在进行智能分析...');
+            // 收集选中的症状
+            const selectedSymptoms = [];
+            document.querySelectorAll('.symptom-item.selected').forEach(item => {
+                selectedSymptoms.push(item.querySelector('.symptom-text').textContent);
+            });
+            
+            if (selectedSymptoms.length === 0) {
+                alert('请至少选择一个症状');
+                return;
+            }
+            
+            // 模拟分析结果
+            const resultDiv = document.querySelector('.result');
+            resultDiv.style.display = 'block';
+            resultDiv.querySelector('.result-title').textContent = '可能的疾病（基于症状：' + selectedSymptoms.join('、') + '）';
+            
+            // 滚动到结果
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
         });
         
         // 点击结果跳转

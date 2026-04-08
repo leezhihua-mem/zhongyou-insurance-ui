@@ -217,13 +217,38 @@
     <script>
         document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
         
+        // 分类筛选
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.addEventListener('click', function() {
+                // 更新选中状态
                 document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
+                
+                // 筛选显示
+                const filter = this.textContent;
+                document.querySelectorAll('.history-item').forEach(item => {
+                    const type = item.querySelector('.history-type').textContent;
+                    if (filter === '全部') {
+                        item.style.display = 'block';
+                    } else if (type === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
             });
         });
         
+        // 搜索功能
+        document.querySelector('.search-input').addEventListener('input', function() {
+            const keyword = this.value.toLowerCase();
+            document.querySelectorAll('.history-item').forEach(item => {
+                const title = item.querySelector('.history-title').textContent.toLowerCase();
+                item.style.display = title.includes(keyword) ? 'block' : 'none';
+            });
+        });
+        
+        // 历史记录点击跳转
         document.querySelectorAll('.history-item').forEach(item => {
             item.addEventListener('click', function() {
                 const type = this.querySelector('.history-type').textContent;

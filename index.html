@@ -83,6 +83,10 @@
             color: #615d59;
         }
         
+        .search-btn {
+            display: none;
+        }
+        
         /* 功能模块 */
         .modules {
             margin: 16px;
@@ -356,6 +360,13 @@
     </div>
     
     <script>
+        // 搜索框 - 回车跳转到AI问答
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                location.href = 'UI原型_AI问答.html?q=' + encodeURIComponent(this.value);
+            }
+        });
+        
         // 点击模块卡片 - 跳转到对应页面
         document.querySelectorAll('.module-card').forEach(card => {
             card.addEventListener('click', function() {
