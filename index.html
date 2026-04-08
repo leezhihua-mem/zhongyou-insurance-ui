@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>用药与疾病知识手册 - UI原型</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #f5f5f5;
+            max-width: 375px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        
+        /* 头部导航 */
+        .header {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .header-subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        /* 免责声明 */
+        .disclaimer {
+            background: #FFF3CD;
+            border: 1px solid #FFEEBA;
+            padding: 12px 16px;
+            margin: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.5;
+        }
+        
+        /* 搜索框 */
+        .search-box {
+            background: white;
+            margin: 16px;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .search-input {
+            width: 100%;
+            height: 44px;
+            border: 1px solid #E0E0E0;
+            border-radius: 22px;
+            padding: 0 20px 0 40px;
+            font-size: 15px;
+            background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><circle cx=\"11\" cy=\"11\" r=\"8\" fill=\"none\" stroke=\"%23999\" stroke-width=\"2\"/><path d=\"M21 21l-4.35-4.35\" fill=\"none\" stroke=\"%23999\" stroke-width=\"2\"/></svg>') no-repeat 12px center;
+            background-size: 20px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4A90E2;
+        }
+        
+        /* 功能模块卡片 */
+        .modules {
+            margin: 16px;
+        }
+        
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .module-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .module-icon.symptom { background: #E3F2FD; color: #1976D2; }
+        .module-icon.disease { background: #F3E5F5; color: #7B1FA2; }
+        .module-icon.drug { background: #E8F5E9; color: #388E3C; }
+        .module-icon.remind { background: #FFF3E0; color: #F57C00; }
+        .module-icon.ai { background: #E0F7FA; color: #0097A7; }
+        .module-icon.history { background: #FBE9E7; color: #D84315; }
+        
+        .module-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .module-desc {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 热门查询 */
+        .hot-queries {
+            margin: 16px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .hot-list {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .hot-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+        
+        .hot-item:last-child {
+            border-bottom: none;
+        }
+        
+        .hot-rank {
+            width: 24px;
+            height: 24px;
+            background: #FF6B6B;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            margin-right: 12px;
+        }
+        
+        .hot-rank.top1 { background: #FF6B6B; }
+        .hot-rank.top2 { background: #4ECDC4; }
+        .hot-rank.top3 { background: #45B7D1; }
+        .hot-rank.normal { background: #E0E0E0; color: #666; }
+        
+        .hot-text {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        /* 底部导航 */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            border-top: 1px solid #E0E0E0;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+        }
+        
+        .nav-item {
+            text-align: center;
+            padding: 8px;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            color: #999;
+        }
+        
+        .nav-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+        
+        .nav-item.active .nav-icon,
+        .nav-item.active .nav-text {
+            color: #4A90E2;
+        }
+        
+        /* 适配小程序提示 */
+        .mini-program-tip {
+            background: #E8F5E9;
+            border: 1px solid #C8E6C9;
+            padding: 12px 16px;
+            margin: 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #2E7D32;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <div class="header-title">用药与疾病知识手册</div>
+        <div class="header-subtitle">您的健康查询助手</div>
+    </div>
+    
+    <!-- 免责声明 -->
+    <div class="disclaimer">
+        ⚠️ 本资料仅供参考，不能替代专业医师的诊疗建议。如有不适，请及时就医。
+    </div>
+    
+    <!-- 搜索框 -->
+    <div class="search-box">
+        <input type="text" class="search-input" placeholder="搜索疾病、症状或药品...">
+    </div>
+    
+    <!-- 功能模块 -->
+    <div class="modules">
+        <div class="section-title">核心功能</div>
+        <div class="module-grid">
+            <div class="module-card">
+                <div class="module-icon symptom">🔍</div>
+                <div class="module-title">症状自查</div>
+                <div class="module-desc">智能分析可能病因</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon disease">📚</div>
+                <div class="module-title">疾病百科</div>
+                <div class="module-desc">200+疾病知识库</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon drug">💊</div>
+                <div class="module-title">药品查询</div>
+                <div class="module-desc">300+常用药品</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon remind">⏰</div>
+                <div class="module-title">用药提醒</div>
+                <div class="module-desc">服药计划管理</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon ai">🤖</div>
+                <div class="module-title">AI问答</div>
+                <div class="module-desc">智能健康助手</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon history">📋</div>
+                <div class="module-title">查询记录</div>
+                <div class="module-desc">历史查询回顾</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 热门查询 -->
+    <div class="hot-queries">
+        <div class="section-title">热门查询 TOP10</div>
+        <div class="hot-list">
+            <div class="hot-item">
+                <div class="hot-rank top1">1</div>
+                <div class="hot-text">高血压症状及治疗</div>
+            </div>
+            <div class="hot-item">
+                <div class="hot-rank top2">2</div>
+                <div class="hot-text">糖尿病患者饮食禁忌</div>
+            </div>
+            <div class="hot-item">
+                <div class="hot-rank top3">3</div>
+                <div class="hot-text">感冒发烧吃什么药</div>
+            </div>
+            <div class="hot-item">
+                <div class="hot-rank normal">4</div>
+                <div class="hot-text">头痛原因分析</div>
+            </div>
+            <div class="hot-item">
+                <div class="hot-rank normal">5</div>
+                <div class="hot-text">胃溃疡饮食调理</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 小程序适配提示 -->
+    <div class="mini-program-tip">
+        ✅ 此页面已适配小程序接入，支持微信小程序、支付宝小程序等平台。
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="footer-nav">
+        <div class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-text">首页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🔍</div>
+            <div class="nav-text">查询</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">⏰</div>
+            <div class="nav-text">提醒</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">👤</div>
+            <div class="nav-text">我的</div>
+        </div>
+    </div>
+    
+    <script>
+        // 点击模块卡片 - 跳转到对应页面
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.module-title').textContent;
+                const pageMap = {
+                    '症状自查': 'UI原型_症状自查.html',
+                    '疾病百科': 'UI原型_疾病详情.html',
+                    '药品查询': 'UI原型_药品详情.html',
+                    '用药提醒': 'UI原型_用药提醒.html',
+                    'AI问答': '#ai',
+                    '查询记录': '#history'
+                };
+                const page = pageMap[title];
+                if (page && page !== '#ai' && page !== '#history') {
+                    location.href = page;
+                } else {
+                    alert(title + ' 功能开发中...');
+                }
+            });
+        });
+        
+        // 点击热门查询
+        document.querySelectorAll('.hot-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const text = this.querySelector('.hot-text').textContent;
+                alert('查询: ' + text + '（演示原型）');
+            });
+        });
+        
+        // 底部导航
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
