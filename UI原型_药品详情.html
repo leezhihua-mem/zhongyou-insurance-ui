@@ -121,7 +121,45 @@
         }
         .btn-primary { background: #388E3C; color: white; }
         .btn-secondary { background: #E8F5E9; color: #388E3C; }
-    </style>
+    
+        /* 底部导航 */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            text-align: center;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+        
+        .nav-icon {
+            font-size: 18px;
+            color: #999;
+        }
+        
+        .nav-text {
+            font-size: 11px;
+            color: #999;
+            margin-top: 2px;
+        }
+        
+        .nav-item:hover .nav-icon,
+        .nav-item:hover .nav-text {
+            color: #4A90E2;
+        }
+</style>
 </head>
 <body>
     <div class="header">
@@ -211,6 +249,26 @@
     <div class="footer-btns">
         <div class="action-btn btn-secondary" onclick="alert('查看相关疾病')">📚 相关疾病</div>
         <div class="action-btn btn-primary" onclick="alert('已添加到用药计划')">💊 添加用药计划</div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="footer-nav">
+        <div class="nav-item">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-text">首页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🔍</div>
+            <div class="nav-text">查询</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">⏰</div>
+            <div class="nav-text">提醒</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">👤</div>
+            <div class="nav-text">我的</div>
+        </div>
     </div>
 </body>
 </html>

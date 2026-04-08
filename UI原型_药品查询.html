@@ -47,25 +47,32 @@
             border-color: #388E3C;
         }
         
+        .search-input::placeholder {
+            color: #999;
+        }
+        
         .filter-tabs {
             display: flex;
             padding: 12px;
             gap: 8px;
             background: white;
+            border-bottom: 1px solid #f0f0f0;
         }
         
         .filter-tab {
-            padding: 6px 16px;
+            padding: 8px 18px;
             background: #E8F5E9;
-            border-radius: 16px;
+            border-radius: 20px;
             font-size: 13px;
             color: #2E7D32;
             cursor: pointer;
+            transition: all 0.2s;
         }
         
         .filter-tab.active {
             background: #388E3C;
             color: white;
+            box-shadow: 0 2px 8px rgba(56, 142, 60, 0.3);
         }
         
         .drug-list {
@@ -74,15 +81,18 @@
         
         .drug-item {
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 16px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             cursor: pointer;
             border-left: 4px solid #388E3C;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .drug-item:hover {
-            background: #E8F5E9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
         }
         
         .drug-header {

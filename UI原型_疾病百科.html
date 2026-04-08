@@ -47,27 +47,34 @@
             border-color: #9C27B0;
         }
         
+        .search-input::placeholder {
+            color: #999;
+        }
+        
         .category-tabs {
             display: flex;
             padding: 12px;
             gap: 8px;
             overflow-x: auto;
             background: white;
+            border-bottom: 1px solid #f0f0f0;
         }
         
         .category-tab {
-            padding: 6px 16px;
+            padding: 8px 18px;
             background: #F3E5F5;
-            border-radius: 16px;
+            border-radius: 20px;
             font-size: 13px;
             color: #7B1FA2;
             white-space: nowrap;
             cursor: pointer;
+            transition: all 0.2s;
         }
         
         .category-tab.active {
             background: #9C27B0;
             color: white;
+            box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3);
         }
         
         .disease-list {
@@ -76,15 +83,18 @@
         
         .disease-item {
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 16px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             cursor: pointer;
             border-left: 4px solid #9C27B0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .disease-item:hover {
-            background: #F3E5F5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
         }
         
         .disease-name {
