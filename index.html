@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>用药与疾病知识手册 - UI原型</title>
     <style>
+        /* Notion风格设计系统 */
         * {
             margin: 0;
             padding: 0;
@@ -12,122 +13,137 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: #ffffff;
             max-width: 375px;
             margin: 0 auto;
             min-height: 100vh;
+            color: rgba(0,0,0,0.95);
+            line-height: 1.5;
         }
         
-        /* 头部导航 */
+        /* 头部 - Notion蓝 */
         .header {
-            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
-            color: white;
-            padding: 20px 16px;
+            background: #0075de;
+            color: #ffffff;
+            padding: 24px 16px;
             text-align: center;
         }
         
         .header-title {
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         
         .header-subtitle {
-            font-size: 12px;
+            font-size: 13px;
             opacity: 0.9;
+            font-weight: 400;
         }
         
-        /* 免责声明 */
+        /* 免责声明 - 温暖黄色 */
         .disclaimer {
-            background: #FFF3CD;
-            border: 1px solid #FFEEBA;
+            background: #fff8e6;
+            border: 1px solid rgba(0,0,0,0.1);
             padding: 12px 16px;
             margin: 12px 16px;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 13px;
             color: #856404;
-            line-height: 1.5;
+            line-height: 1.4;
         }
         
-        /* 搜索框 */
+        /* 搜索框 - Notion温暖灰背景 */
         .search-box {
-            background: white;
+            background: #f6f5f4;
             margin: 16px;
-            padding: 16px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 12px;
+            border-radius: 4px;
         }
         
         .search-input {
             width: 100%;
-            height: 44px;
-            border: 1px solid #E0E0E0;
-            border-radius: 22px;
-            padding: 0 20px 0 40px;
-            font-size: 15px;
-            background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\"><circle cx=\"11\" cy=\"11\" r=\"8\" fill=\"none\" stroke=\"%23999\" stroke-width=\"2\"/><path d=\"M21 21l-4.35-4.35\" fill=\"none\" stroke=\"%23999\" stroke-width=\"2\"/></svg>') no-repeat 12px center;
-            background-size: 20px;
+            height: 40px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 0 12px 0 36px;
+            font-size: 14px;
+            background: #ffffff url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" fill="none" stroke="%23615d59" stroke-width="2"/><path d="M21 21l-4.35-4.35" fill="none" stroke="%23615d59" stroke-width="2"/></svg>') no-repeat 10px center;
+            background-size: 16px;
+            color: rgba(0,0,0,0.95);
         }
         
         .search-input:focus {
             outline: none;
-            border-color: #4A90E2;
+            border-color: #0075de;
         }
         
-        /* 功能模块卡片 */
+        .search-input::placeholder {
+            color: #615d59;
+        }
+        
+        /* 功能模块 */
         .modules {
             margin: 16px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(0,0,0,0.95);
+            margin-bottom: 12px;
         }
         
         .module-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 8px;
         }
         
         .module-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
+            background: #f6f5f4;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 16px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: background 0.2s;
         }
         
         .module-card:hover {
-            transform: translateY(-2px);
+            background: #e8e8e8;
         }
         
         .module-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 12px;
-            border-radius: 12px;
+            width: 32px;
+            height: 32px;
+            margin-bottom: 8px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 16px;
         }
         
-        .module-icon.symptom { background: #E3F2FD; color: #1976D2; }
-        .module-icon.disease { background: #F3E5F5; color: #7B1FA2; }
-        .module-icon.drug { background: #E8F5E9; color: #388E3C; }
-        .module-icon.remind { background: #FFF3E0; color: #F57C00; }
-        .module-icon.ai { background: #E0F7FA; color: #0097A7; }
-        .module-icon.history { background: #FBE9E7; color: #D84315; }
+        /* 温暖色调图标背景 */
+        .module-icon.symptom { background: #e3f2ff; color: #0075de; }
+        .module-icon.disease { background: #f3e5f5; color: #7b1fa2; }
+        .module-icon.drug { background: #e8f5e9; color: #2a9d99; }
+        .module-icon.remind { background: #fff3e0; color: #dd5b00; }
+        .module-icon.ai { background: #e0f7fa; color: #0097a7; }
+        .module-icon.history { background: #fbe9e7; color: #523410; }
         
         .module-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
+            color: rgba(0,0,0,0.95);
+            margin-bottom: 2px;
         }
         
         .module-desc {
             font-size: 12px;
-            color: #999;
+            color: #615d59;
         }
         
         /* 热门查询 */
@@ -135,51 +151,64 @@
             margin: 16px;
         }
         
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-        }
-        
         .hot-list {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: #f6f5f4;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 12px;
         }
         
         .hot-item {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #F0F0F0;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
         }
         
         .hot-item:last-child {
             border-bottom: none;
         }
         
-        .hot-rank {
-            width: 24px;
-            height: 24px;
-            background: #FF6B6B;
-            color: white;
-            border-radius: 4px;
-            text-align: center;
-            line-height: 24px;
-            font-size: 12px;
-            margin-right: 12px;
+        .hot-item:hover {
+            background: #e8e8e8;
+            margin: 0 -12px;
+            padding-left: 12px;
+            padding-right: 12px;
         }
         
-        .hot-rank.top1 { background: #FF6B6B; }
-        .hot-rank.top2 { background: #4ECDC4; }
-        .hot-rank.top3 { background: #45B7D1; }
-        .hot-rank.normal { background: #E0E0E0; color: #666; }
+        /* Pill徽章 */
+        .hot-rank {
+            width: 20px;
+            height: 20px;
+            background: #f2f9ff;
+            color: #097fe8;
+            border-radius: 9999px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .hot-rank.top1 { background: #ff6b6b; color: #fff; }
+        .hot-rank.top2 { background: #2a9d99; color: #fff; }
+        .hot-rank.top3 { background: #0075de; color: #fff; }
         
         .hot-text {
-            font-size: 14px;
-            color: #333;
+            font-size: 13px;
+            color: rgba(0,0,0,0.95);
+        }
+        
+        /* 小程序提示 */
+        .mini-program-tip {
+            background: #e8f5e9;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 12px 16px;
+            margin: 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #2a9d99;
         }
         
         /* 底部导航 */
@@ -190,43 +219,33 @@
             right: 0;
             max-width: 375px;
             margin: 0 auto;
-            background: white;
-            border-top: 1px solid #E0E0E0;
+            background: #ffffff;
+            border-top: 1px solid rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-around;
-            padding: 8px 0;
+            padding: 8px 0 12px;
         }
         
         .nav-item {
             text-align: center;
-            padding: 8px;
+            padding: 4px 8px;
+            cursor: pointer;
         }
         
         .nav-icon {
-            font-size: 20px;
-            color: #999;
+            font-size: 18px;
+            color: #615d59;
         }
         
         .nav-text {
-            font-size: 12px;
-            color: #999;
-            margin-top: 4px;
+            font-size: 11px;
+            color: #615d59;
+            margin-top: 2px;
         }
         
         .nav-item.active .nav-icon,
         .nav-item.active .nav-text {
-            color: #4A90E2;
-        }
-        
-        /* 适配小程序提示 */
-        .mini-program-tip {
-            background: #E8F5E9;
-            border: 1px solid #C8E6C9;
-            padding: 12px 16px;
-            margin: 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #2E7D32;
+            color: #0075de;
         }
     </style>
 </head>
@@ -286,7 +305,7 @@
     
     <!-- 热门查询 -->
     <div class="hot-queries">
-        <div class="section-title">热门查询 TOP10</div>
+        <div class="section-title">热门查询</div>
         <div class="hot-list">
             <div class="hot-item">
                 <div class="hot-rank top1">1</div>
@@ -301,19 +320,19 @@
                 <div class="hot-text">感冒发烧吃什么药</div>
             </div>
             <div class="hot-item">
-                <div class="hot-rank normal">4</div>
+                <div class="hot-rank">4</div>
                 <div class="hot-text">头痛原因分析</div>
             </div>
             <div class="hot-item">
-                <div class="hot-rank normal">5</div>
+                <div class="hot-rank">5</div>
                 <div class="hot-text">胃溃疡饮食调理</div>
             </div>
         </div>
     </div>
     
-    <!-- 小程序适配提示 -->
+    <!-- 小程序提示 -->
     <div class="mini-program-tip">
-        ✅ 此页面已适配小程序接入，支持微信小程序、支付宝小程序等平台。
+        ✅ 此页面已适配小程序接入，支持微信、支付宝小程序。
     </div>
     
     <!-- 底部导航 -->
@@ -350,10 +369,8 @@
                     '查询记录': 'UI原型_查询记录.html'
                 };
                 const page = pageMap[title];
-                if (page && page !== '#ai' && page !== '#history') {
+                if (page) {
                     location.href = page;
-                } else {
-                    alert(title + ' 功能开发中...');
                 }
             });
         });
@@ -362,17 +379,12 @@
         document.querySelectorAll('.hot-item').forEach(item => {
             item.addEventListener('click', function() {
                 const text = this.querySelector('.hot-text').textContent;
-                // 根据关键词跳转到对应页面
-                if (text.includes('高血压')) {
-                    location.href = 'UI原型_疾病详情.html';
-                } else if (text.includes('糖尿病')) {
+                if (text.includes('高血压') || text.includes('糖尿病') || text.includes('胃')) {
                     location.href = 'UI原型_疾病详情.html';
                 } else if (text.includes('感冒') || text.includes('发烧')) {
                     location.href = 'UI原型_药品详情.html';
                 } else if (text.includes('头痛')) {
                     location.href = 'UI原型_症状自查.html';
-                } else if (text.includes('胃')) {
-                    location.href = 'UI原型_疾病详情.html';
                 } else {
                     location.href = 'UI原型_AI问答.html';
                 }
@@ -386,14 +398,12 @@
                 const navMap = {
                     '首页': 'index.html',
                     '查询': 'UI原型_症状自查.html',
-                    '提醒': 'UI原型_用药提醒.html',
-                    '我的': '#profile'
+                    '提醒': 'UI原型_用药提醒.html'
                 };
-                const page = navMap[text];
-                if (page === '#profile') {
+                if (text === '我的') {
                     alert('个人中心开发中...');
-                } else if (page) {
-                    location.href = page;
+                } else if (navMap[text]) {
+                    location.href = navMap[text];
                 }
             });
         });
