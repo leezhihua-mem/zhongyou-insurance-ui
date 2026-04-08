@@ -1,0 +1,658 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#181c27;--bg2:#1e2333;--bg3:#252b3d;--bg4:#2d334a;
+  --green:#1fd97a;--green2:#17b866;--green3:#0e7043;--gdim:#0d2d1e;
+  --text:#f0f4ff;--text2:#9ba8c4;--text3:#5a6480;
+  --card:#21273a;--card2:#282f44;--border:#2f374f;
+  --red:#e05252;--amber:#f0a030;--blue:#4a9eff;--purple:#9b7fff;
+  --orange:#f07030;
+}
+.phone{
+  width:340px;margin:1rem auto;background:var(--bg);
+  border-radius:32px;overflow:hidden;
+  border:1.5px solid var(--border);
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+}
+.status{display:flex;justify-content:space-between;padding:12px 20px 4px;font-size:12px;font-weight:600;color:var(--text)}
+.topnav{
+  display:flex;align-items:center;padding:6px 16px 12px;
+}
+.nav-back{width:36px;height:36px;border-radius:10px;background:var(--card2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--green);font-size:18px;visibility:hidden}
+.nav-title{flex:1;text-align:center;font-size:16px;font-weight:700;color:var(--text);letter-spacing:.3px}
+.nav-right{width:36px}
+
+.screen{display:none}
+.screen.active{display:block}
+.body{padding:16px;min-height:510px}
+
+/* ---- HOME ---- */
+.home-hero{
+  background:linear-gradient(135deg,#0e3d24 0%,#153320 50%,#1a2a14 100%);
+  border-radius:20px;padding:20px 18px;margin-bottom:18px;
+  border:1px solid #1a5c35;position:relative;overflow:hidden;
+}
+.home-hero::after{
+  content:'';position:absolute;right:-20px;top:-20px;
+  width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(31,217,122,0.12),transparent 70%);
+}
+.hero-tag{display:inline-block;background:rgba(31,217,122,0.15);color:var(--green);font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;margin-bottom:10px;letter-spacing:.5px}
+.hero-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
+.hero-sub{font-size:12px;color:#7abf98;line-height:1.6}
+.hero-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.hero-chip{font-size:11px;padding:3px 9px;border-radius:8px;background:rgba(31,217,122,0.1);color:var(--green);border:1px solid rgba(31,217,122,0.2)}
+
+.module-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.mod-card{
+  background:var(--card);border-radius:18px;padding:16px 14px;
+  cursor:pointer;border:1px solid var(--border);
+  transition:transform .15s,background .15s;
+}
+.mod-card:active{transform:scale(.97);background:var(--card2)}
+.mod-ico{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+.mod-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.mod-desc{font-size:11px;color:var(--text3);line-height:1.5}
+.mod-score{display:inline-block;margin-top:8px;font-size:10px;font-weight:700;color:var(--green);background:var(--gdim);padding:2px 8px;border-radius:7px;border:1px solid var(--green3)}
+.mod-card-full{
+  background:var(--card);border-radius:18px;padding:16px;
+  cursor:pointer;border:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;
+  transition:background .15s;
+}
+.mod-card-full:active{background:var(--card2)}
+.mod-full-ico{width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.mod-full-body{flex:1}
+.mod-full-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px}
+.mod-full-desc{font-size:11px;color:var(--text3);line-height:1.5}
+.mod-full-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+
+/* ---- SEARCH BAR ---- */
+.search-bar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--card2);border-radius:14px;padding:11px 14px;
+  border:1px solid var(--border);margin-bottom:14px;
+}
+.search-bar input{flex:1;background:transparent;border:none;color:var(--text);font-size:13px;outline:none;font-family:inherit}
+.search-bar input::placeholder{color:var(--text3)}
+.si{font-size:15px;color:var(--text3)}
+
+/* ---- TAGS ---- */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tag{font-size:11px;padding:5px 13px;border-radius:12px;cursor:pointer;background:var(--card2);color:var(--text3);border:1px solid var(--border);transition:all .15s}
+.tag.on{background:var(--gdim);color:var(--green);border-color:var(--green3)}
+
+/* ---- LIST ITEMS ---- */
+.list-item{
+  background:var(--card);border-radius:16px;padding:14px;margin-bottom:8px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;border:1px solid var(--border);
+}
+.list-item:active{background:var(--card2)}
+.li-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.li-ico{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.li-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.li-meta{font-size:11px;color:var(--text3)}
+.li-arr{margin-left:auto;color:var(--text3);font-size:16px;flex-shrink:0}
+.rx-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:7px;margin-top:4px}
+.rx{background:#2d1515;color:var(--red);border:1px solid #4a2020}
+.otc{background:var(--gdim);color:var(--green);border:1px solid var(--green3)}
+
+/* ---- DETAIL PAGE ---- */
+.det-header{
+  background:linear-gradient(135deg,#0e3d24,#1a4a30);
+  border-radius:20px;padding:18px;margin-bottom:14px;
+  border:1px solid #1a5c35;
+}
+.det-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:9px;margin-bottom:10px}
+.det-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:5px;line-height:1.3}
+.det-sub{font-size:12px;color:#7abf98;line-height:1.5}
+.info-card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:8px;border:1px solid var(--border)}
+.info-lbl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
+.info-txt{font-size:13px;color:var(--text2);line-height:1.8}
+.stags{display:flex;flex-wrap:wrap;gap:6px}
+.stag{font-size:11px;padding:4px 11px;border-radius:10px}
+.stag-g{background:var(--gdim);color:var(--green);border:1px solid var(--green3)}
+.stag-r{background:#2d1515;color:var(--red);border:1px solid #4a2020}
+.warn-card{background:#1a1200;border-radius:14px;padding:12px 14px;border-left:3px solid var(--amber);border:1px solid #3a2800;border-left:3px solid var(--amber)}
+.warn-txt{font-size:11px;color:#c8922a;line-height:1.7}
+
+/* ---- RISK ---- */
+.prog-wrap{margin-bottom:18px}
+.prog-track{height:4px;background:var(--card2);border-radius:2px;overflow:hidden}
+.prog-fill{height:4px;background:var(--green);border-radius:2px;transition:width .35s ease}
+.prog-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:6px}
+.rq-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.6}
+.ropts{display:flex;flex-direction:column;gap:8px}
+.ropt{padding:12px 16px;border-radius:14px;cursor:pointer;font-size:13px;border:1px solid var(--border);color:var(--text2);background:var(--card);transition:all .15s}
+.ropt:active{transform:scale(.98)}
+.ropt.sel{background:var(--gdim);border-color:var(--green);color:var(--green);font-weight:600}
+.result-card{background:var(--card);border-radius:20px;padding:22px;text-align:center;border:1px solid var(--border)}
+.result-ring{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px;border:3px solid var(--amber);background:#1a1200}
+.result-lv{font-size:20px;font-weight:800;color:var(--amber);margin-bottom:8px}
+.result-desc{font-size:12px;color:var(--text3);line-height:1.7;margin-bottom:16px}
+.sug-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.6;text-align:left}
+.sug-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px}
+
+/* ---- CHAT ---- */
+.chat-wrap{display:flex;flex-direction:column;gap:12px;min-height:360px;margin-bottom:14px}
+.crow{display:flex;align-items:flex-end;gap:8px}
+.crow.u{flex-direction:row-reverse}
+.cav{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--gdim);border:1px solid var(--green3)}
+.cbub{max-width:82%;font-size:13px;line-height:1.8;padding:11px 14px;border-radius:16px}
+.cbub.ai{background:var(--card2);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:5px}
+.cbub.u{background:var(--green);color:#061a10;font-weight:600;border-bottom-right-radius:5px}
+.chat-input{display:flex;gap:8px;align-items:center;background:var(--card2);border-radius:16px;padding:9px 9px 9px 15px;border:1px solid var(--border)}
+.chat-input input{flex:1;background:transparent;border:none;color:var(--text);font-size:13px;outline:none;font-family:inherit}
+.chat-input input::placeholder{color:var(--text3)}
+.send-btn{width:32px;height:32px;border-radius:50%;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-disc{font-size:10px;color:var(--text3);text-align:center;margin-top:8px;line-height:1.6;padding:8px 0}
+
+/* ---- BOTTOM TAB ---- */
+.btab{display:flex;border-top:1px solid var(--border);background:var(--bg);padding:10px 0 16px}
+.titem{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:2px 0}
+.titem .tico{font-size:22px}
+.titem .tlbl{font-size:10px;color:var(--text3)}
+.titem.on .tlbl{color:var(--green);font-weight:700}
+
+.section-hd{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.5px;margin-bottom:10px;text-transform:uppercase}
+</style>
+
+<div style="background:#0f1118;padding:1.2rem 0;min-height:600px">
+<div class="phone">
+  <div class="status">
+    <span>9:41</span>
+    <span style="display:flex;gap:6px;align-items:center;font-size:11px">
+      <span>●●●</span><span>WiFi</span><span>48%🔋</span>
+    </span>
+  </div>
+
+  <div class="topnav">
+    <div class="nav-back" id="backBtn">‹</div>
+    <div class="nav-title" id="navTitle">用药与疾病知识手册</div>
+    <div class="nav-right"></div>
+  </div>
+
+  <!-- ======= HOME ======= -->
+  <div class="screen active" id="s-home">
+    <div class="body">
+      <div class="home-hero">
+        <div class="hero-tag">中邮保险 · 健康促进服务</div>
+        <div class="hero-title">用药与疾病<br>知识手册</div>
+        <div class="hero-sub">权威知识库 · AI智能问答 · 疾病风险评估</div>
+        <div class="hero-chips">
+          <span class="hero-chip">疾病≥5000种</span>
+          <span class="hero-chip">药品≥8000种</span>
+          <span class="hero-chip">百炼GLM驱动</span>
+        </div>
+      </div>
+
+      <div class="section-hd">五大功能</div>
+      <div class="module-grid">
+        <div class="mod-card" onclick="go('disease','疾病百科')">
+          <div class="mod-ico" style="background:#1a3d5c">🏥</div>
+          <div class="mod-name">疾病百科</div>
+          <div class="mod-desc">分类导航 · 症状查询 · 结构化知识</div>
+          <div class="mod-score">+2分</div>
+        </div>
+        <div class="mod-card" onclick="go('drug','药品手册')">
+          <div class="mod-ico" style="background:#3a1a2d">💊</div>
+          <div class="mod-name">药品手册</div>
+          <div class="mod-desc">处方药/OTC · 用法用量 · 禁忌</div>
+          <div class="mod-score">+2分</div>
+        </div>
+        <div class="mod-card" onclick="go('risk','健康自评')">
+          <div class="mod-ico" style="background:#0e2d1a">📋</div>
+          <div class="mod-name">健康自评</div>
+          <div class="mod-desc">风险评估 · 个性化建议</div>
+          <div class="mod-score">+2分</div>
+        </div>
+        <div class="mod-card" onclick="go('consult','用药咨询')">
+          <div class="mod-ico" style="background:#2d1a0e">💬</div>
+          <div class="mod-name">用药咨询</div>
+          <div class="mod-desc">相互作用 · 合规性审查</div>
+          <div class="mod-score">+2分</div>
+        </div>
+      </div>
+      <div class="mod-card-full" onclick="go('ai','AI 智能问答')">
+        <div class="mod-full-ico" style="background:var(--gdim);border:1px solid var(--green3)">✨</div>
+        <div class="mod-full-body">
+          <div class="mod-full-name">AI 智能问答</div>
+          <div class="mod-full-desc">百炼 GLM-5 驱动 · 多轮对话 · 自然语言理解</div>
+        </div>
+        <div class="mod-full-right">
+          <span class="mod-score">+2分</span>
+          <span style="color:var(--text3);font-size:16px">›</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= DISEASE ======= -->
+  <div class="screen" id="s-disease">
+    <div class="body">
+      <div class="search-bar">
+        <span class="si">🔍</span>
+        <input type="text" placeholder="搜索疾病名称或症状...">
+      </div>
+      <div class="tags">
+        <span class="tag on">全部</span>
+        <span class="tag">心血管</span>
+        <span class="tag">内分泌</span>
+        <span class="tag">消化</span>
+        <span class="tag">呼吸</span>
+        <span class="tag">神经</span>
+        <span class="tag">骨科</span>
+      </div>
+      <div class="section-hd">常见疾病</div>
+      <div class="list-item" onclick="go('ddetail-hyp','原发性高血压')">
+        <div class="li-dot" style="background:var(--red)"></div>
+        <div style="flex:1"><div class="li-name">原发性高血压</div><div class="li-meta">心血管科 · 慢性病</div></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item" onclick="go('ddetail-dm','2型糖尿病')">
+        <div class="li-dot" style="background:var(--amber)"></div>
+        <div style="flex:1"><div class="li-name">2型糖尿病</div><div class="li-meta">内分泌科 · 慢性病</div></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item">
+        <div class="li-dot" style="background:var(--blue)"></div>
+        <div style="flex:1"><div class="li-name">冠状动脉粥样硬化</div><div class="li-meta">心血管科 · 需定期复查</div></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item">
+        <div class="li-dot" style="background:var(--purple)"></div>
+        <div style="flex:1"><div class="li-name">慢性阻塞性肺疾病</div><div class="li-meta">呼吸科 · 慢性病</div></div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item">
+        <div class="li-dot" style="background:var(--green)"></div>
+        <div style="flex:1"><div class="li-name">骨质疏松症</div><div class="li-meta">骨科/内分泌科 · 慢性病</div></div>
+        <span class="li-arr">›</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= DISEASE DETAIL: 高血压 ======= -->
+  <div class="screen" id="s-ddetail-hyp">
+    <div class="body">
+      <div class="det-header">
+        <div class="det-badge" style="background:rgba(31,217,122,.15);color:var(--green);border:1px solid var(--green3)">常见病 · 心血管科</div>
+        <div class="det-title">原发性高血压</div>
+        <div class="det-sub">慢性非传染性疾病 · 需长期管理</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">疾病简介</div>
+        <div class="info-txt">以体循环动脉压升高为主要特征，通常定义为收缩压≥140mmHg和/或舒张压≥90mmHg。是最常见的心血管疾病危险因素之一。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">典型症状</div>
+        <div class="stags">
+          <span class="stag stag-g">头痛头晕</span>
+          <span class="stag stag-g">颈部僵硬</span>
+          <span class="stag stag-g">心悸</span>
+          <span class="stag stag-g">视力模糊</span>
+          <span class="stag stag-g">耳鸣</span>
+          <span class="stag stag-g">鼻出血</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">诊断标准</div>
+        <div class="info-txt">非同日3次测量血压，收缩压≥140mmHg 和/或 舒张压≥90mmHg。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">治疗原则</div>
+        <div class="info-txt">生活方式干预为基础（限盐、减重、戒烟、适量运动），必要时联合药物治疗。目标血压 &lt;130/80 mmHg（一般人群）。</div>
+      </div>
+      <div class="warn-card">
+        <div class="warn-txt">⚠️ 本资料仅供参考，不能替代专业医师的诊疗建议。如有不适，请及时就医。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= DISEASE DETAIL: 糖尿病 ======= -->
+  <div class="screen" id="s-ddetail-dm">
+    <div class="body">
+      <div class="det-header">
+        <div class="det-badge" style="background:rgba(240,160,48,.15);color:var(--amber);border:1px solid #5a3a00">常见病 · 内分泌科</div>
+        <div class="det-title">2型糖尿病</div>
+        <div class="det-sub">慢性代谢性疾病 · 需长期管理</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">疾病简介</div>
+        <div class="info-txt">以慢性高血糖为特征的代谢性疾病，由胰岛素分泌不足或胰岛素抵抗引起。全球患病率约10%，中国约1.4亿患者。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">典型症状</div>
+        <div class="stags">
+          <span class="stag" style="background:#2a1a00;color:var(--amber);border:1px solid #5a3a00">多饮</span>
+          <span class="stag" style="background:#2a1a00;color:var(--amber);border:1px solid #5a3a00">多尿</span>
+          <span class="stag" style="background:#2a1a00;color:var(--amber);border:1px solid #5a3a00">多食</span>
+          <span class="stag" style="background:#2a1a00;color:var(--amber);border:1px solid #5a3a00">体重减轻</span>
+          <span class="stag" style="background:#2a1a00;color:var(--amber);border:1px solid #5a3a00">视力下降</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">诊断标准</div>
+        <div class="info-txt">空腹血糖≥7.0mmol/L，或餐后2小时血糖≥11.1mmol/L，或HbA1c≥6.5%。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">治疗原则</div>
+        <div class="info-txt">饮食控制+运动+口服降糖药（如二甲双胍）为基础，必要时使用胰岛素。目标HbA1c &lt;7%。</div>
+      </div>
+      <div class="warn-card">
+        <div class="warn-txt">⚠️ 本资料仅供参考，不能替代专业医师的诊疗建议。如有不适，请及时就医。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= DRUG ======= -->
+  <div class="screen" id="s-drug">
+    <div class="body">
+      <div class="search-bar">
+        <span class="si">🔍</span>
+        <input type="text" placeholder="搜索药品名称或成分...">
+      </div>
+      <div class="tags">
+        <span class="tag on">全部</span>
+        <span class="tag">心血管</span>
+        <span class="tag">降糖</span>
+        <span class="tag">镇痛</span>
+        <span class="tag">调脂</span>
+        <span class="tag">抗血小板</span>
+      </div>
+      <div class="section-hd">常用药品</div>
+      <div class="list-item" onclick="go('drugd-aml','氨氯地平片')">
+        <div class="li-ico" style="background:#2d1515">💊</div>
+        <div style="flex:1">
+          <div class="li-name">氨氯地平片</div>
+          <div class="li-meta">钙通道阻滞剂 · 苯磺酸氨氯地平</div>
+          <span class="rx-badge rx">处方药 Rx</span>
+        </div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item" onclick="go('drugd-ibu','布洛芬缓释胶囊')">
+        <div class="li-ico" style="background:var(--gdim)">🟢</div>
+        <div style="flex:1">
+          <div class="li-name">布洛芬缓释胶囊</div>
+          <div class="li-meta">非甾体抗炎药 · 镇痛退热</div>
+          <span class="rx-badge otc">OTC</span>
+        </div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item">
+        <div class="li-ico" style="background:#1a2a3d">💙</div>
+        <div style="flex:1">
+          <div class="li-name">二甲双胍片</div>
+          <div class="li-meta">双胍类 · 口服降糖药</div>
+          <span class="rx-badge rx">处方药 Rx</span>
+        </div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item">
+        <div class="li-ico" style="background:#2a1a3d">💜</div>
+        <div style="flex:1">
+          <div class="li-name">阿托伐他汀钙片</div>
+          <div class="li-meta">HMG-CoA还原酶抑制剂 · 调脂</div>
+          <span class="rx-badge rx">处方药 Rx</span>
+        </div>
+        <span class="li-arr">›</span>
+      </div>
+      <div class="list-item">
+        <div class="li-ico" style="background:#2d1a00">🟠</div>
+        <div style="flex:1">
+          <div class="li-name">阿司匹林肠溶片</div>
+          <div class="li-meta">抗血小板聚集 · 心血管一级预防</div>
+          <span class="rx-badge rx">处方药 Rx</span>
+        </div>
+        <span class="li-arr">›</span>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:10px;padding:10px 12px;background:var(--card);border-radius:12px;line-height:1.7;border:1px solid var(--border)">
+        ⚠️ 处方药须凭医师处方购买和使用，请勿自行用药。
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= DRUG DETAIL: 氨氯地平 ======= -->
+  <div class="screen" id="s-drugd-aml">
+    <div class="body">
+      <div class="det-header" style="background:linear-gradient(135deg,#2d0e0e,#3d1515)">
+        <div class="det-badge" style="background:rgba(224,82,82,.2);color:var(--red);border:1px solid #4a2020">处方药 Rx</div>
+        <div class="det-title">氨氯地平片</div>
+        <div class="det-sub">钙通道阻滞剂 · 苯磺酸氨氯地平</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">适应症</div>
+        <div class="info-txt">高血压（单独或与其他降压药联合）、慢性稳定性心绞痛及血管痉挛性心绞痛。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">用法用量</div>
+        <div class="info-txt">成人：每次 5mg，每日1次，口服。可增至 10mg/日。最大剂量 10mg/日。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">主要禁忌</div>
+        <div class="stags">
+          <span class="stag stag-r">对本品过敏</span>
+          <span class="stag stag-r">严重低血压</span>
+          <span class="stag stag-r">心源性休克</span>
+          <span class="stag stag-r">不稳定型心绞痛</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">主要不良反应</div>
+        <div class="info-txt">踝部水肿、头痛、潮红、心悸、恶心。发生率约10%，一般轻微可耐受。</div>
+      </div>
+      <div class="warn-card">
+        <div class="warn-txt">⚠️ 处方药须凭医师处方购买和使用。本资料仅供参考，请遵医嘱用药。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= DRUG DETAIL: 布洛芬 ======= -->
+  <div class="screen" id="s-drugd-ibu">
+    <div class="body">
+      <div class="det-header" style="background:linear-gradient(135deg,#0e3d24,#1a4a30)">
+        <div class="det-badge" style="background:rgba(31,217,122,.15);color:var(--green);border:1px solid var(--green3)">OTC · 非处方药</div>
+        <div class="det-title">布洛芬缓释胶囊</div>
+        <div class="det-sub">非甾体抗炎药（NSAIDs） · 镇痛退热</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">适应症</div>
+        <div class="info-txt">用于缓解轻至中度疼痛（头痛、关节痛、偏头痛、牙痛、肌肉痛、神经痛），以及普通感冒或流行性感冒引起的发热。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">用法用量</div>
+        <div class="info-txt">成人：每次 0.3g，每12小时1次，饭后服用。最大剂量 0.6g/日，连续使用不超过5天。</div>
+      </div>
+      <div class="info-card">
+        <div class="info-lbl">主要禁忌</div>
+        <div class="stags">
+          <span class="stag stag-r">对NSAIDs过敏</span>
+          <span class="stag stag-r">活动性消化道溃疡</span>
+          <span class="stag stag-r">严重肾功能不全</span>
+        </div>
+      </div>
+      <div class="warn-card">
+        <div class="warn-txt">⚠️ 本资料仅供参考。高血压患者与氨氯地平等降压药合用时，可能影响降压效果，请咨询医师。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= RISK ======= -->
+  <div class="screen" id="s-risk">
+    <div class="body">
+      <div class="prog-wrap">
+        <div class="prog-track"><div class="prog-fill" id="pf" style="width:33%"></div></div>
+        <div class="prog-meta"><span id="plbl">第 1 步，共 3 步</span><span id="ppct" style="color:var(--green);font-weight:700">33%</span></div>
+      </div>
+      <div id="rs1">
+        <div class="rq-title">您目前的血压情况如何？</div>
+        <div class="ropts">
+          <div class="ropt" onclick="nr(this,1)">正常（&lt;120/80 mmHg）</div>
+          <div class="ropt" onclick="nr(this,1)">偏高（120–139 / 80–89 mmHg）</div>
+          <div class="ropt" onclick="nr(this,1)">已确诊高血压</div>
+          <div class="ropt" onclick="nr(this,1)">不清楚</div>
+        </div>
+      </div>
+      <div id="rs2" style="display:none">
+        <div class="rq-title">您有以下哪些生活习惯？</div>
+        <div class="ropts">
+          <div class="ropt" onclick="nr(this,2)">长期吸烟（每日≥1支）</div>
+          <div class="ropt" onclick="nr(this,2)">经常饮酒（每周≥3次）</div>
+          <div class="ropt" onclick="nr(this,2)">缺乏运动（每周&lt;150分钟）</div>
+          <div class="ropt" onclick="nr(this,2)">高盐高脂饮食</div>
+        </div>
+      </div>
+      <div id="rs3" style="display:none">
+        <div class="rq-title">您的直系亲属中有心血管或代谢疾病史吗？</div>
+        <div class="ropts">
+          <div class="ropt" onclick="sr()">有（高血压、糖尿病、冠心病等）</div>
+          <div class="ropt" onclick="sr()">无</div>
+          <div class="ropt" onclick="sr()">不确定</div>
+        </div>
+      </div>
+      <div id="rsR" style="display:none">
+        <div class="result-card">
+          <div class="result-ring">⚠️</div>
+          <div class="result-lv">中等风险</div>
+          <div class="result-desc">根据您的填写情况，您存在一定的心血管相关风险因素，建议定期监测并调整生活方式。</div>
+          <div class="sug-item"><div class="sug-dot"></div>每日监测血压，目标控制在 130/80 mmHg 以下</div>
+          <div class="sug-item"><div class="sug-dot"></div>减少钠盐摄入至每日 &lt;6g，增加蔬菜水果摄入</div>
+          <div class="sug-item"><div class="sug-dot"></div>每周至少 150 分钟中等强度有氧运动</div>
+          <div class="sug-item" style="border:none"><div class="sug-dot"></div>建议前往心血管科进行专项检查</div>
+        </div>
+        <div class="warn-card" style="margin-top:10px">
+          <div class="warn-txt">⚠️ 评估结果仅供参考，不构成医疗诊断。如有疑问，请咨询专业医师。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= CONSULT ======= -->
+  <div class="screen" id="s-consult">
+    <div class="body" style="padding-bottom:0">
+      <div class="chat-wrap">
+        <div class="crow">
+          <div class="cav">✨</div>
+          <div class="cbub ai">您好，我可以帮您审查用药方案、检测药物相互作用。请描述您目前正在服用的药物。</div>
+        </div>
+        <div class="crow u">
+          <div class="cbub u">我同时在吃氨氯地平和布洛芬，有没有问题？</div>
+        </div>
+        <div class="crow">
+          <div class="cav">✨</div>
+          <div class="cbub ai">⚠️ <b>检测到潜在相互作用</b><br><br>布洛芬（NSAIDs）可能 <b>削弱氨氯地平的降压效果</b>，同时增加肾脏和消化道的负担。<br><br><b>建议：</b><br>· 疼痛优先选用对乙酰氨基酚<br>· 如必须使用布洛芬，请告知主治医师<br>· 避免长期同时服用两种药物</div>
+        </div>
+      </div>
+      <div class="chat-input">
+        <input type="text" placeholder="描述您的用药情况...">
+        <button class="send-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 7h12M7 1l6 6-6 6" stroke="#061a10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="chat-disc">⚠️ 仅供参考，不构成医疗诊断，请遵医嘱</div>
+    </div>
+  </div>
+
+  <!-- ======= AI ======= -->
+  <div class="screen" id="s-ai">
+    <div class="body" style="padding-bottom:0">
+      <div class="chat-wrap">
+        <div class="crow">
+          <div class="cav">✨</div>
+          <div class="cbub ai">您好，我是由 <b>百炼 GLM-5</b> 驱动的AI健康助手，支持多轮对话。请问有什么可以帮您？</div>
+        </div>
+        <div class="crow u">
+          <div class="cbub u">高血压患者平时饮食要注意什么？</div>
+        </div>
+        <div class="crow">
+          <div class="cav">✨</div>
+          <div class="cbub ai">高血压饮食管理要点：<br><br>🔸 <b>限盐</b>：每日钠摄入 &lt; 6g（约一啤酒瓶盖）<br>🔸 <b>限酒</b>：男性 &lt; 25g/日酒精，女性减半<br>🔸 <b>补钾</b>：多吃香蕉、菠菜、土豆、豆类<br>🔸 <b>减脂</b>：少红肉、油炸、全脂奶制品<br>🔸 <b>DASH饮食</b>：多蔬果、全谷物、低脂乳品<br><br>坚持以上饮食调整，可帮助收缩压降低 8–14 mmHg。</div>
+        </div>
+      </div>
+      <div class="chat-input">
+        <input type="text" placeholder="输入您的健康问题...">
+        <button class="send-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 7h12M7 1l6 6-6 6" stroke="#061a10" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="chat-disc">⚠️ AI回答仅供参考，不构成医疗诊断，如有不适请及时就医</div>
+    </div>
+  </div>
+
+  <!-- Bottom Tab -->
+  <div class="btab">
+    <div class="titem on" id="t-home" onclick="go('home','用药与疾病知识手册')">
+      <span class="tico">🏠</span><span class="tlbl">首页</span>
+    </div>
+    <div class="titem" id="t-disease" onclick="go('disease','疾病百科')">
+      <span class="tico">🏥</span><span class="tlbl">疾病</span>
+    </div>
+    <div class="titem" id="t-drug" onclick="go('drug','药品手册')">
+      <span class="tico">💊</span><span class="tlbl">药品</span>
+    </div>
+    <div class="titem" id="t-ai" onclick="go('ai','AI 问答')">
+      <span class="tico">✨</span><span class="tlbl">AI问答</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const TAB={
+  home:'t-home',func:'t-home',
+  disease:'t-disease','ddetail-hyp':'t-disease','ddetail-dm':'t-disease',
+  drug:'t-drug','drugd-aml':'t-drug','drugd-ibu':'t-drug',
+  risk:'t-home',
+  consult:'t-ai',ai:'t-ai'
+};
+const ROOT=['home'];
+
+function go(id,title){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('s-'+id);
+  if(el)el.classList.add('active');
+  document.getElementById('navTitle').textContent=title||'';
+  const back=document.getElementById('backBtn');
+  back.style.visibility=ROOT.includes(id)?'hidden':'visible';
+  document.querySelectorAll('.titem').forEach(t=>t.classList.remove('on'));
+  const tid=TAB[id];
+  if(tid)document.getElementById(tid)?.classList.add('on');
+}
+
+document.getElementById('backBtn').addEventListener('click',()=>{
+  const cur=document.querySelector('.screen.active')?.id?.replace('s-','');
+  if(['ddetail-hyp','ddetail-dm'].includes(cur))go('disease','疾病百科');
+  else if(['drugd-aml','drugd-ibu'].includes(cur))go('drug','药品手册');
+  else go('home','用药与疾病知识手册');
+});
+
+let rs=1;
+function nr(el,step){
+  el.parentElement.querySelectorAll('.ropt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  setTimeout(()=>{
+    if(step<3){
+      document.getElementById('rs'+step).style.display='none';
+      document.getElementById('rs'+(step+1)).style.display='block';
+      rs=step+1;
+      const p=Math.round(rs/3*100);
+      document.getElementById('pf').style.width=p+'%';
+      document.getElementById('ppct').textContent=p+'%';
+      document.getElementById('plbl').textContent='第 '+rs+' 步，共 3 步';
+    }
+  },260);
+}
+function sr(){
+  document.getElementById('rs3').style.display='none';
+  document.getElementById('rsR').style.display='block';
+  document.getElementById('pf').style.width='100%';
+  document.getElementById('ppct').textContent='完成';
+  document.getElementById('plbl').textContent='评估完成';
+}
+</script>
