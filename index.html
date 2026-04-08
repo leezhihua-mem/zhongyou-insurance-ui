@@ -91,14 +91,22 @@
             border-radius: 12px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .module-card:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
         }
+        
+        .module-card:nth-child(1) { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); }
+        .module-card:nth-child(2) { background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%); }
+        .module-card:nth-child(3) { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); }
+        .module-card:nth-child(4) { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); }
+        .module-card:nth-child(5) { background: linear-gradient(135deg, #E0F7FA 0%, #B2EBF2 100%); }
+        .module-card:nth-child(6) { background: linear-gradient(135deg, #FBE9E7 0%, #FFCCBC 100%); }
         
         .module-icon {
             width: 48px;
@@ -343,8 +351,8 @@
                 const title = this.querySelector('.module-title').textContent;
                 const pageMap = {
                     '症状自查': 'UI原型_症状自查.html',
-                    '疾病百科': 'UI原型_疾病详情.html',
-                    '药品查询': 'UI原型_药品详情.html',
+                    '疾病百科': 'UI原型_疾病百科.html',
+                    '药品查询': 'UI原型_药品查询.html',
                     '用药提醒': 'UI原型_用药提醒.html',
                     'AI问答': 'UI原型_AI问答.html',
                     '查询记录': 'UI原型_查询记录.html'

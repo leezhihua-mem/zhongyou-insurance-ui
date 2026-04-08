@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>药品查询 - UI原型</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: #f5f5f5;
+            max-width: 375px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #388E3C 0%, #2E7D32 100%);
+            color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-btn { font-size: 20px; margin-right: 12px; cursor: pointer; color: #fff; }
+        .header-title { font-size: 16px; font-weight: 600; }
+        
+        .search-box {
+            background: white;
+            margin: 12px;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .search-input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 0 16px;
+            font-size: 14px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #388E3C;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            padding: 12px;
+            gap: 8px;
+            background: white;
+        }
+        
+        .filter-tab {
+            padding: 6px 16px;
+            background: #E8F5E9;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #2E7D32;
+            cursor: pointer;
+        }
+        
+        .filter-tab.active {
+            background: #388E3C;
+            color: white;
+        }
+        
+        .drug-list {
+            padding: 12px;
+        }
+        
+        .drug-item {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-left: 4px solid #388E3C;
+        }
+        
+        .drug-item:hover {
+            background: #E8F5E9;
+        }
+        
+        .drug-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .drug-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .drug-type {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        
+        .drug-type.prescription {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+        
+        .drug-type.otc {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+        
+        .drug-category {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+        
+        .drug-indication {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .warning {
+            background: #FFF8E1;
+            border: 1px solid #FFE082;
+            padding: 12px;
+            margin: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #F57C00;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="back-btn">←</div>
+        <div class="header-title">药品查询</div>
+    </div>
+    
+    <div class="warning">
+        ⚠️ 处方药须凭医师处方购买和使用，请勿自行购买服用。
+    </div>
+    
+    <div class="search-box">
+        <input type="text" class="search-input" placeholder="搜索药品名称或适应症...">
+    </div>
+    
+    <div class="filter-tabs">
+        <div class="filter-tab active">全部</div>
+        <div class="filter-tab">非处方药</div>
+        <div class="filter-tab">处方药</div>
+    </div>
+    
+    <div class="drug-list">
+        <div class="drug-item">
+            <div class="drug-header">
+                <div class="drug-name">氨氯地平片</div>
+                <div class="drug-type prescription">处方药</div>
+            </div>
+            <div class="drug-category">钙拮抗剂 · 降压药</div>
+            <div class="drug-indication">适应症：高血压、冠心病</div>
+        </div>
+        
+        <div class="drug-item">
+            <div class="drug-header">
+                <div class="drug-name">厄贝沙坦片</div>
+                <div class="drug-type prescription">处方药</div>
+            </div>
+            <div class="drug-category">ARB类 · 降压药</div>
+            <div class="drug-indication">适应症：高血压</div>
+        </div>
+        
+        <div class="drug-item">
+            <div class="drug-header">
+                <div class="drug-name">布洛芬缓释胶囊</div>
+                <div class="drug-type otc">非处方药</div>
+            </div>
+            <div class="drug-category">解热镇痛药</div>
+            <div class="drug-indication">适应症：发热、头痛、关节痛</div>
+        </div>
+        
+        <div class="drug-item">
+            <div class="drug-header">
+                <div class="drug-name">阿莫西林胶囊</div>
+                <div class="drug-type prescription">处方药</div>
+            </div>
+            <div class="drug-category">抗生素</div>
+            <div class="drug-indication">适应症：细菌感染</div>
+        </div>
+        
+        <div class="drug-item">
+            <div class="drug-header">
+                <div class="drug-name">复方感冒灵片</div>
+                <div class="drug-type otc">非处方药</div>
+            </div>
+            <div class="drug-category">感冒药</div>
+            <div class="drug-indication">适应症：感冒、发热、头痛</div>
+        </div>
+    </div>
+    
+    <script>
+        document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
+        
+        // 筛选
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // 点击药品跳转详情
+        document.querySelectorAll('.drug-item').forEach(item => {
+            item.addEventListener('click', () => location.href = 'UI原型_药品详情.html');
+        });
+    </script>
+</body>
+</html>
