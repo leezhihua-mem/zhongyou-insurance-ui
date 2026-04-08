@@ -5,190 +5,383 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>疾病详情 - UI原型</title>
     <style>
-        /* Notion风格 */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-            background: #ffffff;
+            background: #f5f5f5;
             max-width: 375px;
             margin: 0 auto;
-            min-height: 100vh;
-            color: rgba(0,0,0,0.95);
+            padding-bottom: 60px;
         }
         
+        /* 头部 */
         .header {
-            background: #0075de;
-            color: #fff;
+            background: linear-gradient(135deg, #7B1FA2 0%, #6A1B9A 100%);
+            color: white;
             padding: 16px;
             display: flex;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .back-btn {
-            font-size: 20px;
+            font-size: 24px;
             margin-right: 12px;
-            cursor: pointer;
-            color: #fff;
         }
         
         .header-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
         }
         
+        .share-btn {
+            font-size: 20px;
+            margin-left: auto;
+        }
+        
+        /* 疾病名称卡片 */
+        .disease-card {
+            background: white;
+            margin: 12px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .disease-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .disease-alias {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+        
+        .disease-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #E1BEE7;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #7B1FA2;
+        }
+        
+        /* 免责声明 */
         .disclaimer {
-            background: #fff8e6;
-            border: 1px solid rgba(0,0,0,0.1);
-            padding: 8px 12px;
-            margin: 8px;
-            border-radius: 4px;
+            background: #FFF3CD;
+            padding: 10px 12px;
+            margin: 8px 12px;
+            border-radius: 8px;
             font-size: 12px;
             color: #856404;
         }
         
-        .disease-title {
+        /* 内容区块 */
+        .content-section {
+            background: white;
+            margin: 12px;
             padding: 16px;
-            background: #f6f5f4;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .disease-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: rgba(0,0,0,0.95);
-        }
-        
-        .disease-category {
-            font-size: 12px;
-            color: #615d59;
-            margin-top: 4px;
-        }
-        
-        .section {
-            padding: 16px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
         .section-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
-            color: #0075de;
+            color: #7B1FA2;
             margin-bottom: 12px;
+            padding-left: 8px;
+            border-left: 3px solid #7B1FA2;
         }
         
         .section-content {
-            font-size: 13px;
-            color: rgba(0,0,0,0.95);
-            line-height: 1.5;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
         }
         
-        .symptom-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+        .section-content ul {
+            margin-left: 16px;
             margin-top: 8px;
         }
         
-        .symptom-tag {
-            padding: 4px 8px;
-            background: #f2f9ff;
-            border-radius: 9999px;
-            font-size: 12px;
-            color: #097fe8;
+        .section-content li {
+            margin-bottom: 6px;
         }
         
-        .related-drugs {
-            padding: 16px;
-            background: #f6f5f4;
-        }
-        
-        .drug-item {
+        /* 关键信息高亮 */
+        .highlight {
+            background: #F3E5F5;
             padding: 12px;
-            background: #ffffff;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 4px;
-            margin-bottom: 8px;
+            border-radius: 8px;
+            margin: 8px 0;
+            font-size: 14px;
+            color: #7B1FA2;
+        }
+        
+        /* 相关药品 */
+        .drugs-section {
+            margin-top: 16px;
+        }
+        
+        .drug-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #E8F5E9;
+            border: 1px solid #C8E6C9;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #388E3C;
+            margin: 4px;
+        }
+        
+        /* 就医指引 */
+        .hospital-guide {
+            background: #E3F2FD;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px;
+        }
+        
+        .guide-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .guide-icon {
+            width: 24px;
+            font-size: 18px;
+            margin-right: 8px;
+        }
+        
+        .guide-text {
+            font-size: 14px;
+            color: #1976D2;
+        }
+        
+        /* 来源标注 */
+        .source-tag {
+            font-size: 12px;
+            color: #999;
+            margin-top: 12px;
+            text-align: right;
+        }
+        
+        /* 底部按钮 */
+        .footer-btns {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
         }
         
-        .drug-item:hover {
-            background: #f2f9ff;
+        .btn-primary {
+            background: #7B1FA2;
+            color: white;
         }
         
-        .drug-name {
-            font-size: 13px;
-            font-weight: 500;
-        }
-        
-        .drug-desc {
-            font-size: 12px;
-            color: #615d59;
-            margin-top: 4px;
+        .btn-secondary {
+            background: #F3E5F5;
+            color: #7B1FA2;
         }
     </style>
 </head>
 <body>
+    <!-- 头部 -->
     <div class="header">
         <div class="back-btn">←</div>
-        <div class="header-title">疾病详情</div>
+        <div class="header-title">疾病百科</div>
+        <div class="share-btn">📤</div>
     </div>
     
-    <div class="disclaimer">⚠️ 本资料仅供参考，不能替代专业医师的诊疗建议。</div>
-    
-    <div class="disease-title">
-        <div class="disease-name">高血压</div>
-        <div class="disease-category">心血管系统疾病 | 常见病</div>
+    <!-- 疾病名称 -->
+    <div class="disease-card">
+        <div class="disease-title">高血压</div>
+        <div class="disease-alias">别名：血压升高、原发性高血压</div>
+        <div class="disease-category">内科 · 心血管疾病</div>
     </div>
     
-    <div class="section">
+    <!-- 免责声明 -->
+    <div class="disclaimer">
+        ⚠️ 本资料仅供参考，不能替代专业医师的诊疗建议。如有不适，请及时就医。
+    </div>
+    
+    <!-- 定义 -->
+    <div class="content-section">
         <div class="section-title">疾病定义</div>
         <div class="section-content">
-            高血压是以体循环动脉血压持续升高为主要特征的临床综合征，收缩压≥140mmHg或舒张压≥90mmHg。
+            高血压是指在未使用降压药物的情况下，收缩压≥140mmHg和/或舒张压≥90mmHg。是一种常见的慢性病，也是心脑血管病最主要的危险因素。
         </div>
     </div>
     
-    <div class="section">
+    <!-- 典型症状 -->
+    <div class="content-section">
         <div class="section-title">典型症状</div>
-        <div class="symptom-list">
-            <div class="symptom-tag">头痛</div>
-            <div class="symptom-tag">头晕</div>
-            <div class="symptom-tag">心悸</div>
-            <div class="symptom-tag">耳鸣</div>
-            <div class="symptom-tag">乏力</div>
-        </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">病因</div>
         <div class="section-content">
-            遗传因素、高盐饮食、肥胖、精神紧张、吸烟饮酒等。
+            <ul>
+                <li>头痛、头晕（尤其是早晨）</li>
+                <li>耳鸣、心悸</li>
+                <li>注意力不集中、记忆力减退</li>
+                <li>肢体麻木</li>
+                <li>夜尿增多</li>
+            </ul>
+        </div>
+        <div class="highlight">
+            💡 提示：部分患者可能无明显症状，建议定期测量血压
         </div>
     </div>
     
-    <div class="section">
-        <div class="section-title">治疗方式</div>
+    <!-- 发病原因 -->
+    <div class="content-section">
+        <div class="section-title">发病原因</div>
         <div class="section-content">
-            生活方式干预（低盐饮食、运动、减重）+ 药物治疗（利尿剂、ACEI、ARB、钙拮抗剂等）。
+            <ul>
+                <li><strong>遗传因素：</strong>家族史是重要风险因素</li>
+                <li><strong>生活方式：</strong>高盐饮食、缺乏运动、吸烟饮酒</li>
+                <li><strong>肥胖：</strong>体重超标增加发病风险</li>
+                <li><strong>年龄：</strong>发病率随年龄增长而升高</li>
+                <li><strong>精神因素：</strong>长期紧张、焦虑</li>
+            </ul>
         </div>
     </div>
     
-    <div class="related-drugs">
+    <!-- 诊断方法 -->
+    <div class="content-section">
+        <div class="section-title">诊断方法</div>
+        <div class="section-content">
+            <ul>
+                <li>血压测量（家庭自测+医院测量）</li>
+                <li>动态血压监测（24小时）</li>
+                <li>心电图检查</li>
+                <li>血液生化检查（血脂、血糖）</li>
+                <li>眼底检查</li>
+            </ul>
+        </div>
+        <div class="source-tag">来源：《内科学》第9版 人民卫生出版社</div>
+    </div>
+    
+    <!-- 治疗原则 -->
+    <div class="content-section">
+        <div class="section-title">治疗原则</div>
+        <div class="section-content">
+            <ul>
+                <li><strong>非药物治疗：</strong>低盐饮食、控制体重、规律运动、戒烟限酒</li>
+                <li><strong>药物治疗：</strong>利尿剂、β受体阻滞剂、钙通道阻滞剂等</li>
+                <li><strong>个体化治疗：</strong>根据患者情况制定方案</li>
+            </ul>
+        </div>
+        <div class="highlight">
+            ⚠️ 药物治疗需遵医嘱，请勿自行调整剂量
+        </div>
+    </div>
+    
+    <!-- 日常注意 -->
+    <div class="content-section">
+        <div class="section-title">日常注意事项</div>
+        <div class="section-content">
+            <ul>
+                <li>每日盐摄入量<6克</li>
+                <li>每周运动3-5次，每次30分钟</li>
+                <li>保持理想体重（BMI 18.5-24）</li>
+                <li>定期监测血压（家庭自测）</li>
+                <li>按时服药，不随意停药</li>
+                <li>保持心情舒畅，避免情绪波动</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- 相关药品 -->
+    <div class="content-section drugs-section">
         <div class="section-title">常用药品</div>
-        <div class="drug-item">
-            <div class="drug-name">氨氯地平</div>
-            <div class="drug-desc">钙拮抗剂，长效降压</div>
+        <div class="drug-tags">
+            <span class="drug-tag">氨氯地平</span>
+            <span class="drug-tag">硝苯地平</span>
+            <span class="drug-tag">氢氯噻嗪</span>
+            <span class="drug-tag">缬沙坦</span>
+            <span class="drug-tag">美托洛尔</span>
         </div>
-        <div class="drug-item">
-            <div class="drug-name">厄贝沙坦</div>
-            <div class="drug-desc">ARB类，保护肾功能</div>
+        <div class="highlight" style="margin-top:12px">
+            💊 点击药品名称查看详细用法说明
         </div>
+    </div>
+    
+    <!-- 就医指引 -->
+    <div class="hospital-guide">
+        <div class="guide-item">
+            <div class="guide-icon">🏥</div>
+            <div class="guide-text">建议科室：心内科、全科</div>
+        </div>
+        <div class="guide-item">
+            <div class="guide-icon">⏰</div>
+            <div class="guide-text">检查频率：每3个月复查一次</div>
+        </div>
+        <div class="guide-item">
+            <div class="guide-icon">🚨</div>
+            <div class="guide-text">紧急情况：血压≥180/120mmHg，立即就医</div>
+        </div>
+    </div>
+    
+    <!-- 底部按钮 -->
+    <div class="footer-btns">
+        <div class="action-btn btn-secondary">🤖 AI问答</div>
+        <div class="action-btn btn-primary">📋 添加到关注</div>
     </div>
     
     <script>
-        document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
-        document.querySelectorAll('.drug-item').forEach(item => {
-            item.addEventListener('click', () => location.href = 'UI原型_药品详情.html');
+        // 返回按钮
+        document.querySelector('.back-btn').addEventListener('click', function() {
+            alert('返回上一页（演示原型）');
+        });
+        
+        // 分享按钮
+        document.querySelector('.share-btn').addEventListener('click', function() {
+            alert('分享疾病知识（演示原型）');
+        });
+        
+        // 药品标签点击
+        document.querySelectorAll('.drug-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                alert('查看药品：' + this.textContent + '（演示原型）');
+            });
+        });
+        
+        // AI问答按钮
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            alert('进入AI问答，咨询高血压相关问题（演示原型）');
+        });
+        
+        // 添加关注按钮
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            alert('已添加"高血压"到关注列表（演示原型）');
         });
     </script>
 </body>

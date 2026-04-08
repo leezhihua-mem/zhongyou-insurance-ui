@@ -5,262 +5,244 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>查询记录 - UI原型</title>
     <style>
-        /* Notion风格 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-            background: #ffffff;
+            background: #f5f5f5;
             max-width: 375px;
             margin: 0 auto;
-            min-height: 100vh;
-            color: rgba(0,0,0,0.95);
+            padding-bottom: 20px;
         }
-        
         .header {
-            background: #523410;
-            color: #fff;
+            background: linear-gradient(135deg, #D84315 0%, #BF360C 100%);
+            color: white;
             padding: 16px;
             display: flex;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
+        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .header-title { font-size: 18px; font-weight: 600; }
+        .clear-btn { font-size: 13px; margin-left: auto; cursor: pointer; }
         
-        .back-btn { font-size: 20px; margin-right: 12px; cursor: pointer; color: #fff; }
-        .header-title { font-size: 16px; font-weight: 600; }
-        
-        .stats {
-            display: flex;
+        .stats-card {
+            background: white;
+            margin: 12px;
             padding: 16px;
-            background: #f6f5f4;
-            gap: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        
-        .stat-card {
-            flex: 1;
-            background: #fff;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 4px;
-            padding: 12px;
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
             text-align: center;
         }
+        .stat-item { }
+        .stat-value { font-size: 24px; font-weight: 700; color: #D84315; }
+        .stat-label { font-size: 12px; color: #999; margin-top: 4px; }
         
-        .stat-num {
-            font-size: 24px;
-            font-weight: 600;
-            color: #0075de;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #615d59;
-            margin-top: 4px;
-        }
-        
-        .filter-tabs {
+        .tabs {
+            background: white;
+            margin: 12px;
+            padding: 4px;
+            border-radius: 25px;
             display: flex;
-            padding: 12px 16px;
-            gap: 8px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
-        
-        .filter-tab {
-            padding: 6px 12px;
-            background: #f6f5f4;
-            border-radius: 9999px;
-            font-size: 12px;
-            color: #615d59;
-            cursor: pointer;
-        }
-        
-        .filter-tab.active {
-            background: #0075de;
-            color: #fff;
-        }
-        
-        .history-list {
-            padding: 16px;
-        }
-        
-        .section-title {
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 20px;
             font-size: 14px;
-            font-weight: 600;
-            color: rgba(0,0,0,0.95);
-            margin-bottom: 12px;
+            color: #999;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: #D84315;
+            color: white;
         }
         
-        .history-item {
-            padding: 12px;
-            background: #f6f5f4;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 4px;
+        .record-list {
+            margin: 12px;
+        }
+        .date-header {
+            font-size: 13px;
+            color: #999;
+            margin: 16px 0 8px 0;
+        }
+        
+        .record-item {
+            background: white;
+            padding: 14px;
+            border-radius: 10px;
             margin-bottom: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
             cursor: pointer;
         }
         
-        .history-item:hover {
-            background: #e8e8e8;
-        }
-        
-        .history-header {
+        .record-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 12px;
         }
+        .icon-disease { background: #F3E5F5; }
+        .icon-drug { background: #E8F5E9; }
+        .icon-symptom { background: #E3F2FD; }
+        .icon-ai { background: #E0F7FA; }
         
-        .history-title {
-            font-size: 13px;
-            font-weight: 500;
-        }
+        .record-content { flex: 1; }
+        .record-title { font-size: 15px; color: #333; font-weight: 500; }
+        .record-time { font-size: 12px; color: #999; margin-top: 4px; }
         
-        .history-time {
-            font-size: 11px;
-            color: #615d59;
-        }
+        .record-arrow { color: #CCC; font-size: 18px; }
         
-        .history-type {
-            display: inline-block;
-            padding: 2px 8px;
-            background: #fff;
-            border-radius: 9999px;
-            font-size: 11px;
-            color: #0075de;
-            margin-top: 4px;
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
         }
+        .empty-icon { font-size: 48px; margin-bottom: 12px; }
         
         .search-box {
-            padding: 16px;
+            background: white;
+            margin: 12px;
+            padding: 12px 16px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        
+        .search-icon { color: #999; margin-right: 8px; }
         .search-input {
-            width: 100%;
-            height: 40px;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 4px;
-            padding: 0 12px;
+            flex: 1;
+            border: none;
             font-size: 14px;
-        }
-        
-        .search-input:focus {
             outline: none;
-            border-color: #0075de;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="back-btn">←</div>
+        <div class="back-btn" onclick="location.href='index.html'">←</div>
         <div class="header-title">查询记录</div>
+        <div class="clear-btn" onclick="alert('确认清空所有记录？')">清空</div>
     </div>
     
-    <div class="stats">
-        <div class="stat-card">
-            <div class="stat-num">28</div>
-            <div class="stat-label">总查询次数</div>
+    <div class="stats-card">
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-value">156</div>
+                <div class="stat-label">总查询</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">23</div>
+                <div class="stat-label">本周</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12</div>
+                <div class="stat-label">关注疾病</div>
+            </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-num">12</div>
-            <div class="stat-label">疾病查询</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-num">16</div>
-            <div class="stat-label">药品查询</div>
-        </div>
-    </div>
-    
-    <div class="filter-tabs">
-        <div class="filter-tab active">全部</div>
-        <div class="filter-tab">疾病</div>
-        <div class="filter-tab">药品</div>
-        <div class="filter-tab">症状</div>
     </div>
     
     <div class="search-box">
+        <span class="search-icon">🔍</span>
         <input type="text" class="search-input" placeholder="搜索历史记录...">
     </div>
     
-    <div class="history-list">
-        <div class="section-title">最近查询</div>
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab(this)">全部</div>
+        <div class="tab" onclick="switchTab(this)">疾病</div>
+        <div class="tab" onclick="switchTab(this)">药品</div>
+        <div class="tab" onclick="switchTab(this)">症状</div>
+    </div>
+    
+    <div class="record-list">
+        <div class="date-header">今天</div>
         
-        <div class="history-item">
-            <div class="history-header">
-                <div class="history-title">高血压</div>
-                <div class="history-time">今天 14:30</div>
+        <div class="record-item" onclick="location.href='UI原型_疾病详情.html'">
+            <div class="record-icon icon-disease">📚</div>
+            <div class="record-content">
+                <div class="record-title">高血压</div>
+                <div class="record-time">今天 14:32 · 疾病查询</div>
             </div>
-            <div class="history-type">疾病</div>
+            <div class="record-arrow">›</div>
         </div>
         
-        <div class="history-item">
-            <div class="history-header">
-                <div class="history-title">氨氯地平片</div>
-                <div class="history-time">今天 14:32</div>
+        <div class="record-item" onclick="location.href='UI原型_药品详情.html'">
+            <div class="record-icon icon-drug">💊</div>
+            <div class="record-content">
+                <div class="record-title">氨氯地平</div>
+                <div class="record-time">今天 14:30 · 药品查询</div>
             </div>
-            <div class="history-type">药品</div>
+            <div class="record-arrow">›</div>
         </div>
         
-        <div class="history-item">
-            <div class="history-header">
-                <div class="history-title">头痛</div>
-                <div class="history-time">昨天 20:15</div>
+        <div class="record-item" onclick="location.href='UI原型_症状自查.html'">
+            <div class="record-icon icon-symptom">🔍</div>
+            <div class="record-content">
+                <div class="record-title">头痛、头晕</div>
+                <div class="record-time">今天 10:15 · 症状自查</div>
             </div>
-            <div class="history-type">症状</div>
+            <div class="record-arrow">›</div>
         </div>
         
-        <div class="history-item">
-            <div class="history-header">
-                <div class="history-title">感冒</div>
-                <div class="history-time">4月5日</div>
+        <div class="date-header">昨天</div>
+        
+        <div class="record-item">
+            <div class="record-icon icon-ai">🤖</div>
+            <div class="record-content">
+                <div class="record-title">感冒发烧吃什么药</div>
+                <div class="record-time">昨天 21:30 · AI问答</div>
             </div>
-            <div class="history-type">疾病</div>
+            <div class="record-arrow">›</div>
+        </div>
+        
+        <div class="record-item">
+            <div class="record-icon icon-disease">📚</div>
+            <div class="record-content">
+                <div class="record-title">糖尿病</div>
+                <div class="record-time">昨天 16:20 · 疾病查询</div>
+            </div>
+            <div class="record-arrow">›</div>
+        </div>
+        
+        <div class="date-header">04月06日</div>
+        
+        <div class="record-item">
+            <div class="record-icon icon-drug">💊</div>
+            <div class="record-content">
+                <div class="record-title">二甲双胍</div>
+                <div class="record-time">04-06 15:45 · 药品查询</div>
+            </div>
+            <div class="record-arrow">›</div>
+        </div>
+        
+        <div class="record-item">
+            <div class="record-icon icon-symptom">🔍</div>
+            <div class="record-content">
+                <div class="record-title">胃痛、反酸</div>
+                <div class="record-time">04-06 09:30 · 症状自查</div>
+            </div>
+            <div class="record-arrow">›</div>
         </div>
     </div>
     
     <script>
-        document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
-        
-        // 分类筛选
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                // 更新选中状态
-                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                // 筛选显示
-                const filter = this.textContent;
-                document.querySelectorAll('.history-item').forEach(item => {
-                    const type = item.querySelector('.history-type').textContent;
-                    if (filter === '全部') {
-                        item.style.display = 'block';
-                    } else if (type === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
-        
-        // 搜索功能
-        document.querySelector('.search-input').addEventListener('input', function() {
-            const keyword = this.value.toLowerCase();
-            document.querySelectorAll('.history-item').forEach(item => {
-                const title = item.querySelector('.history-title').textContent.toLowerCase();
-                item.style.display = title.includes(keyword) ? 'block' : 'none';
-            });
-        });
-        
-        // 历史记录点击跳转
-        document.querySelectorAll('.history-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const type = this.querySelector('.history-type').textContent;
-                if (type === '疾病') {
-                    location.href = 'UI原型_疾病详情.html';
-                } else if (type === '药品') {
-                    location.href = 'UI原型_药品详情.html';
-                } else {
-                    location.href = 'UI原型_症状自查.html';
-                }
-            });
-        });
+        function switchTab(el) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            alert('切换到：' + el.textContent + '（演示原型）');
+        }
     </script>
 </body>
 </html>

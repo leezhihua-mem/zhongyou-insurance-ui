@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>症状自查 - UI原型</title>
     <style>
-        /* Notion风格 */
         * {
             margin: 0;
             padding: 0;
@@ -14,59 +13,56 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-            background: #ffffff;
+            background: #f5f5f5;
             max-width: 375px;
             margin: 0 auto;
             min-height: 100vh;
-            color: rgba(0,0,0,0.95);
         }
         
         /* 头部 */
         .header {
-            background: #0075de;
-            color: #ffffff;
+            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            color: white;
             padding: 16px;
             display: flex;
             align-items: center;
         }
         
         .back-btn {
-            font-size: 20px;
+            font-size: 24px;
             margin-right: 12px;
             cursor: pointer;
-            color: #fff;
         }
         
         .header-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
         }
         
         /* 免责声明 */
         .disclaimer {
-            background: #fff8e6;
-            border: 1px solid rgba(0,0,0,0.1);
+            background: #FFF3CD;
             padding: 8px 12px;
             margin: 8px;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 12px;
             color: #856404;
         }
         
         /* 人体部位选择 */
         .body-selector {
-            background: #f6f5f4;
-            border: 1px solid rgba(0,0,0,0.1);
+            background: white;
             margin: 12px;
-            padding: 16px;
-            border-radius: 4px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
         .section-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
-            color: rgba(0,0,0,0.95);
-            margin-bottom: 12px;
+            color: #333;
+            margin-bottom: 16px;
         }
         
         .body-parts {
@@ -76,146 +72,148 @@
         }
         
         .body-part {
-            padding: 6px 12px;
-            background: #ffffff;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 9999px;
-            font-size: 13px;
-            color: #615d59;
+            padding: 8px 16px;
+            background: #E3F2FD;
+            border: 1px solid #BBDEFB;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #1976D2;
             cursor: pointer;
             transition: all 0.2s;
         }
         
-        .body-part:hover {
-            background: #f2f9ff;
-            border-color: #097fe8;
-        }
-        
-        .body-part.active {
-            background: #0075de;
-            color: #ffffff;
-            border-color: #0075de;
+        .body-part:hover,
+        .body-part.selected {
+            background: #1976D2;
+            color: white;
         }
         
         /* 症状选择 */
         .symptom-selector {
-            background: #f6f5f4;
-            border: 1px solid rgba(0,0,0,0.1);
+            background: white;
             margin: 12px;
-            padding: 16px;
-            border-radius: 4px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
-        .symptoms {
+        .symptom-tags {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 8px;
         }
         
-        .symptom-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: #ffffff;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .symptom-item:hover {
-            background: #f6f5f4;
-        }
-        
-        .symptom-item.selected {
-            background: #f2f9ff;
-            border-color: #097fe8;
-        }
-        
-        .symptom-checkbox {
-            width: 18px;
-            height: 18px;
-            border: 1px solid rgba(0,0,0,0.2);
-            border-radius: 4px;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .symptom-item.selected .symptom-checkbox {
-            background: #0075de;
-            border-color: #0075de;
-            color: #fff;
-        }
-        
-        .symptom-text {
+        .symptom-tag {
+            padding: 6px 12px;
+            background: #F3E5F5;
+            border: 1px solid #E1BEE7;
+            border-radius: 16px;
             font-size: 13px;
-            color: rgba(0,0,0,0.95);
-        }
-        
-        /* 分析按钮 */
-        .analyze-btn {
-            background: #0075de;
-            color: #ffffff;
-            padding: 12px 24px;
-            margin: 16px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            text-align: center;
+            color: #7B1FA2;
             cursor: pointer;
-            border: none;
         }
         
-        .analyze-btn:hover {
-            background: #005bab;
+        .symptom-tag:hover,
+        .symptom-tag.selected {
+            background: #7B1FA2;
+            color: white;
         }
         
-        /* 分析结果 */
-        .result {
-            background: #f6f5f4;
-            border: 1px solid rgba(0,0,0,0.1);
+        /* 自定义输入 */
+        .custom-input {
+            background: white;
             margin: 12px;
             padding: 16px;
-            border-radius: 4px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         
-        .result-title {
+        .custom-textarea {
+            width: 100%;
+            height: 80px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            padding: 12px;
             font-size: 14px;
+            resize: none;
+        }
+        
+        .custom-textarea:focus {
+            outline: none;
+            border-color: #1976D2;
+        }
+        
+        /* 查询按钮 */
+        .query-btn {
+            background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+            color: white;
+            margin: 16px 12px;
+            padding: 14px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 16px;
             font-weight: 600;
-            color: #0075de;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(25,118,210,0.3);
+        }
+        
+        /* 结果预览 */
+        .result-preview {
+            background: white;
+            margin: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .result-header {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
             margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #F0F0F0;
         }
         
-        .result-item {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+        .disease-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #F0F0F0;
         }
         
-        .result-item:last-child {
-            border-bottom: none;
+        .disease-name {
+            font-size: 14px;
+            color: #333;
         }
         
-        .result-name {
+        .disease-prob {
             font-size: 13px;
-            font-weight: 500;
-            color: rgba(0,0,0,0.95);
+            color: #1976D2;
+            font-weight: 600;
         }
         
-        .result-desc {
+        .disease-prob.high { color: #F44336; }
+        .disease-prob.medium { color: #FF9800; }
+        .disease-prob.low { color: #4CAF50; }
+        
+        .urgent-tip {
+            background: #FFEBEE;
+            border: 1px solid #FFCDD2;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #C62828;
+        }
+        
+        /* 底部 */
+        .footer {
+            padding: 20px 12px;
+            text-align: center;
             font-size: 12px;
-            color: #615d59;
-            margin-top: 4px;
-        }
-        
-        .result-action {
-            display: inline-block;
-            padding: 4px 8px;
-            background: #e3f2ff;
-            border-radius: 4px;
-            font-size: 11px;
-            color: #0075de;
-            margin-top: 8px;
+            color: #999;
         }
     </style>
 </head>
@@ -228,117 +226,109 @@
     
     <!-- 免责声明 -->
     <div class="disclaimer">
-        ⚠️ 本功能仅供参考，不能替代专业医师的诊断。
+        ⚠️ 本功能仅供参考，如有紧急症状请立即就医
     </div>
     
     <!-- 身体部位选择 -->
     <div class="body-selector">
-        <div class="section-title">选择不适部位</div>
+        <div class="section-title">1. 选择不适部位</div>
         <div class="body-parts">
-            <div class="body-part active">头部</div>
+            <div class="body-part">头部</div>
             <div class="body-part">胸部</div>
-            <div class="body-part">腹部</div>
+            <div class="body-part selected">腹部</div>
+            <div class="body-part">背部</div>
             <div class="body-part">四肢</div>
-            <div class="body-part">皮肤</div>
             <div class="body-part">全身</div>
+            <div class="body-part">皮肤</div>
+            <div class="body-part">其他</div>
         </div>
     </div>
     
     <!-- 症状选择 -->
     <div class="symptom-selector">
-        <div class="section-title">选择具体症状（可多选）</div>
-        <div class="symptoms">
-            <div class="symptom-item selected">
-                <div class="symptom-checkbox">✓</div>
-                <div class="symptom-text">头痛</div>
-            </div>
-            <div class="symptom-item">
-                <div class="symptom-checkbox"></div>
-                <div class="symptom-text">头晕</div>
-            </div>
-            <div class="symptom-item">
-                <div class="symptom-checkbox"></div>
-                <div class="symptom-text">发热</div>
-            </div>
-            <div class="symptom-item">
-                <div class="symptom-checkbox"></div>
-                <div class="symptom-text">乏力</div>
-            </div>
-            <div class="symptom-item">
-                <div class="symptom-checkbox"></div>
-                <div class="symptom-text">失眠</div>
-            </div>
+        <div class="section-title">2. 选择症状特征</div>
+        <div class="symptom-tags">
+            <div class="symptom-tag selected">疼痛</div>
+            <div class="symptom-tag">胀痛</div>
+            <div class="symptom-tag">隐痛</div>
+            <div class="symptom-tag">绞痛</div>
+            <div class="symptom-tag">刺痛</div>
+            <div class="symptom-tag">持续性</div>
+            <div class="symptom-tag">间歇性</div>
+            <div class="symptom-tag">伴有发热</div>
+            <div class="symptom-tag">伴有恶心</div>
+            <div class="symptom-tag">食欲不振</div>
+            <div class="symptom-tag">呕吐</div>
         </div>
     </div>
     
-    <!-- 分析按钮 -->
-    <div class="analyze-btn">智能分析</div>
+    <!-- 自定义输入 -->
+    <div class="custom-input">
+        <div class="section-title">3. 详细描述（可选）</div>
+        <textarea class="custom-textarea" placeholder="请详细描述您的症状，如持续时间、加重因素等...">腹部疼痛3天，主要集中在右上腹，持续性胀痛，伴有恶心...</textarea>
+    </div>
     
-    <!-- 分析结果 -->
-    <div class="result" style="display: block;">
-        <div class="result-title">可能的疾病（仅供参考）</div>
-        <div class="result-item">
-            <div class="result-name">高血压</div>
-            <div class="result-desc">匹配度：85% | 建议：监测血压，必要时就医</div>
-            <div class="result-action">查看详情 →</div>
+    <!-- 查询按钮 -->
+    <div class="query-btn">开始智能分析</div>
+    
+    <!-- 结果预览 -->
+    <div class="result-preview">
+        <div class="result-header">📊 可能疾病分析结果</div>
+        
+        <div class="disease-item">
+            <div class="disease-name">胆囊炎</div>
+            <div class="disease-prob high">72%</div>
         </div>
-        <div class="result-item">
-            <div class="result-name">感冒</div>
-            <div class="result-desc">匹配度：60% | 建议：休息观察，症状加重就医</div>
-            <div class="result-action">查看详情 →</div>
+        
+        <div class="disease-item">
+            <div class="disease-name">胃溃疡</div>
+            <div class="disease-prob medium">45%</div>
         </div>
+        
+        <div class="disease-item">
+            <div class="disease-name">消化不良</div>
+            <div class="disease-prob low">28%</div>
+        </div>
+        
+        <div class="disease-item">
+            <div class="disease-name">肝炎</div>
+            <div class="disease-prob low">15%</div>
+        </div>
+        
+        <div class="urgent-tip">
+            🚨 预警提示：右上腹持续性疼痛伴恶心，建议尽快就医检查，排除胆囊炎可能。
+        </div>
+    </div>
+    
+    <!-- 底部 -->
+    <div class="footer">
+        来源：临床诊断学知识图谱 | 免责声明：仅供参考，请遵医嘱
     </div>
     
     <script>
-        // 返回按钮
-        document.querySelector('.back-btn').addEventListener('click', () => {
-            location.href = 'index.html';
-        });
-        
         // 身体部位选择
         document.querySelectorAll('.body-part').forEach(part => {
             part.addEventListener('click', function() {
-                document.querySelectorAll('.body-part').forEach(p => p.classList.remove('active'));
-                this.classList.add('active');
+                document.querySelectorAll('.body-part').forEach(p => p.classList.remove('selected'));
+                this.classList.add('selected');
             });
         });
         
-        // 症状多选
-        document.querySelectorAll('.symptom-item').forEach(item => {
-            item.addEventListener('click', function() {
+        // 症状选择
+        document.querySelectorAll('.symptom-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
                 this.classList.toggle('selected');
-                const checkbox = this.querySelector('.symptom-checkbox');
-                checkbox.textContent = this.classList.contains('selected') ? '✓' : '';
             });
         });
         
-        // 分析按钮
-        document.querySelector('.analyze-btn').addEventListener('click', () => {
-            // 收集选中的症状
-            const selectedSymptoms = [];
-            document.querySelectorAll('.symptom-item.selected').forEach(item => {
-                selectedSymptoms.push(item.querySelector('.symptom-text').textContent);
-            });
-            
-            if (selectedSymptoms.length === 0) {
-                alert('请至少选择一个症状');
-                return;
-            }
-            
-            // 模拟分析结果
-            const resultDiv = document.querySelector('.result');
-            resultDiv.style.display = 'block';
-            resultDiv.querySelector('.result-title').textContent = '可能的疾病（基于症状：' + selectedSymptoms.join('、') + '）';
-            
-            // 滚动到结果
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        // 查询按钮
+        document.querySelector('.query-btn').addEventListener('click', function() {
+            alert('正在智能分析您的症状...\n（演示原型）');
         });
         
-        // 点击结果跳转
-        document.querySelectorAll('.result-action').forEach(action => {
-            action.addEventListener('click', () => {
-                location.href = 'UI原型_疾病详情.html';
-            });
+        // 返回按钮
+        document.querySelector('.back-btn').addEventListener('click', function() {
+            alert('返回首页（演示原型）');
         });
     </script>
 </body>

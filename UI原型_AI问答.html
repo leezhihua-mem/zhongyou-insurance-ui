@@ -3,236 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI问答 - UI原型</title>
+    <title>AI智能问答 - UI原型</title>
     <style>
-        /* Notion风格 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-            background: #ffffff;
+            background: #f5f5f5;
             max-width: 375px;
             margin: 0 auto;
-            min-height: 100vh;
-            color: rgba(0,0,0,0.95);
-            display: flex;
-            flex-direction: column;
+            padding-bottom: 70px;
         }
-        
         .header {
-            background: #0075de;
-            color: #fff;
+            background: linear-gradient(135deg, #0097A7 0%, #00838F 100%);
+            color: white;
             padding: 16px;
             display: flex;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
+        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .header-title { font-size: 18px; font-weight: 600; }
         
-        .back-btn { font-size: 20px; margin-right: 12px; cursor: pointer; color: #fff; }
-        .header-title { font-size: 16px; font-weight: 600; }
-        
-        .chat-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
+        .chat-container {
+            padding: 12px;
         }
         
         .message {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+            display: flex;
         }
+        .message.user { justify-content: flex-end; }
+        .message.ai { justify-content: flex-start; }
         
-        .message-user {
-            text-align: right;
-        }
-        
-        .message-user .bubble {
-            background: #0075de;
-            color: #fff;
-        }
-        
-        .message-ai .bubble {
-            background: #f6f5f4;
-            color: rgba(0,0,0,0.95);
-        }
-        
-        .bubble {
-            display: inline-block;
+        .message-content {
+            max-width: 80%;
             padding: 12px 16px;
             border-radius: 16px;
-            max-width: 85%;
             font-size: 14px;
             line-height: 1.5;
         }
-        
-        .source {
-            margin-top: 8px;
-            font-size: 11px;
-            color: #615d59;
+        .message.user .message-content {
+            background: #0097A7;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .message.ai .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
         
-        .source a {
-            color: #0075de;
-            text-decoration: none;
+        .ai-avatar {
+            width: 32px;
+            height: 32px;
+            background: #E0F7FA;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        
+        .source-tag {
+            font-size: 11px;
+            color: #999;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #F0F0F0;
         }
         
         .quick-questions {
-            padding: 12px 16px;
-            background: #f6f5f4;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            background: white;
+            margin: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        
         .quick-title {
-            font-size: 12px;
-            color: #615d59;
-            margin-bottom: 8px;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 12px;
         }
-        
-        .quick-list {
+        .quick-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
-        
-        .quick-item {
+        .quick-tag {
             padding: 6px 12px;
-            background: #fff;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 9999px;
-            font-size: 12px;
-            color: rgba(0,0,0,0.95);
+            background: #E0F7FA;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #0097A7;
             cursor: pointer;
         }
         
-        .quick-item:hover {
-            background: #f2f9ff;
-            border-color: #0075de;
-        }
-        
         .input-area {
-            padding: 12px 16px;
-            background: #ffffff;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            padding: 12px;
             display: flex;
-            gap: 8px;
+            gap: 12px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
         }
-        
-        .input-field {
+        .input-box {
             flex: 1;
             height: 40px;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid #E0E0E0;
             border-radius: 20px;
             padding: 0 16px;
             font-size: 14px;
         }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: #0075de;
-        }
-        
         .send-btn {
             width: 40px;
             height: 40px;
-            background: #0075de;
-            color: #fff;
-            border: none;
+            background: #0097A7;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
             cursor: pointer;
+        }
+        
+        .disclaimer {
+            background: #FFF3CD;
+            padding: 8px 12px;
+            margin: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #856404;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="back-btn">←</div>
+        <div class="back-btn" onclick="location.href='index.html'">←</div>
         <div class="header-title">AI健康助手</div>
     </div>
     
-    <div class="chat-area">
-        <div class="message message-ai">
-            <div class="bubble">
-                您好！我是AI健康助手，可以为您解答疾病、症状、用药相关问题。请问有什么可以帮助您的？
+    <div class="disclaimer">
+        ⚠️ AI回答仅供参考，不能替代医生诊断，如有不适请及时就医
+    </div>
+    
+    <div class="chat-container">
+        <!-- AI欢迎消息 -->
+        <div class="message ai">
+            <div class="ai-avatar">🤖</div>
+            <div class="message-content">
+                您好！我是AI健康助手，可以为您解答健康相关问题。请问有什么可以帮您的？
             </div>
         </div>
         
-        <div class="message message-user">
-            <div class="bubble">高血压患者饮食要注意什么？</div>
+        <!-- 用户问题 -->
+        <div class="message user">
+            <div class="message-content">头痛三天了，应该怎么办？</div>
         </div>
         
-        <div class="message message-ai">
-            <div class="bubble">
-                高血压患者饮食建议：<br><br>
-                <b>1. 低盐饮食</b>：每日盐摄入<5g<br>
-                <b>2. 多吃蔬菜水果</b>：富含钾，有助降压<br>
-                <b>3. 限制脂肪</b>：少吃动物内脏、肥肉<br>
-                <b>4. 戒烟限酒</b>：避免血压波动<br><br>
-                建议定期监测血压，规律服药，适当运动。
+        <!-- AI回答 -->
+        <div class="message ai">
+            <div class="ai-avatar">🤖</div>
+            <div class="message-content">
+                头痛持续三天，可能由多种原因引起。以下是常见原因和处理建议：<br><br>
+                <b>可能原因：</b><br>
+                • 紧张性头痛（压力、疲劳）<br>
+                • 偏头痛（可能伴恶心、畏光）<br>
+                • 高血压（建议测量血压）<br>
+                • 睡眠不足<br><br>
+                <b>建议：</b><br>
+                1. 保证充足睡眠（7-8小时）<br>
+                2. 避免长时间用眼<br>
+                3. 如有高血压史，及时测量血压<br>
+                4. 如持续加重或伴呕吐，请及时就医
+                <div class="source-tag">📚 来源：《神经病学》第8版 人民卫生出版社</div>
             </div>
-            <div class="source">
-                来源：<a href="#">《中国高血压防治指南》</a>
+        </div>
+        
+        <!-- 用户追问 -->
+        <div class="message user">
+            <div class="message-content">需要吃药吗？</div>
+        </div>
+        
+        <!-- AI回答 -->
+        <div class="message ai">
+            <div class="ai-avatar">🤖</div>
+            <div class="message-content">
+                是否需要用药取决于头痛的严重程度和原因：<br><br>
+                <b>轻微头痛：</b><br>
+                可先尝试休息、按摩太阳穴等非药物方法<br><br>
+                <b>中度头痛：</b><br>
+                可服用非处方止痛药（如布洛芬、对乙酰氨基酚），但需注意：<br>
+                • 不建议连续服用超过3天<br>
+                • 有胃溃疡者慎用布洛芬<br><br>
+                <b>以下情况建议就医：</b><br>
+                • 头痛剧烈或突然加重<br>
+                • 伴发热、颈部僵硬<br>
+                • 有神经系统症状（视物模糊、肢体麻木）<br><br>
+                <span style="color:#F44336">⚠️ 具体用药请遵医嘱</span>
+                <div class="source-tag">📚 来源：临床诊疗指南 神经内科分册</div>
             </div>
         </div>
     </div>
     
+    <!-- 快捷问题 -->
     <div class="quick-questions">
-        <div class="quick-title">快捷问题</div>
-        <div class="quick-list">
-            <div class="quick-item">感冒了怎么办</div>
-            <div class="quick-item">失眠怎么调理</div>
-            <div class="quick-item">胃痛吃什么药</div>
+        <div class="quick-title">💡 常见问题</div>
+        <div class="quick-tags">
+            <div class="quick-tag" onclick="alert('问题已发送：发烧怎么办？')">发烧怎么办？</div>
+            <div class="quick-tag" onclick="alert('问题已发送：血压正常范围')">血压正常范围</div>
+            <div class="quick-tag" onclick="alert('问题已发送：糖尿病饮食禁忌')">糖尿病饮食禁忌</div>
+            <div class="quick-tag" onclick="alert('问题已发送：感冒吃什么药')">感冒吃什么药</div>
         </div>
     </div>
     
+    <!-- 输入区域 -->
     <div class="input-area">
-        <input type="text" class="input-field" placeholder="输入您的问题...">
-        <button class="send-btn">→</button>
+        <input type="text" class="input-box" placeholder="输入您的健康问题..." id="questionInput">
+        <div class="send-btn" onclick="sendMessage()">➤</div>
     </div>
     
     <script>
-        document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
-        
-        // 接收首页搜索参数
-        const params = new URLSearchParams(location.search);
-        const query = params.get('q');
-        if (query) {
-            document.querySelector('.input-field').value = query;
-        }
-        
-        // 快捷问题
-        document.querySelectorAll('.quick-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelector('.input-field').value = this.textContent;
-            });
-        });
-        
-        // 发送消息
-        const sendBtn = document.querySelector('.send-btn');
-        const inputField = document.querySelector('.input-field');
-        const chatArea = document.querySelector('.chat-area');
-        
         function sendMessage() {
-            const text = inputField.value.trim();
-            if (!text) return;
-            
-            // 添加用户消息
-            const userMsg = document.createElement('div');
-            userMsg.className = 'message message-user';
-            userMsg.innerHTML = '<div class="bubble">' + text + '</div>';
-            chatArea.appendChild(userMsg);
-            
-            // 清空输入框
-            inputField.value = '';
-            
-            // 模拟AI回复
-            setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'message message-ai';
-                aiMsg.innerHTML = '<div class="bubble">感谢您的提问！这是原型演示，完整功能将在开发阶段实现。<br><br>如需真实医疗咨询，请咨询专业医生。</div><div class="source">来源：AI助手</div>';
-                chatArea.appendChild(aiMsg);
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }, 500);
+            const input = document.getElementById('questionInput');
+            const question = input.value.trim();
+            if (question) {
+                alert('问题已发送：' + question + '\n（演示原型）');
+                input.value = '';
+            }
         }
         
-        sendBtn.addEventListener('click', sendMessage);
-        inputField.addEventListener('keypress', function(e) {
+        document.getElementById('questionInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendMessage();
         });
     </script>

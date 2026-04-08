@@ -5,246 +5,232 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>用药提醒 - UI原型</title>
     <style>
-        /* Notion风格 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-            background: #ffffff;
+            background: #f5f5f5;
             max-width: 375px;
             margin: 0 auto;
-            min-height: 100vh;
-            color: rgba(0,0,0,0.95);
-            padding-bottom: 60px;
+            padding-bottom: 80px;
         }
-        
         .header {
-            background: #dd5b00;
-            color: #fff;
+            background: linear-gradient(135deg, #F57C00 0%, #EF6C00 100%);
+            color: white;
             padding: 16px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
+        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .header-title { font-size: 18px; font-weight: 600; }
+        .add-btn { font-size: 24px; margin-left: auto; cursor: pointer; }
         
-        .back-btn { font-size: 20px; cursor: pointer; color: #fff; }
-        .header-title { font-size: 16px; font-weight: 600; }
-        .add-btn { font-size: 20px; cursor: pointer; color: #fff; }
-        
-        .today-progress {
-            padding: 16px;
-            background: #f6f5f4;
+        .today-summary {
+            background: white;
+            margin: 12px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             text-align: center;
         }
+        .summary-title { font-size: 14px; color: #999; margin-bottom: 8px; }
+        .summary-stats { display: flex; justify-content: space-around; margin: 16px 0; }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #F57C00; }
+        .stat-label { font-size: 12px; color: #999; margin-top: 4px; }
         
-        .progress-title {
-            font-size: 12px;
-            color: #615d59;
-            margin-bottom: 8px;
+        .plan-list {
+            background: white;
+            margin: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        
-        .progress-bar {
-            height: 8px;
-            background: rgba(0,0,0,0.1);
-            border-radius: 9999px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            width: 50%;
-            background: #2a9d99;
-            border-radius: 9999px;
-        }
-        
-        .progress-text {
-            font-size: 12px;
-            color: #615d59;
-            margin-top: 8px;
-        }
-        
-        .section {
+        .plan-header {
             padding: 16px;
-        }
-        
-        .section-title {
-            font-size: 14px;
+            border-bottom: 1px solid #F0F0F0;
+            font-size: 16px;
             font-weight: 600;
-            color: rgba(0,0,0,0.95);
-            margin-bottom: 12px;
+            color: #333;
         }
-        
-        .reminder-item {
-            background: #f6f5f4;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 4px;
-            padding: 12px;
-            margin-bottom: 8px;
+        .plan-item {
+            padding: 16px;
+            border-bottom: 1px solid #F0F0F0;
             display: flex;
             align-items: center;
         }
-        
-        .reminder-time {
+        .plan-item:last-child { border-bottom: none; }
+        .plan-time {
             width: 60px;
-            text-align: center;
-        }
-        
-        .time-text {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 600;
-            color: rgba(0,0,0,0.95);
+            color: #333;
         }
-        
-        .time-period {
-            font-size: 11px;
-            color: #615d59;
-        }
-        
-        .reminder-info {
+        .plan-time.passed { color: #999; }
+        .plan-drug {
             flex: 1;
             margin-left: 12px;
         }
-        
-        .reminder-name {
-            font-size: 13px;
+        .drug-name { font-size: 15px; color: #333; font-weight: 500; }
+        .drug-dosage { font-size: 13px; color: #999; margin-top: 4px; }
+        .plan-status {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
             font-weight: 500;
         }
+        .status-done { background: #C8E6C9; color: #2E7D32; }
+        .status-pending { background: #FFF3E0; color: #EF6C00; }
+        .status-missed { background: #FFCDD2; color: #C62828; }
         
-        .reminder-dose {
-            font-size: 12px;
-            color: #615d59;
-        }
-        
-        .reminder-check {
-            width: 24px;
-            height: 24px;
-            border: 1px solid rgba(0,0,0,0.2);
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #fff;
+        .add-plan-btn {
+            background: linear-gradient(135deg, #F57C00 0%, #EF6C00 100%);
+            color: white;
+            margin: 16px 12px;
+            padding: 14px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(245,124,0,0.3);
         }
         
-        .reminder-check.done {
-            background: #2a9d99;
-            border-color: #2a9d99;
+        .history-section {
+            background: white;
+            margin: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
         .history-item {
-            padding: 12px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #F0F0F0;
         }
+        .history-item:last-child { border-bottom: none; }
+        .history-date { font-size: 13px; color: #999; }
+        .history-rate { font-size: 14px; font-weight: 600; }
+        .rate-good { color: #2E7D32; }
+        .rate-normal { color: #F57C00; }
+        .rate-bad { color: #C62828; }
         
-        .history-date {
-            font-size: 12px;
-            color: #615d59;
+        .footer-btns {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
         }
-        
-        .history-status {
-            font-size: 12px;
-            color: #2a9d99;
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
         }
+        .btn-primary { background: #F57C00; color: white; }
+        .btn-secondary { background: #FFF3E0; color: #F57C00; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="back-btn">←</div>
+        <div class="back-btn" onclick="location.href='UI原型_手机端_首页.html'">←</div>
         <div class="header-title">用药提醒</div>
-        <div class="add-btn">+</div>
+        <div class="add-btn" onclick="alert('添加新用药计划')">+</div>
     </div>
     
-    <div class="today-progress">
-        <div class="progress-title">今日服药进度</div>
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-        <div class="progress-text">已完成 1/2 次</div>
-    </div>
-    
-    <div class="section">
-        <div class="section-title">今日计划</div>
-        
-        <div class="reminder-item">
-            <div class="reminder-time">
-                <div class="time-text">08:00</div>
-                <div class="time-period">早餐后</div>
+    <div class="today-summary">
+        <div class="summary-title">今日服药进度</div>
+        <div class="summary-stats">
+            <div class="stat-item">
+                <div class="stat-value">2/3</div>
+                <div class="stat-label">已服药</div>
             </div>
-            <div class="reminder-info">
-                <div class="reminder-name">氨氯地平片</div>
-                <div class="reminder-dose">1片 (5mg)</div>
+            <div class="stat-item">
+                <div class="stat-value">67%</div>
+                <div class="stat-label">完成率</div>
             </div>
-            <div class="reminder-check done">✓</div>
-        </div>
-        
-        <div class="reminder-item">
-            <div class="reminder-time">
-                <div class="time-text">20:00</div>
-                <div class="time-period">晚餐后</div>
+            <div class="stat-item">
+                <div class="stat-value">1</div>
+                <div class="stat-label">待服用</div>
             </div>
-            <div class="reminder-info">
-                <div class="reminder-name">厄贝沙坦片</div>
-                <div class="reminder-dose">1片 (150mg)</div>
-            </div>
-            <div class="reminder-check"></div>
         </div>
     </div>
     
-    <div class="section">
-        <div class="section-title">历史记录</div>
-        
+    <div class="plan-list">
+        <div class="plan-header">今日计划</div>
+        <div class="plan-item">
+            <div class="plan-time passed">08:00</div>
+            <div class="plan-drug">
+                <div class="drug-name">氨氯地平 5mg</div>
+                <div class="drug-dosage">1片 · 饭后服用</div>
+            </div>
+            <div class="plan-status status-done">已服用</div>
+        </div>
+        <div class="plan-item">
+            <div class="plan-time passed">12:00</div>
+            <div class="plan-drug">
+                <div class="drug-name">二甲双胍 500mg</div>
+                <div class="drug-dosage">1片 · 随餐服用</div>
+            </div>
+            <div class="plan-status status-done">已服用</div>
+        </div>
+        <div class="plan-item">
+            <div class="plan-time">20:00</div>
+            <div class="plan-drug">
+                <div class="drug-name">氨氯地平 5mg</div>
+                <div class="drug-dosage">1片 · 睡前服用</div>
+            </div>
+            <div class="plan-status status-pending">待服用</div>
+        </div>
+    </div>
+    
+    <div class="add-plan-btn" onclick="alert('创建新的用药计划')">+ 添加用药计划</div>
+    
+    <div class="history-section">
+        <div class="section-title">服药历史（近7天）</div>
         <div class="history-item">
-            <div class="history-date">2026-04-07</div>
-            <div class="history-status">✓ 全部完成</div>
+            <div class="history-date">今天 (04-08)</div>
+            <div class="history-rate rate-good">67%</div>
         </div>
-        
         <div class="history-item">
-            <div class="history-date">2026-04-06</div>
-            <div class="history-status">✓ 全部完成</div>
+            <div class="history-date">昨天 (04-07)</div>
+            <div class="history-rate rate-good">100%</div>
         </div>
-        
         <div class="history-item">
-            <div class="history-date">2026-04-05</div>
-            <div class="history-status" style="color: #dd5b00;">⚠ 漏服1次</div>
+            <div class="history-date">04-06</div>
+            <div class="history-rate rate-normal">67%</div>
+        </div>
+        <div class="history-item">
+            <div class="history-date">04-05</div>
+            <div class="history-rate rate-good">100%</div>
+        </div>
+        <div class="history-item">
+            <div class="history-date">04-04</div>
+            <div class="history-rate rate-bad">33%</div>
         </div>
     </div>
     
-    <script>
-        document.querySelector('.back-btn').addEventListener('click', () => location.href = 'index.html');
-        
-        // 更新进度
-        function updateProgress() {
-            const total = document.querySelectorAll('.reminder-check').length;
-            const done = document.querySelectorAll('.reminder-check.done').length;
-            const percent = Math.round((done / total) * 100);
-            
-            document.querySelector('.progress-fill').style.width = percent + '%';
-            document.querySelector('.progress-text').textContent = '已完成 ' + done + '/' + total + ' 次';
-        }
-        
-        // 服药打卡
-        document.querySelectorAll('.reminder-check').forEach(check => {
-            check.addEventListener('click', function() {
-                this.classList.toggle('done');
-                this.textContent = this.classList.contains('done') ? '✓' : '';
-                updateProgress();
-            });
-        });
-        
-        // 添加提醒
-        document.querySelector('.add-btn').addEventListener('click', () => {
-            const drugName = prompt('请输入药品名称：');
-            if (drugName) {
-                alert('已添加提醒：' + drugName + '\n完整功能将在开发阶段实现。');
-            }
-        });
-        
-        // 初始化进度
-        updateProgress();
-    </script>
+    <div class="footer-btns">
+        <div class="action-btn btn-secondary" onclick="alert('查看服药统计')">📊 统计</div>
+        <div class="action-btn btn-primary" onclick="alert('设置提醒方式')">⚙️ 设置提醒</div>
+    </div>
 </body>
 </html>
