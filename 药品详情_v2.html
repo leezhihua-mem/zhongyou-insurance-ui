@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>药品详情 - 重构版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+            background: #f0f4f8;
+            max-width: 375px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+        
+        /* 顶部 */
+        .top-section {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            padding: 16px 16px 24px;
+            color: white;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .back-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-left: 12px;
+        }
+        
+        /* 药品卡片 */
+        .drug-card {
+            background: white;
+            margin: -16px 16px 16px;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        
+        .drug-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .drug-generic {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        
+        .drug-type.rx {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFD6D6 100%);
+            color: #D32F2F;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* 警告卡片 */
+        .warning-card {
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFD6D6 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #D32F2F;
+        }
+        
+        .warning-icon { font-size: 24px; }
+        .warning-text {
+            font-size: 14px;
+            color: #D32F2F;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        /* 内容卡片 */
+        .content-card {
+            background: white;
+            margin: 16px;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f4f8;
+        }
+        
+        .section-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .section-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .section-content ul {
+            margin-left: 16px;
+            margin-top: 8px;
+        }
+        
+        .section-content li { margin-bottom: 6px; }
+        
+        /* 用法用量表格 */
+        .dosage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .dosage-table th {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .dosage-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f4f8;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .dosage-table tr:last-child td { border-bottom: none; }
+        
+        /* 提示卡片 */
+        .tip-box {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #1565C0;
+        }
+        
+        /* 不良反应标签 */
+        .reaction-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #f0f4f8;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #666;
+            margin: 4px;
+        }
+        
+        .reaction-tag.common { background: #FFF9E6; color: #F5A623; }
+        .reaction-tag.rare { background: #E8F5E9; color: #388E3C; }
+        
+        /* 疾病标签 */
+        .disease-tags { margin-top: 12px; }
+        
+        .disease-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-radius: 20px;
+            font-size: 13px;
+            color: #2E7D32;
+            margin: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .disease-tag:hover { transform: scale(1.05); }
+        
+        /* 底部按钮 */
+        .footer-btns {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 24px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .action-btn:hover { transform: scale(1.02); }
+        
+        .btn-secondary {
+            background: #f0f4f8;
+            color: #4A90E2;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="header">
+            <div class="back-btn">←</div>
+            <div class="header-title">药品详情</div>
+        </div>
+    </div>
+    
+    <div class="drug-card">
+        <div class="drug-title">氨氯地平</div>
+        <div class="drug-generic">通用名：苯磺酸氨氯地平片 | 商品名：络活喜</div>
+        <div class="drug-type rx">处方药</div>
+    </div>
+    
+    <div class="warning-card">
+        <span class="warning-icon">⚠️</span>
+        <span class="warning-text">处方药须凭医师处方购买和使用<br>请勿自行购买服用</span>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">💊</div>
+            <div class="section-title">适应症</div>
+        </div>
+        <div class="section-content">
+            <ul>
+                <li>高血压（单独或联合用药）</li>
+                <li>冠心病</li>
+                <li>慢性稳定性心绞痛</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">📋</div>
+            <div class="section-title">用法用量</div>
+        </div>
+        <table class="dosage-table">
+            <tr><th>人群</th><th>剂量</th><th>频次</th></tr>
+            <tr><td>成人高血压</td><td>5mg/次</td><td>每日1次</td></tr>
+            <tr><td>成人心绞痛</td><td>5-10mg/次</td><td>每日1次</td></tr>
+            <tr><td>老年人</td><td>2.5mg起</td><td>每日1次</td></tr>
+        </table>
+        <div class="tip-box">
+            💡 建议每天同一时间服用，可空腹或餐后服用
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">🚫</div>
+            <div class="section-title">禁忌事项</div>
+        </div>
+        <div class="section-content">
+            <ul>
+                <li><strong>禁用：</strong>对本品过敏者、严重低血压、休克</li>
+                <li><strong>慎用：</strong>肝功能不全、心力衰竭患者</li>
+                <li><strong>孕妇：</strong>禁用</li>
+                <li><strong>哺乳期：</strong>暂停哺乳</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">⚡</div>
+            <div class="section-title">不良反应</div>
+        </div>
+        <div class="disease-tags">
+            <span class="reaction-tag common">头痛（常见）</span>
+            <span class="reaction-tag common">水肿（常见）</span>
+            <span class="reaction-tag common">面部潮红（常见）</span>
+            <span class="reaction-tag">头晕（偶见）</span>
+            <span class="reaction-tag">恶心（偶见）</span>
+            <span class="reaction-tag rare">心悸（罕见）</span>
+        </div>
+        <div class="tip-box">
+            ⚠️ 如出现严重不良反应，请立即停药并就医
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">📝</div>
+            <div class="section-title">注意事项</div>
+        </div>
+        <div class="section-content">
+            <ul>
+                <li>避免与葡萄柚汁同服</li>
+                <li>服药期间避免驾驶或操作机械</li>
+                <li>定期监测血压</li>
+                <li>不可突然停药，需逐渐减量</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">🏷️</div>
+            <div class="section-title">适用疾病</div>
+        </div>
+        <div class="disease-tags">
+            <span class="disease-tag">高血压</span>
+            <span class="disease-tag">冠心病</span>
+            <span class="disease-tag">心绞痛</span>
+        </div>
+    </div>
+    
+    <div class="footer-btns">
+        <div class="action-btn btn-secondary">📚 相关疾病</div>
+        <div class="action-btn btn-primary">💊 添加用药计划</div>
+    </div>
+    
+    <script>
+        document.querySelector('.back-btn').onclick = () => history.back();
+        document.querySelector('.btn-primary').onclick = () => alert('已添加到用药计划');
+        document.querySelector('.btn-secondary').onclick = () => alert('查看相关疾病');
+    </script>
+</body>
+</html>

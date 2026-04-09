@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>疾病详情 - Skill版</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: #0A0A0A;
+            max-width: 375px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+            color: #F5F5F5;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255,107,107,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(78,205,196,0.08) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .top-section {
+            padding: 24px;
+            animation: fadeSlideDown 0.6s ease-out;
+        }
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            border-color: #FF6B6B;
+            transform: rotate(-10deg);
+        }
+        
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+        
+        .share-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        .share-btn:hover {
+            border-color: #4ECDC4;
+            background: rgba(78,205,196,0.1);
+        }
+        
+        .disease-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin: 24px;
+            border-radius: 24px;
+            padding: 32px;
+            animation: fadeIn 0.5s ease-out 0.1s both;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .disease-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: #F5F5F5;
+            margin-bottom: 8px;
+            letter-spacing: -2px;
+        }
+        
+        .disease-category {
+            display: inline-block;
+            padding: 8px 18px;
+            background: rgba(78,205,196,0.15);
+            border: 1px solid rgba(78,205,196,0.3);
+            color: #4ECDC4;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .content-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            margin: 24px;
+            border-radius: 20px;
+            padding: 24px;
+            animation: fadeIn 0.5s ease-out both;
+        }
+        .content-card:nth-child(4) { animation-delay: 0.2s; }
+        .content-card:nth-child(5) { animation-delay: 0.3s; }
+        .content-card:nth-child(6) { animation-delay: 0.4s; }
+        .content-card:nth-child(7) { animation-delay: 0.5s; }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #F5F5F5;
+        }
+        
+        .section-content {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+        .section-content ul {
+            margin-left: 20px;
+            margin-top: 12px;
+        }
+        .section-content li { margin-bottom: 8px; }
+        
+        .symptom-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 12px;
+            margin: 4px;
+            background: rgba(255,107,107,0.15);
+            color: #FF6B6B;
+        }
+        
+        .drug-tag {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 24px;
+            font-size: 13px;
+            color: #F5F5F5;
+            margin: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .drug-tag:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #4ECDC4;
+            transform: scale(1.05);
+        }
+        
+        .footer-btns {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: rgba(10,10,10,0.9);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 20px 24px 24px;
+            display: flex;
+            gap: 16px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 24px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .action-btn:hover { transform: translateY(-2px); }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #F5F5F5;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 24px rgba(255,107,107,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="header">
+            <div class="back-btn">←</div>
+            <div class="header-title">疾病详情</div>
+            <div class="share-btn">→</div>
+        </div>
+    </div>
+    
+    <div class="disease-card">
+        <div class="disease-title">高血压</div>
+        <div class="disease-category">心血管疾病</div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">◇</div>
+            <div class="section-title">疾病概述</div>
+        </div>
+        <div class="section-content">
+            高血压是以体循环动脉血压持续升高为主要特征的临床综合征。长期高血压可导致心脏、大脑、肾脏等器官损害。
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">⚡</div>
+            <div class="section-title">常见症状</div>
+        </div>
+        <div style="margin-top: 16px;">
+            <span class="symptom-tag">头痛</span>
+            <span class="symptom-tag">头晕</span>
+            <span class="symptom-tag">心悸</span>
+            <span class="symptom-tag">胸闷</span>
+            <span class="symptom-tag">乏力</span>
+            <span class="symptom-tag">失眠</span>
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">●</div>
+            <div class="section-title">常用药品</div>
+        </div>
+        <div style="margin-top: 16px;">
+            <span class="drug-tag">氨氯地平</span>
+            <span class="drug-tag">厄贝沙坦</span>
+            <span class="drug-tag">硝苯地平</span>
+            <span class="drug-tag">缬沙坦</span>
+        </div>
+    </div>
+    
+    <div class="content-card">
+        <div class="section-header">
+            <div class="section-icon">◎</div>
+            <div class="section-title">诊断标准</div>
+        </div>
+        <div class="section-content">
+            <ul>
+                <li>收缩压 ≥140 mmHg</li>
+                <li>舒张压 ≥90 mmHg</li>
+                <li>需在静息状态下多次测量确认</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-btns">
+        <div class="action-btn btn-secondary">相关药品</div>
+        <div class="action-btn btn-primary">AI咨询</div>
+    </div>
+    
+    <script>
+        document.querySelector('.back-btn').onclick = () => history.back();
+        document.querySelector('.share-btn').onclick = () => alert('分享功能');
+        document.querySelector('.btn-primary').onclick = () => location.href = 'AI问答_skill版.html';
+        document.querySelector('.btn-secondary').onclick = () => location.href = '药品查询_skill版.html';
+        document.querySelectorAll('.drug-tag').forEach(tag => {
+            tag.onclick = () => location.href = '药品详情_skill版.html';
+        });
+    </script>
+</body>
+</html>

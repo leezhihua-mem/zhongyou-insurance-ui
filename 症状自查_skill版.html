@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>症状自查 - Skill版</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: #0A0A0A;
+            max-width: 375px;
+            margin: 0 auto;
+            min-height: 100vh;
+            color: #F5F5F5;
+            padding-bottom: 100px;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255,107,107,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(78,205,196,0.08) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .top-section {
+            padding: 24px;
+            animation: fadeSlideDown 0.6s ease-out;
+        }
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            border-color: #FF6B6B;
+            transform: rotate(-10deg);
+        }
+        
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 900;
+            margin-left: 16px;
+            letter-spacing: -1px;
+        }
+        
+        .disclaimer {
+            background: rgba(255,107,107,0.08);
+            border-left: 3px solid #FF6B6B;
+            padding: 16px 24px;
+            margin: 24px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            animation: fadeIn 0.5s ease-out 0.1s both;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .symptom-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            padding: 24px;
+        }
+        
+        .symptom-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s;
+            animation: fadeIn 0.5s ease-out both;
+        }
+        .symptom-card:nth-child(1) { animation-delay: 0.2s; }
+        .symptom-card:nth-child(2) { animation-delay: 0.3s; }
+        .symptom-card:nth-child(3) { animation-delay: 0.4s; }
+        .symptom-card:nth-child(4) { animation-delay: 0.5s; }
+        .symptom-card:nth-child(5) { animation-delay: 0.6s; }
+        .symptom-card:nth-child(6) { animation-delay: 0.7s; }
+        
+        .symptom-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+        }
+        
+        .symptom-card.selected {
+            background: rgba(255,107,107,0.15);
+            border-color: #FF6B6B;
+        }
+        
+        .symptom-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: linear-gradient(135deg, rgba(255,107,107,0.2) 0%, rgba(78,205,196,0.2) 100%);
+        }
+        
+        .symptom-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #F5F5F5;
+        }
+        
+        .footer-btns {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: rgba(10,10,10,0.9);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 20px 24px 24px;
+            display: flex;
+            gap: 16px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 24px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .action-btn:hover { transform: translateY(-2px); }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #F5F5F5;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 24px rgba(255,107,107,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="header">
+            <div class="back-btn">←</div>
+            <div class="header-title">症状自查</div>
+        </div>
+    </div>
+    
+    <div class="disclaimer">
+        ⚠️ 本功能仅供参考，不能替代医师诊断。如有严重症状请及时就医。
+    </div>
+    
+    <div class="symptom-grid">
+        <div class="symptom-card">
+            <div class="symptom-icon">◉</div>
+            <div class="symptom-title">头痛</div>
+        </div>
+        
+        <div class="symptom-card">
+            <div class="symptom-icon">◎</div>
+            <div class="symptom-title">发热</div>
+        </div>
+        
+        <div class="symptom-card">
+            <div class="symptom-icon">◇</div>
+            <div class="symptom-title">咳嗽</div>
+        </div>
+        
+        <div class="symptom-card">
+            <div class="symptom-icon">●</div>
+            <div class="symptom-title">胸闷</div>
+        </div>
+        
+        <div class="symptom-card">
+            <div class="symptom-icon">⏱</div>
+            <div class="symptom-title">失眠</div>
+        </div>
+        
+        <div class="symptom-card">
+            <div class="symptom-icon">≡</div>
+            <div class="symptom-title">胃痛</div>
+        </div>
+    </div>
+    
+    <div class="footer-btns">
+        <div class="action-btn btn-secondary">清空选择</div>
+        <div class="action-btn btn-primary">开始分析</div>
+    </div>
+    
+    <script>
+        document.querySelector('.back-btn').onclick = () => location.href = '首页_skill版.html';
+        
+        document.querySelectorAll('.symptom-card').forEach(card => {
+            card.onclick = function() {
+                this.classList.toggle('selected');
+            };
+        });
+        
+        document.querySelector('.btn-secondary').onclick = () => {
+            document.querySelectorAll('.symptom-card').forEach(c => c.classList.remove('selected'));
+        };
+        
+        document.querySelector('.btn-primary').onclick = () => {
+            const selected = document.querySelectorAll('.symptom-card.selected');
+            if (selected.length > 0) {
+                location.href = '疾病详情_skill版.html';
+            } else {
+                alert('请选择至少一个症状');
+            }
+        };
+    </script>
+</body>
+</html>

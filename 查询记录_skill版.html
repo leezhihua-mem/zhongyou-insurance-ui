@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查询记录 - Skill版</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: #0A0A0A;
+            max-width: 375px;
+            margin: 0 auto;
+            min-height: 100vh;
+            color: #F5F5F5;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255,107,107,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(78,205,196,0.08) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .top-section {
+            padding: 24px;
+            animation: fadeSlideDown 0.6s ease-out;
+        }
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            border-color: #FF6B6B;
+            transform: rotate(-10deg);
+        }
+        
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+        
+        .clear-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .clear-btn:hover {
+            border-color: #FF6B6B;
+            color: #FF6B6B;
+        }
+        
+        .history-list {
+            padding: 24px;
+            padding-bottom: 100px;
+        }
+        
+        .date-group {
+            margin-bottom: 32px;
+            animation: fadeIn 0.5s ease-out both;
+        }
+        .date-group:nth-child(1) { animation-delay: 0.2s; }
+        .date-group:nth-child(2) { animation-delay: 0.3s; }
+        .date-group:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .date-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 16px;
+            padding-left: 8px;
+            border-left: 3px solid #4ECDC4;
+        }
+        
+        .history-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .history-item:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.15);
+            transform: translateX(8px);
+        }
+        
+        .history-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .icon-drug {
+            background: rgba(78,205,196,0.15);
+            color: #4ECDC4;
+        }
+        .icon-disease {
+            background: rgba(255,107,107,0.15);
+            color: #FF6B6B;
+        }
+        .icon-symptom {
+            background: rgba(255,255,255,0.08);
+            color: #F5F5F5;
+        }
+        
+        .history-content {
+            flex: 1;
+        }
+        
+        .history-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #F5F5F5;
+            margin-bottom: 4px;
+        }
+        
+        .history-time {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        .arrow {
+            font-size: 16px;
+            color: rgba(255,255,255,0.2);
+        }
+        
+        .footer-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            max-width: 375px;
+            margin: 0 auto;
+            background: rgba(10,10,10,0.9);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-around;
+            padding: 16px 0 24px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .nav-item {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-item:hover { transform: scale(1.15); }
+        
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 6px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            font-size: 16px;
+        }
+        .nav-item:hover .nav-icon { background: rgba(255,255,255,0.1); }
+        .nav-item.active .nav-icon { background: linear-gradient(135deg, #FF6B6B, #4ECDC4); }
+        
+        .nav-text {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+        }
+        .nav-item.active .nav-text { color: #F5F5F5; }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="header">
+            <div class="back-btn">←</div>
+            <div class="header-title">查询记录</div>
+            <div class="clear-btn">清空</div>
+        </div>
+    </div>
+    
+    <div class="history-list">
+        <div class="date-group">
+            <div class="date-title">今天</div>
+            
+            <div class="history-item">
+                <div class="history-icon icon-drug">●</div>
+                <div class="history-content">
+                    <div class="history-title">氨氯地平片</div>
+                    <div class="history-time">药品查询 · 10:30</div>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-icon icon-disease">◇</div>
+                <div class="history-content">
+                    <div class="history-title">高血压</div>
+                    <div class="history-time">疾病百科 · 09:15</div>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+        </div>
+        
+        <div class="date-group">
+            <div class="date-title">昨天</div>
+            
+            <div class="history-item">
+                <div class="history-icon icon-symptom">◎</div>
+                <div class="history-content">
+                    <div class="history-title">头痛、发热</div>
+                    <div class="history-time">症状自查 · 15:20</div>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-icon icon-drug">●</div>
+                <div class="history-content">
+                    <div class="history-title">布洛芬缓释胶囊</div>
+                    <div class="history-time">药品查询 · 14:05</div>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-nav">
+        <div class="nav-item">
+            <div class="nav-icon">⌂</div>
+            <div class="nav-text">首页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">◎</div>
+            <div class="nav-text">查询</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">⏱</div>
+            <div class="nav-text">提醒</div>
+        </div>
+        <div class="nav-item active">
+            <div class="nav-icon">◉</div>
+            <div class="nav-text">我的</div>
+        </div>
+    </div>
+    
+    <script>
+        document.querySelector('.back-btn').onclick = () => location.href = '首页_skill版.html';
+        document.querySelector('.clear-btn').onclick = () => {
+            if (confirm('确定清空所有记录？')) {
+                document.querySelector('.history-list').innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.3);padding:60px;">暂无记录</p>';
+            }
+        };
+        document.querySelectorAll('.history-item').forEach(item => {
+            item.onclick = function() {
+                const title = this.querySelector('.history-title').textContent;
+                if (['氨氯地平片', '布洛芬缓释胶囊'].includes(title)) {
+                    location.href = '药品详情_skill版.html';
+                } else if (title === '高血压') {
+                    location.href = '疾病详情_skill版.html';
+                } else {
+                    location.href = '症状自查_skill版.html';
+                }
+            };
+        });
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.onclick = function() {
+                const text = this.querySelector('.nav-text').textContent;
+                if (text === '首页') location.href = '首页_skill版.html';
+                if (text === '查询') location.href = '症状自查_skill版.html';
+                if (text === '提醒') location.href = '用药提醒_skill版.html';
+            };
+        });
+    </script>
+</body>
+</html>
