@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>用药与疾病知识手册 - Skill版</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="colors.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'DM Sans', -apple-system, sans-serif;
-            background: #0A0A0A;
+            background: var(--bg-secondary);
             max-width: 375px;
             margin: 0 auto;
             min-height: 100vh;
-            color: #F5F5F5;
+            color: var(--text-primary);
             overflow-x: hidden;
         }
         body::before {
@@ -28,6 +29,7 @@
         .header {
             padding: 40px 24px 48px;
             text-align: center;
+            background: var(--bg-primary);
             animation: fadeSlideDown 0.6s ease-out;
         }
         @keyframes fadeSlideDown {
@@ -41,52 +43,54 @@
             font-weight: 900;
             margin-bottom: 8px;
             letter-spacing: -1px;
+            color: var(--color-primary);
         }
         
         .header-subtitle {
             font-size: 14px;
-            color: rgba(255,255,255,0.5);
+            color: var(--text-secondary);
         }
         
         .disclaimer {
-            background: rgba(255,107,107,0.08);
-            border-left: 3px solid #FF6B6B;
+            background: var(--bg-light-yellow);
+            border-left: 3px solid var(--color-warning);
             padding: 16px 24px;
             margin: 24px;
             font-size: 13px;
-            color: rgba(255,255,255,0.8);
+            color: var(--text-secondary);
             line-height: 1.5;
+            border-radius: var(--radius-medium);
             animation: fadeIn 0.5s ease-out 0.1s both;
         }
         
         .search-box {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--bg-primary);
+            border: 2px solid var(--color-primary);
             border-radius: 28px;
             padding: 18px 24px;
             margin: 24px;
             display: flex;
             align-items: center;
             gap: 16px;
+            box-shadow: var(--shadow-medium);
             transition: all 0.3s;
             animation: fadeIn 0.5s ease-out 0.2s both;
         }
         .search-box:focus-within {
-            border-color: #4ECDC4;
-            background: rgba(78,205,196,0.05);
-            box-shadow: 0 0 32px rgba(78,205,196,0.2);
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-heavy);
         }
         
-        .search-icon { font-size: 22px; color: #4ECDC4; }
+        .search-icon { font-size: 22px; color: var(--color-primary); }
         .search-input {
             flex: 1;
             background: transparent;
             border: none;
             font-size: 16px;
-            color: #F5F5F5;
+            color: var(--text-primary);
         }
         .search-input:focus { outline: none; }
-        .search-input::placeholder { color: rgba(255,255,255,0.3); }
+        .search-input::placeholder { color: var(--text-tertiary); }
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -101,7 +105,7 @@
         .section-title {
             font-size: 16px;
             font-weight: 700;
-            color: #F5F5F5;
+            color: var(--text-primary);
             margin-bottom: 20px;
         }
         
@@ -112,12 +116,13 @@
         }
         
         .module-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
             border-radius: 20px;
             padding: 24px;
             text-align: center;
             cursor: pointer;
+            box-shadow: var(--shadow-light);
             transition: all 0.4s;
             animation: fadeIn 0.5s ease-out both;
         }
@@ -129,9 +134,10 @@
         .module-card:nth-child(6) { animation-delay: 0.9s; }
         
         .module-card:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.15);
+            background: var(--bg-primary);
+            border-color: var(--color-primary);
             transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
         }
         
         .module-icon {
@@ -143,19 +149,20 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            background: linear-gradient(135deg, rgba(255,107,107,0.2) 0%, rgba(78,205,196,0.2) 100%);
+            background: var(--bg-light-blue);
+            color: var(--color-primary);
         }
         
         .module-title {
             font-size: 14px;
             font-weight: 600;
-            color: #F5F5F5;
+            color: var(--text-primary);
             margin-bottom: 6px;
         }
         
         .module-desc {
             font-size: 12px;
-            color: rgba(255,255,255,0.5);
+            color: var(--text-secondary);
         }
         
         .hot-queries {
@@ -165,17 +172,18 @@
         }
         
         .hot-list {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
             border-radius: 20px;
             padding: 20px;
+            box-shadow: var(--shadow-light);
         }
         
         .hot-item {
             display: flex;
             align-items: center;
             padding: 16px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid var(--border-light);
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -192,14 +200,14 @@
             font-weight: 700;
             margin-right: 16px;
         }
-        .hot-rank.top1 { background: #FF6B6B; color: white; }
-        .hot-rank.top2 { background: #4ECDC4; color: white; }
-        .hot-rank.top3 { background: linear-gradient(135deg, #FF6B6B, #4ECDC4); color: white; }
-        .hot-rank.normal { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+        .hot-rank.top1 { background: var(--color-primary); color: white; }
+        .hot-rank.top2 { background: var(--color-secondary); color: white; }
+        .hot-rank.top3 { background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); color: white; }
+        .hot-rank.normal { background: var(--bg-secondary); color: var(--text-tertiary); }
         
         .hot-text {
             font-size: 14px;
-            color: rgba(255,255,255,0.8);
+            color: var(--text-primary);
         }
         
         .footer-nav {
@@ -207,12 +215,12 @@
             bottom: 0; left: 0; right: 0;
             max-width: 375px;
             margin: 0 auto;
-            background: rgba(10,10,10,0.9);
-            border-top: 1px solid rgba(255,255,255,0.08);
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-light);
             display: flex;
             justify-content: space-around;
             padding: 16px 0 24px;
-            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-medium);
         }
         
         .nav-item {
@@ -230,17 +238,18 @@
             justify-content: center;
             margin: 0 auto 6px;
             border-radius: 12px;
-            background: rgba(255,255,255,0.05);
+            background: var(--bg-secondary);
             font-size: 16px;
+            color: var(--text-tertiary);
         }
-        .nav-item:hover .nav-icon { background: rgba(255,255,255,0.1); }
-        .nav-item.active .nav-icon { background: linear-gradient(135deg, #FF6B6B, #4ECDC4); }
+        .nav-item:hover .nav-icon { background: var(--bg-light-blue); color: var(--color-primary); }
+        .nav-item.active .nav-icon { background: var(--color-primary); color: var(--text-white); }
         
         .nav-text {
             font-size: 11px;
-            color: rgba(255,255,255,0.4);
+            color: var(--text-tertiary);
         }
-        .nav-item.active .nav-text { color: #F5F5F5; }
+        .nav-item.active .nav-text { color: var(--color-primary); }
     </style>
 </head>
 <body>
