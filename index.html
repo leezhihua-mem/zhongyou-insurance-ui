@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用药与疾病知识手册 - Skill版</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>中邮保险健康平台 - 药品查询系统</title>
     <link rel="stylesheet" href="colors.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,400 +14,129 @@
             margin: 0 auto;
             min-height: 100vh;
             color: var(--text-primary);
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
         }
         body::before {
-            content: '';
+            content: "";
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(255,107,107,0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(78,205,196,0.08) 0%, transparent 50%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(74,144,226,0.05) 0%, rgba(126,211,178,0.05) 100%);
             z-index: -1;
         }
-        
-        .header {
-            padding: 40px 24px 48px;
-            text-align: center;
-            background: var(--bg-primary);
-            animation: fadeSlideDown 0.6s ease-out;
+        .logo {
+            font-size: 48px;
+            margin-bottom: 24px;
+            animation: pulse 2s ease-in-out infinite;
         }
-        @keyframes fadeSlideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
-        
-        .header-title {
-            font-family: 'Playfair Display', serif;
+        .title {
             font-size: 32px;
             font-weight: 900;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            text-align: center;
             letter-spacing: -1px;
-            color: var(--color-primary);
         }
-        
-        .header-subtitle {
+        .subtitle {
             font-size: 14px;
             color: var(--text-secondary);
-        }
-        
-        .disclaimer {
-            background: var(--bg-light-yellow);
-            border-left: 3px solid var(--color-warning);
-            padding: 16px 24px;
-            margin: 24px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            border-radius: var(--radius-medium);
-            animation: fadeIn 0.5s ease-out 0.1s both;
-        }
-        
-        .search-box {
-            background: var(--bg-primary);
-            border: 2px solid var(--color-primary);
-            border-radius: 28px;
-            padding: 18px 24px;
-            margin: 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: var(--shadow-medium);
-            transition: all 0.3s;
-            animation: fadeIn 0.5s ease-out 0.2s both;
-        }
-        .search-box:focus-within {
-            border-color: var(--color-primary);
-            box-shadow: var(--shadow-heavy);
-        }
-        
-        .search-icon { font-size: 22px; color: var(--color-primary); }
-        .search-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            font-size: 16px;
-            color: var(--text-primary);
-        }
-        .search-input:focus { outline: none; }
-        .search-input::placeholder { color: var(--text-tertiary); }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .modules {
-            padding: 24px;
-            animation: fadeIn 0.5s ease-out 0.3s both;
-        }
-        
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-        }
-        
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        
-        .module-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 24px;
+            margin-bottom: 48px;
             text-align: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-light);
-            transition: all 0.4s;
-            animation: fadeIn 0.5s ease-out both;
         }
-        .module-card:nth-child(1) { animation-delay: 0.4s; }
-        .module-card:nth-child(2) { animation-delay: 0.5s; }
-        .module-card:nth-child(3) { animation-delay: 0.6s; }
-        .module-card:nth-child(4) { animation-delay: 0.7s; }
-        .module-card:nth-child(5) { animation-delay: 0.8s; }
-        .module-card:nth-child(6) { animation-delay: 0.9s; }
-        
-        .module-card:hover {
-            background: var(--bg-primary);
-            border-color: var(--color-primary);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-medium);
-        }
-        
-        .module-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 16px;
-            border-radius: 16px;
+        .stats {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            background: var(--bg-light-blue);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 36px;
+            font-weight: 900;
             color: var(--color-primary);
         }
-        
-        .module-title {
-            font-size: 14px;
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+        .btn {
+            display: block;
+            padding: 18px 32px;
+            border-radius: 24px;
+            text-align: center;
+            font-size: 16px;
             font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 6px;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
         }
-        
-        .module-desc {
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,107,107,0.3);
+        }
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+        .btn-secondary:hover {
+            border-color: var(--color-primary);
+            background: var(--bg-light-blue);
+        }
+        .version {
+            margin-top: 48px;
             font-size: 12px;
             color: var(--text-secondary);
         }
-        
-        .hot-queries {
-            padding: 24px;
-            padding-bottom: 120px;
-            animation: fadeIn 0.5s ease-out 1s both;
-        }
-        
-        .hot-list {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: var(--shadow-light);
-        }
-        
-        .hot-item {
-            display: flex;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border-light);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .hot-item:last-child { border-bottom: none; }
-        .hot-item:hover { transform: translateX(8px); }
-        
-        .hot-rank {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            text-align: center;
-            line-height: 28px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-right: 16px;
-        }
-        .hot-rank.top1 { background: var(--color-primary); color: white; }
-        .hot-rank.top2 { background: var(--color-secondary); color: white; }
-        .hot-rank.top3 { background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); color: white; }
-        .hot-rank.normal { background: var(--bg-secondary); color: var(--text-tertiary); }
-        
-        .hot-text {
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-        
-        .footer-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            max-width: 375px;
-            margin: 0 auto;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border-light);
-            display: flex;
-            justify-content: space-around;
-            padding: 16px 0 24px;
-            box-shadow: var(--shadow-medium);
-        }
-        
-        .nav-item {
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .nav-item:hover { transform: scale(1.15); }
-        
-        .nav-icon {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 6px;
-            border-radius: 12px;
-            background: var(--bg-secondary);
-            font-size: 16px;
-            color: var(--text-tertiary);
-        }
-        .nav-item:hover .nav-icon { background: var(--bg-light-blue); color: var(--color-primary); }
-        .nav-item.active .nav-icon { background: var(--color-primary); color: var(--text-white); }
-        
-        .nav-text {
-            font-size: 11px;
-            color: var(--text-tertiary);
-        }
-        .nav-item.active .nav-text { color: var(--color-primary); }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-title">用药与疾病知识手册</div>
-        <div class="header-subtitle">您的健康查询助手</div>
-    </div>
+    <div class="logo">💊</div>
+    <div class="title">中邮保险健康平台</div>
+    <div class="subtitle">智能药品查询系统 · 家庭健康助手</div>
     
-    <div class="disclaimer">
-        ⚠ 本资料仅供参考，不能替代专业医师的诊疗建议。如有不适，请及时就医。
-    </div>
-    
-    <div class="search-box">
-        <span class="search-icon">⊙</span>
-        <input type="text" class="search-input" placeholder="搜索疾病、症状或药品">
-    </div>
-    
-    <div class="modules">
-        <div class="section-title">核心功能</div>
-        <div class="module-grid">
-            <div class="module-card">
-                <div class="module-icon">◎</div>
-                <div class="module-title">症状自查</div>
-                <div class="module-desc">智能分析可能病因</div>
-            </div>
-            <div class="module-card">
-                <div class="module-icon">◇</div>
-                <div class="module-title">疾病百科</div>
-                <div class="module-desc">200+疾病知识库</div>
-            </div>
-            <div class="module-card">
-                <div class="module-icon">●</div>
-                <div class="module-title">药品查询</div>
-                <div class="module-desc">300+常用药品</div>
-            </div>
-            <div class="module-card">
-                <div class="module-icon">⏱</div>
-                <div class="module-title">用药提醒</div>
-                <div class="module-desc">服药计划管理</div>
-            </div>
-            <div class="module-card">
-                <div class="module-icon">◉</div>
-                <div class="module-title">AI问答</div>
-                <div class="module-desc">智能健康助手</div>
-            </div>
-            <div class="module-card">
-                <div class="module-icon">≡</div>
-                <div class="module-title">查询记录</div>
-                <div class="module-desc">历史查询回顾</div>
-            </div>
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-number">260</div>
+            <div class="stat-label">药品数量</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">7</div>
+            <div class="stat-label">药品分类</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">12</div>
+            <div class="stat-label">信息字段</div>
         </div>
     </div>
     
-    <div class="hot-queries">
-        <div class="section-title">热门查询 TOP10</div>
-        <div class="hot-list">
-            <div class="hot-item">
-                <div class="hot-rank top1">1</div>
-                <div class="hot-text">高血压症状及治疗</div>
-            </div>
-            <div class="hot-item">
-                <div class="hot-rank top2">2</div>
-                <div class="hot-text">糖尿病患者饮食禁忌</div>
-            </div>
-            <div class="hot-item">
-                <div class="hot-rank top3">3</div>
-                <div class="hot-text">感冒发烧吃什么药</div>
-            </div>
-            <div class="hot-item">
-                <div class="hot-rank normal">4</div>
-                <div class="hot-text">头痛原因分析</div>
-            </div>
-            <div class="hot-item">
-                <div class="hot-rank normal">5</div>
-                <div class="hot-text">胃溃疡饮食调理</div>
-            </div>
-        </div>
+    <div class="btn-group">
+        <a href="药品查询_动态版.html" class="btn btn-primary">🔍 开始查询药品</a>
+        <a href="首页_skill版.html" class="btn btn-secondary">🏠 查看完整原型</a>
     </div>
     
-    <div class="footer-nav">
-        <div class="nav-item active">
-            <div class="nav-icon">⌂</div>
-            <div class="nav-text">首页</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">◎</div>
-            <div class="nav-text">查询</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">⏱</div>
-            <div class="nav-text">提醒</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">◉</div>
-            <div class="nav-text">我的</div>
-        </div>
-    </div>
-    
-    <script>
-        // 功能卡片点击
-        document.querySelectorAll('.module-card').forEach(card => {
-            card.onclick = function() {
-                const title = this.querySelector('.module-title').textContent;
-                const pageMap = {
-                    '症状自查': '症状自查_skill版.html',
-                    '疾病百科': '疾病百科_skill版.html',
-                    '药品查询': '药品查询_skill版.html',
-                    '用药提醒': '用药提醒_skill版.html',
-                    'AI问答': 'AI问答_skill版.html',
-                    '查询记录': '查询记录_skill版.html'
-                };
-                if (pageMap[title]) location.href = pageMap[title];
-            };
-        });
-        
-        // 热门查询点击
-        document.querySelectorAll('.hot-item').forEach(item => {
-            item.onclick = function() {
-                const text = this.querySelector('.hot-text').textContent;
-                // 记录查询
-                addQueryRecord(text, '疾病');
-                location.href = '疾病详情_skill版.html';
-            };
-        });
-        
-        // 搜索功能
-        document.querySelector('.search-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const keyword = this.value.trim();
-                if (keyword) {
-                    // 记录查询
-                    addQueryRecord(keyword, '搜索');
-                    // 跳转到药品查询页
-                    location.href = '药品查询_skill版.html?search=' + encodeURIComponent(keyword);
-                }
-            }
-        });
-        
-        // 导航点击
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.onclick = function() {
-                const text = this.querySelector('.nav-text').textContent;
-                if (text === '首页') return;
-                if (text === '查询') location.href = '症状自查_skill版.html';
-                if (text === '提醒') location.href = '用药提醒_skill版.html';
-                if (text === '我的') location.href = '查询记录_skill版.html';
-            };
-        });
-        
-        // 查询记录工具
-        function addQueryRecord(name, type) {
-            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
-            records.unshift({
-                name: name,
-                type: type,
-                time: new Date().toISOString()
-            });
-            localStorage.setItem('queryRecords', JSON.stringify(records.slice(0, 50)));
-        }
-    </script>
+    <div class="version">v1.0 · 2026-04-10</div>
 </body>
 </html>
