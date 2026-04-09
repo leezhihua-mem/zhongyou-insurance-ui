@@ -49,7 +49,7 @@
       "id": "med-007",
       "title": "整理皮肤科及过敏药品（20种）",
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "description": "收集整理皮肤科及过敏常用药品，包括：抗组胺药、外用糖皮质激素、抗真菌外用药、抗病毒外用药、皮肤保护剂。写入文件：data/medicines-dermatology.json"
     },
     {
