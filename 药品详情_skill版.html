@@ -450,8 +450,56 @@
     
     <script>
         document.querySelector('.back-btn').onclick = () => history.back();
-        document.querySelector('.btn-primary').onclick = () => alert('已添加到用药计划');
-        document.querySelector('.btn-secondary').onclick = () => alert('查看相关疾病');
+        document.querySelector('.btn-primary').onclick = () => {
+            const name = document.querySelector('.drug-title').textContent;
+            showToast('已添加到用药提醒');
+            setTimeout(() => {
+                location.href = '用药提醒_skill版.html';
+            }, 1000);
+        };
+        document.querySelector('.btn-secondary').onclick = () => {
+            location.href = '疾病百科_skill版.html';
+        };
+        
+        // 适用疾病点击
+        document.querySelectorAll('.disease-tag').forEach(tag => {
+            tag.onclick = function() {
+                const name = this.textContent;
+                addQueryRecord(name, '疾病');
+                location.href = '疾病详情_skill版.html';
+            };
+        });
+        
+        // 查询记录工具
+        function addQueryRecord(name, type) {
+            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
+            records.unshift({
+                name: name,
+                type: type,
+                time: new Date().toISOString()
+            });
+            localStorage.setItem('queryRecords', JSON.stringify(records.slice(0, 50)));
+        }
+        
+        // Toast提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                z-index: 2000;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
     </script>
 </body>
 </html>
