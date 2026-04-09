@@ -14,7 +14,7 @@
       "id": "med-002",
       "title": "整理糖尿病用药（40种）",
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "description": "收集整理糖尿病常用药品，包括：胰岛素（速效、短效、中效、长效、预混）、口服降糖药（双胍类、磺脲类、格列奈类、α-糖苷酶抑制剂、噻唑烷二酮类、DPP-4抑制剂、SGLT2抑制剂）。每条记录包含完整药品信息。写入文件：data/medicines-diabetes.json"
     },
     {
