@@ -1,0 +1,137 @@
+/* 用药手册配色系统 - 医疗主题 */
+
+:root {
+    /* 主色调 */
+    --color-primary: #4A90E2;      /* 医疗蓝 */
+    --color-secondary: #7ED3B2;    /* 健康绿 */
+
+    /* 背景色 */
+    --bg-primary: #FFFFFF;         /* 白色 */
+    --bg-secondary: #F5F7FA;       /* 浅灰 */
+    --bg-light-blue: #E8F4FD;      /* 浅蓝（用法用量突出） */
+    --bg-light-yellow: #FFF8E1;    /* 浅黄（注意事项） */
+    --bg-light-green: #E8F5E9;     /* 浅绿（治疗建议） */
+    --bg-light-red: #FFEBEE;       /* 浅红（症状警告） */
+
+    /* 文字色 */
+    --text-primary: #333333;       /* 主文字 */
+    --text-secondary: #666666;     /* 次要文字 */
+    --text-tertiary: #999999;      /* 辅助文字 */
+    --text-white: #FFFFFF;         /* 白色文字（按钮上） */
+
+    /* 阴影色 */
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 6px 16px rgba(0, 0, 0, 0.15);
+
+    /* 功能色 */
+    --color-success: #7ED3B2;      /* 成功 */
+    --color-warning: #FFB347;      /* 警告 */
+    --color-error: #FF6B6B;        /* 错误 */
+
+    /* 边框色 */
+    --border-light: #E0E0E0;
+    --border-primary: #4A90E2;
+
+    /* 圆角 */
+    --radius-small: 4px;
+    --radius-medium: 8px;
+    --radius-large: 12px;
+}
+
+/* 通用卡片样式 */
+.card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow-light);
+    padding: 16px;
+    margin: 8px 0;
+}
+
+.card-highlighted {
+    box-shadow: var(--shadow-medium);
+}
+
+/* 通用按钮样式 */
+.btn-primary {
+    background: var(--color-primary);
+    color: var(--text-white);
+    border: none;
+    border-radius: var(--radius-medium);
+    padding: 12px 24px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #3A7BD2;
+    box-shadow: var(--shadow-medium);
+}
+
+/* 通用标签样式 */
+.tag-primary {
+    background: var(--color-primary);
+    color: var(--text-white);
+    border-radius: var(--radius-small);
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.tag-secondary {
+    background: var(--color-secondary);
+    color: var(--text-white);
+    border-radius: var(--radius-small);
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* 通用输入框样式 */
+.input-primary {
+    background: var(--bg-primary);
+    border: 2px solid var(--border-primary);
+    border-radius: var(--radius-medium);
+    padding: 12px 16px;
+    box-shadow: var(--shadow-medium);
+    font-size: 16px;
+}
+
+.input-primary:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-heavy);
+}
+
+/* 通用Icon颜色 */
+.icon-primary {
+    color: var(--color-primary);
+}
+
+.icon-secondary {
+    color: var(--color-secondary);
+}
+
+.icon-success {
+    color: var(--color-success);
+}
+
+.icon-warning {
+    color: var(--color-warning);
+}
+
+.icon-error {
+    color: var(--color-error);
+}
+
+/* 通用文字样式 */
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-tertiary {
+    color: var(--text-tertiary);
+}
