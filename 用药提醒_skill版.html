@@ -302,17 +302,152 @@
     
     <script>
         document.querySelector('.back-btn').onclick = () => location.href = '首页_skill版.html';
-        document.querySelector('.add-btn').onclick = () => alert('添加提醒');
-        document.querySelectorAll('.reminder-card').forEach(card => {
-            card.onclick = () => alert('编辑提醒');
-        });
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.onclick = function() {
-                const text = this.querySelector('.nav-text').textContent;
-                if (text === '首页') location.href = '首页_skill版.html';
-                if (text === '查询') location.href = '症状自查_skill版.html';
-            };
-        });
+        
+        // 加载提醒列表
+        loadReminders();
+        
+        function loadReminders() {
+            let reminders = JSON.parse(localStorage.getItem('medicationReminders') || '[]');
+            
+            // 默认提醒
+            if (reminders.length === 0) {
+                reminders = [
+                    {id: 1, name: '氨氯地平', time: '08:00', dose: '5mg', note: '餐后服用', completed: false},
+                    {id: 2, name: '厄贝沙坦', time: '20:00', dose: '150mg', note: '睡前服用', completed: false}
+                ];
+                localStorage.setItem('medicationReminders', JSON.stringify(reminders));
+            }
+            
+            const container = document.querySelector('.reminder-list');
+            container.innerHTML = reminders.map(r => `
+                <div class="reminder-card" data-id="${r.id}">
+                    <div class="reminder-header">
+                        <div class="drug-name">${r.name}</div>
+                        <div class="reminder-status ${r.completed ? 'status-completed' : 'status-active'}">
+                            ${r.completed ? '已完成' : '服用中'}
+                        </div>
+                    </div>
+                    <div class="reminder-time">
+                        <div class="time-item">
+                            <div class="time-icon">⏱</div>
+                            <span>每日1次</span>
+                        </div>
+                        <div class="time-item">
+                            <div class="time-icon">◉</div>
+                            <span>${r.time}</span>
+                        </div>
+                    </div>
+                    <div class="reminder-note">${r.dose}/次，${r.note}</div>
+                </div>
+            `).join('');
+            
+            // 绑定点击事件
+            container.querySelectorAll('.reminder-card').forEach(card => {
+                card.onclick = function() {
+                    const id = parseInt(this.dataset.id);
+                    showReminderActions(id);
+                };
+            });
+        }
+        
+        // 显示操作菜单
+        function showReminderActions(id) {
+            const actions = ['标记完成', '编辑', '删除', '取消'];
+            const action = prompt(`选择操作:\n1. 标记完成\n2. 编辑\n3. 删除\n4. 取消`);
+            
+            if (action === '1') {
+                toggleComplete(id);
+            } else if (action === '2') {
+                editReminder(id);
+            } else if (action === '3') {
+                deleteReminder(id);
+            }
+        }
+        
+        // 标记完成
+        function toggleComplete(id) {
+            const reminders = JSON.parse(localStorage.getItem('medicationReminders') || '[]');
+            const reminder = reminders.find(r => r.id === id);
+            if (reminder) {
+                reminder.completed = !reminder.completed;
+                localStorage.setItem('medicationReminders', JSON.stringify(reminders));
+                loadReminders();
+                showToast(reminder.completed ? '已标记完成' : '已取消完成');
+            }
+        }
+        
+        // 编辑提醒
+        function editReminder(id) {
+            const reminders = JSON.parse(localStorage.getItem('medicationReminders') || '[]');
+            const reminder = reminders.find(r => r.id === id);
+            if (reminder) {
+                const name = prompt('药品名称:', reminder.name);
+                if (name) {
+                    reminder.name = name;
+                    reminder.time = prompt('提醒时间 (如 08:00):', reminder.time) || reminder.time;
+                    reminder.dose = prompt('剂量 (如 5mg):', reminder.dose) || reminder.dose;
+                    reminder.note = prompt('备注:', reminder.note) || reminder.note;
+                    localStorage.setItem('medicationReminders', JSON.stringify(reminders));
+                    loadReminders();
+                    showToast('已更新');
+                }
+            }
+        }
+        
+        // 删除提醒
+        function deleteReminder(id) {
+            if (confirm('确定删除此提醒？')) {
+                let reminders = JSON.parse(localStorage.getItem('medicationReminders') || '[]');
+                reminders = reminders.filter(r => r.id !== id);
+                localStorage.setItem('medicationReminders', JSON.stringify(reminders));
+                loadReminders();
+                showToast('已删除');
+            }
+        }
+        
+        // 添加新提醒
+        document.querySelector('.add-btn').onclick = () => {
+            const name = prompt('药品名称:');
+            if (!name) return;
+            
+            const time = prompt('提醒时间 (如 08:00):') || '08:00';
+            const dose = prompt('剂量 (如 5mg):') || '1片';
+            const note = prompt('备注:') || '';
+            
+            const reminders = JSON.parse(localStorage.getItem('medicationReminders') || '[]');
+            reminders.push({
+                id: Date.now(),
+                name: name,
+                time: time,
+                dose: dose,
+                note: note,
+                completed: false
+            });
+            
+            localStorage.setItem('medicationReminders', JSON.stringify(reminders));
+            loadReminders();
+            showToast('已添加');
+        };
+        
+        // Toast提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                z-index: 2000;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
     </script>
 </body>
 </html>

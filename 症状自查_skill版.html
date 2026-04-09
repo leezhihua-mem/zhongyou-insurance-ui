@@ -216,24 +216,167 @@
     <script>
         document.querySelector('.back-btn').onclick = () => location.href = '首页_skill版.html';
         
+        // 症状选择
         document.querySelectorAll('.symptom-card').forEach(card => {
             card.onclick = function() {
                 this.classList.toggle('selected');
             };
         });
         
+        // 清空选择
         document.querySelector('.btn-secondary').onclick = () => {
             document.querySelectorAll('.symptom-card').forEach(c => c.classList.remove('selected'));
         };
         
+        // 症状-疾病映射
+        const symptomDiseaseMap = {
+            '头痛': ['高血压', '偏头痛', '感冒', '颈椎病'],
+            '发热': ['感冒', '流感', '肺炎', '扁桃体炎'],
+            '咳嗽': ['感冒', '支气管炎', '肺炎', '哮喘'],
+            '胸闷': ['冠心病', '心律失常', '焦虑症', '哮喘'],
+            '失眠': ['失眠症', '焦虑症', '抑郁症', '神经衰弱'],
+            '胃痛': ['胃炎', '胃溃疡', '消化不良', '胆囊炎']
+        };
+        
+        // 开始分析
         document.querySelector('.btn-primary').onclick = () => {
             const selected = document.querySelectorAll('.symptom-card.selected');
-            if (selected.length > 0) {
-                location.href = '疾病详情_skill版.html';
-            } else {
-                alert('请选择至少一个症状');
+            if (selected.length === 0) {
+                showToast('请选择至少一个症状');
+                return;
             }
+            
+            // 获取选中症状
+            const symptoms = Array.from(selected).map(card => 
+                card.querySelector('.symptom-title').textContent
+            );
+            
+            // 分析可能疾病
+            const diseaseCount = {};
+            symptoms.forEach(symptom => {
+                const diseases = symptomDiseaseMap[symptom] || [];
+                diseases.forEach(disease => {
+                    diseaseCount[disease] = (diseaseCount[disease] || 0) + 1;
+                });
+            });
+            
+            // 排序
+            const results = Object.entries(diseaseCount)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3)
+                .map(([disease, count]) => ({
+                    name: disease,
+                    probability: Math.round((count / symptoms.length) * 100)
+                }));
+            
+            // 显示结果
+            showAnalysisResult(symptoms, results);
         };
+        
+        // 显示分析结果
+        function showAnalysisResult(symptoms, results) {
+            const resultHTML = `
+                <div class="analysis-result" style="
+                    position: fixed;
+                    top: 0; left: 0; right: 0; bottom: 0;
+                    background: var(--bg-primary);
+                    z-index: 1000;
+                    padding: 24px;
+                    overflow-y: auto;
+                ">
+                    <div style="max-width: 375px; margin: 0 auto;">
+                        <div style="display: flex; align-items: center; margin-bottom: 24px;">
+                            <div class="back-btn" style="
+                                width: 44px; height: 44px;
+                                border: 2px solid var(--border-light);
+                                border-radius: 50%;
+                                display: flex; align-items: center; justify-content: center;
+                                cursor: pointer; font-size: 20px;
+                            " onclick="this.closest('.analysis-result').remove()">←</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-left: 16px; color: var(--color-primary);">分析结果</div>
+                        </div>
+                        
+                        <div style="background: var(--bg-light-blue); border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+                            <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px;">已选症状</div>
+                            <div style="font-size: 14px; color: var(--text-primary);">
+                                ${symptoms.join('、')}
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text-primary);">可能疾病</div>
+                        
+                        ${results.map((r, i) => `
+                            <div style="
+                                background: var(--bg-primary);
+                                border: 1px solid var(--border-light);
+                                border-radius: 12px;
+                                padding: 16px;
+                                margin-bottom: 12px;
+                                cursor: pointer;
+                            " onclick="location.href='疾病详情_skill版.html'">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="font-size: 16px; font-weight: 600; color: var(--text-primary);">${r.name}</div>
+                                    <div style="
+                                        background: ${i === 0 ? 'var(--color-primary)' : 'var(--bg-secondary)'};
+                                        color: ${i === 0 ? 'white' : 'var(--text-tertiary)'};
+                                        padding: 4px 12px;
+                                        border-radius: 12px;
+                                        font-size: 12px;
+                                    ">${r.probability}%</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                        
+                        <div style="
+                            background: var(--bg-light-yellow);
+                            border-left: 3px solid var(--color-warning);
+                            padding: 16px;
+                            border-radius: 8px;
+                            margin-top: 24px;
+                        ">
+                            <div style="font-size: 14px; color: var(--text-primary); line-height: 1.6;">
+                                <strong>温馨提示：</strong>本分析结果仅供参考，不能替代医师诊断。如症状持续或加重，请及时就医。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', resultHTML);
+            
+            // 记录查询
+            addQueryRecord(symptoms.join('+'), '症状自查');
+        }
+        
+        // Toast提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                z-index: 2000;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+        
+        // 查询记录工具
+        function addQueryRecord(name, type) {
+            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
+            records.unshift({
+                name: name,
+                type: type,
+                time: new Date().toISOString()
+            });
+            localStorage.setItem('queryRecords', JSON.stringify(records.slice(0, 50)));
+        }
     </script>
 </body>
 </html>

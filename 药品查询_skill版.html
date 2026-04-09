@@ -418,16 +418,94 @@
     <script>
         document.querySelector('.back-btn').onclick = () => history.back();
         
+        // 筛选标签切换
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.onclick = function() {
                 document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
+                
+                // 筛选药品
+                const filter = this.textContent;
+                filterDrugs('', filter);
             };
         });
         
-        document.querySelectorAll('.drug-item').forEach(item => {
-            item.onclick = () => location.href = '药品详情_skill版.html';
+        // 搜索过滤
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', function() {
+            const keyword = this.value.trim();
+            const activeFilter = document.querySelector('.filter-tab.active').textContent;
+            filterDrugs(keyword, activeFilter);
         });
+        
+        // 过滤函数
+        function filterDrugs(keyword, category) {
+            const items = document.querySelectorAll('.drug-item');
+            let visibleCount = 0;
+            
+            items.forEach(item => {
+                const name = item.querySelector('.drug-name').textContent;
+                const indication = item.querySelector('.drug-indication').textContent;
+                const tags = Array.from(item.querySelectorAll('.meta-tag')).map(t => t.textContent).join(' ');
+                
+                // 关键词匹配
+                const matchKeyword = !keyword || 
+                    name.includes(keyword) || 
+                    indication.includes(keyword) || 
+                    tags.includes(keyword);
+                
+                // 分类匹配
+                const matchCategory = category === '全部' || tags.includes(category);
+                
+                if (matchKeyword && matchCategory) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // 无结果提示
+            showNoResult(visibleCount === 0, keyword);
+        }
+        
+        // 无结果提示
+        function showNoResult(show, keyword) {
+            let noResult = document.querySelector('.no-result');
+            if (show) {
+                if (!noResult) {
+                    noResult = document.createElement('div');
+                    noResult.className = 'no-result';
+                    noResult.style.cssText = 'text-align:center;padding:60px;color:var(--text-tertiary);';
+                    document.querySelector('.drug-list').appendChild(noResult);
+                }
+                noResult.textContent = keyword ? `未找到"${keyword}"相关药品` : '暂无药品';
+                noResult.style.display = 'block';
+            } else if (noResult) {
+                noResult.style.display = 'none';
+            }
+        }
+        
+        // 药品点击
+        document.querySelectorAll('.drug-item').forEach(item => {
+            item.onclick = function() {
+                const name = this.querySelector('.drug-name').textContent;
+                // 记录查询
+                addQueryRecord(name, '药品');
+                location.href = '药品详情_skill版.html';
+            };
+        });
+        
+        // 查询记录工具
+        function addQueryRecord(name, type) {
+            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
+            records.unshift({
+                name: name,
+                type: type,
+                time: new Date().toISOString()
+            });
+            localStorage.setItem('queryRecords', JSON.stringify(records.slice(0, 50)));
+        }
     </script>
 </body>
 </html>

@@ -279,31 +279,113 @@
     
     <script>
         document.querySelector('.back-btn').onclick = () => location.href = '首页_skill版.html';
+        
+        // 加载查询记录
+        loadQueryRecords();
+        
+        function loadQueryRecords() {
+            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
+            const container = document.querySelector('.history-list');
+            
+            if (records.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-tertiary);padding:60px;">暂无查询记录</p>';
+                return;
+            }
+            
+            // 按日期分组
+            const grouped = groupByDate(records);
+            
+            container.innerHTML = Object.entries(grouped).map(([date, items]) => `
+                <div class="date-group">
+                    <div class="date-title">${date}</div>
+                    ${items.map(item => `
+                        <div class="history-item">
+                            <div class="history-icon icon-${item.type === '药品' ? 'drug' : item.type === '疾病' ? 'disease' : 'symptom'}">●</div>
+                            <div class="history-content">
+                                <div class="history-title">${item.name}</div>
+                                <div class="history-time">${item.type}查询 · ${formatTime(item.time)}</div>
+                            </div>
+                            <div class="arrow">→</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+            
+            // 绑定点击事件
+            container.querySelectorAll('.history-item').forEach(item => {
+                item.onclick = function() {
+                    const title = this.querySelector('.history-title').textContent;
+                    const type = this.querySelector('.history-time').textContent.includes('药品') ? 'drug' :
+                                 this.querySelector('.history-time').textContent.includes('疾病') ? 'disease' : 'symptom';
+                    
+                    if (type === 'drug') {
+                        location.href = '药品详情_skill版.html';
+                    } else {
+                        location.href = '疾病详情_skill版.html';
+                    }
+                };
+            });
+        }
+        
+        // 按日期分组
+        function groupByDate(records) {
+            const grouped = {};
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            records.forEach(record => {
+                const date = new Date(record.time);
+                let dateStr;
+                
+                if (date.toDateString() === today) {
+                    dateStr = '今天';
+                } else if (date.toDateString() === yesterday) {
+                    dateStr = '昨天';
+                } else {
+                    dateStr = date.toLocaleDateString('zh-CN', {month: 'long', day: 'numeric'});
+                }
+                
+                if (!grouped[dateStr]) grouped[dateStr] = [];
+                grouped[dateStr].push(record);
+            });
+            
+            return grouped;
+        }
+        
+        // 格式化时间
+        function formatTime(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit'});
+        }
+        
+        // 清空记录
         document.querySelector('.clear-btn').onclick = () => {
-            if (confirm('确定清空所有记录？')) {
-                document.querySelector('.history-list').innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.3);padding:60px;">暂无记录</p>';
+            if (confirm('确定清空所有查询记录？')) {
+                localStorage.removeItem('queryRecords');
+                loadQueryRecords();
+                showToast('记录已清空');
             }
         };
-        document.querySelectorAll('.history-item').forEach(item => {
-            item.onclick = function() {
-                const title = this.querySelector('.history-title').textContent;
-                if (['氨氯地平片', '布洛芬缓释胶囊'].includes(title)) {
-                    location.href = '药品详情_skill版.html';
-                } else if (title === '高血压') {
-                    location.href = '疾病详情_skill版.html';
-                } else {
-                    location.href = '症状自查_skill版.html';
-                }
-            };
-        });
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.onclick = function() {
-                const text = this.querySelector('.nav-text').textContent;
-                if (text === '首页') location.href = '首页_skill版.html';
-                if (text === '查询') location.href = '症状自查_skill版.html';
-                if (text === '提醒') location.href = '用药提醒_skill版.html';
-            };
-        });
+        
+        // Toast提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                z-index: 2000;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
     </script>
 </body>
 </html>
