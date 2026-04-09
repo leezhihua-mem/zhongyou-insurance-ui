@@ -35,14 +35,14 @@
       "id": "med-005",
       "title": "整理神经系统药品（30种）",
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "description": "收集整理神经系统常用药品，包括：镇痛药、解热镇痛抗炎药、抗痛风药、镇静催眠药、抗癫痫药、抗帕金森药、脑血管病用药。写入文件：data/medicines-nervous.json"
     },
     {
       "id": "med-006",
       "title": "整理抗感染药品（40种）",
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "description": "收集整理抗感染常用药品，包括：抗生素（青霉素类、头孢类、大环内酯类、喹诺酮类）、抗病毒药、抗真菌药、抗寄生虫药。写入文件：data/medicines-antiinfective.json"
     },
     {
