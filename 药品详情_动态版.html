@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>药品详情</title>
+    <link rel="stylesheet" href="colors.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg-secondary);
+            max-width: 375px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+            color: var(--text-primary);
+        }
+        .top-section {
+            padding: 24px 24px 32px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            margin-right: 16px;
+        }
+        .header-title {
+            font-size: 24px;
+            font-weight: 900;
+        }
+        .drug-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            margin: 0 24px 24px;
+            border-radius: 24px;
+            padding: 32px;
+        }
+        .drug-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .drug-generic {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .drug-brand {
+            font-size: 14px;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .drug-type {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .drug-type.rx {
+            background: rgba(255,107,107,0.15);
+            border: 1px solid rgba(255,107,107,0.3);
+            color: var(--color-primary);
+        }
+        .drug-type.otc {
+            background: rgba(78,205,196,0.15);
+            border: 1px solid rgba(78,205,196,0.3);
+            color: #4ECDC4;
+        }
+        .warning-card {
+            background: var(--bg-light-yellow);
+            border: 1px solid rgba(255,107,107,0.2);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin: 0 24px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .warning-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,107,107,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .warning-text {
+            font-size: 14px;
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+        .content-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            margin: 0 24px 24px;
+            border-radius: 20px;
+            padding: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .section-content {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .info-value {
+            color: var(--text-primary);
+            text-align: right;
+            flex: 1;
+            margin-left: 16px;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tag {
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            background: rgba(74,144,226,0.15);
+            color: #4A90E2;
+        }
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <div class="header">
+            <div class="back-btn" onclick="history.back()">←</div>
+            <div class="header-title">药品详情</div>
+        </div>
+    </div>
+    
+    <div id="content">
+        <div class="loading">加载中...</div>
+    </div>
+
+    <script src="js/medicine-data.js"></script>
+    <script>
+        async function loadDetail() {
+            const id = localStorage.getItem('currentMedicineId');
+            if (!id) {
+                document.getElementById('content').innerHTML = '<div class="loading">未找到药品信息</div>';
+                return;
+            }
+            
+            const medicine = await MedicineData.getById(id);
+            if (!medicine) {
+                document.getElementById('content').innerHTML = '<div class="loading">药品不存在</div>';
+                return;
+            }
+            
+            renderDetail(medicine);
+        }
+        
+        function renderDetail(m) {
+            document.getElementById('content').innerHTML = `
+                <div class="drug-card">
+                    <div class="drug-title">${m.name}</div>
+                    <div class="drug-generic">${m.genericName}</div>
+                    <div class="drug-brand">商品名：${m.brandName}</div>
+                    <span class="drug-type ${m.isPrescription ? 'rx' : 'otc'}">
+                        ${m.isPrescription ? '处方药' : '非处方药（OTC）'}
+                    </span>
+                </div>
+                
+                ${m.isPrescription ? `
+                <div class="warning-card">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-text">处方药需凭医生处方购买和使用</div>
+                </div>
+                ` : ''}
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">📋</div>
+                        <div class="section-title">基本信息</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-row">
+                            <span class="info-label">分类</span>
+                            <span class="info-value">${m.category}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">子分类</span>
+                            <span class="info-value">${m.subcategory || '-'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">药品ID</span>
+                            <span class="info-value">${m.id}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">💊</div>
+                        <div class="section-title">适应症</div>
+                    </div>
+                    <div class="section-content">${m.indication}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">📏</div>
+                        <div class="section-title">用法用量</div>
+                    </div>
+                    <div class="section-content">${m.dosage}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">⚡</div>
+                        <div class="section-title">不良反应</div>
+                    </div>
+                    <div class="section-content">${m.adverseReaction}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">🚫</div>
+                        <div class="section-title">禁忌症</div>
+                    </div>
+                    <div class="section-content">${m.contraindication}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">⚠️</div>
+                        <div class="section-title">注意事项</div>
+                    </div>
+                    <div class="section-content">${m.precaution}</div>
+                </div>
+            `;
+            
+            // 更新页面标题
+            document.title = `${m.name} - 药品详情`;
+        }
+        
+        loadDetail();
+    </script>
+</body>
+</html>
