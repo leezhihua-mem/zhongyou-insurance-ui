@@ -205,13 +205,86 @@
     <script>
         document.querySelector('.back-btn').onclick = () => location.href = '首页_skill版.html';
         
-        document.querySelector('.send-btn').onclick = function() {
-            const input = document.querySelector('.message-input');
-            if (input.value.trim()) {
-                alert('AI回复：功能演示中');
-                input.value = '';
+        // AI知识库
+        const knowledgeBase = {
+            '高血压': {
+                keywords: ['高血压', '血压高', '降压'],
+                answer: '高血压患者需要注意：<br><br>1. <strong>饮食管理</strong>：低盐低脂饮食，每日盐摄入不超过6克<br>2. <strong>规律运动</strong>：每周至少150分钟中等强度运动<br>3. <strong>按时服药</strong>：遵医嘱规律服药，不可自行停药<br>4. <strong>定期监测</strong>：每天测量血压并记录<br>5. <strong>戒烟限酒</strong>：避免吸烟，限制饮酒'
+            },
+            '糖尿病': {
+                keywords: ['糖尿病', '血糖', '降糖'],
+                answer: '糖尿病患者需要注意：<br><br>1. <strong>饮食控制</strong>：控制碳水摄入，选择低GI食物<br>2. <strong>规律运动</strong>：每周至少150分钟中等强度运动<br>3. <strong>血糖监测</strong>：定期监测空腹和餐后血糖<br>4. <strong>按时服药</strong>：遵医嘱规律服药或注射胰岛素<br>5. <strong>足部护理</strong>：每天检查足部，避免受伤'
+            },
+            '感冒': {
+                keywords: ['感冒', '发烧', '咳嗽', '流鼻涕'],
+                answer: '感冒患者建议：<br><br>1. <strong>多休息</strong>：保证充足睡眠<br>2. <strong>多喝水</strong>：每日饮水2000-3000ml<br>3. <strong>对症用药</strong>：发热可用布洛芬，咳嗽可用止咳药<br>4. <strong>注意隔离</strong>：避免传染他人<br>5. <strong>及时就医</strong>：症状持续超过1周或加重时就医'
+            },
+            '胃痛': {
+                keywords: ['胃痛', '胃病', '胃溃疡', '胃炎'],
+                answer: '胃病患者建议：<br><br>1. <strong>规律饮食</strong>：定时定量进食，避免过饱<br>2. <strong>饮食禁忌</strong>：避免辛辣、油腻、生冷食物<br>3. <strong>戒烟限酒</strong>：烟酒会刺激胃黏膜<br>4. <strong>减压</strong>：避免精神紧张和焦虑<br>5. <strong>及时就医</strong>：疼痛持续或加重时就医'
+            },
+            '失眠': {
+                keywords: ['失眠', '睡不着', '睡眠'],
+                answer: '改善失眠建议：<br><br>1. <strong>规律作息</strong>：固定睡眠和起床时间<br>2. <strong>睡眠环境</strong>：安静、黑暗、温度适宜<br>3. <strong>睡前准备</strong>：避免咖啡、浓茶、剧烈运动<br>4. <strong>放松技巧</strong>：深呼吸、冥想、热水澡<br>5. <strong>避免午睡</strong>：白天午睡不超过30分钟'
             }
         };
+        
+        // 发送消息
+        document.querySelector('.send-btn').onclick = sendMessage;
+        document.querySelector('.message-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        function sendMessage() {
+            const input = document.querySelector('.message-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            // 显示用户消息
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // 匹配知识库
+            setTimeout(() => {
+                const answer = findAnswer(message);
+                addMessage(answer, 'ai');
+            }, 500);
+        }
+        
+        // 查找答案
+        function findAnswer(question) {
+            for (const [disease, data] of Object.entries(knowledgeBase)) {
+                if (data.keywords.some(keyword => question.includes(keyword))) {
+                    return data.answer;
+                }
+            }
+            
+            // 默认回复
+            return '感谢您的提问！我已记录您的问题。如需更详细的解答，建议咨询专业医生。您也可以尝试问我关于高血压、糖尿病、感冒、胃痛、失眠等问题。';
+        }
+        
+        // 添加消息
+        function addMessage(text, type) {
+            const container = document.querySelector('.chat-container');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            if (type === 'ai') {
+                messageDiv.innerHTML = `
+                    <div class="ai-avatar">◉</div>
+                    <div class="message-content">${text}</div>
+                `;
+            } else {
+                messageDiv.innerHTML = `<div class="message-content">${text}</div>`;
+            }
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+            
+            // 滚动到新消息
+            window.scrollTo(0, document.body.scrollHeight);
+        }
     </script>
 </body>
 </html>

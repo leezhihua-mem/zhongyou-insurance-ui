@@ -349,6 +349,7 @@
     </div>
     
     <script>
+        // 功能卡片点击
         document.querySelectorAll('.module-card').forEach(card => {
             card.onclick = function() {
                 const title = this.querySelector('.module-title').textContent;
@@ -364,20 +365,50 @@
             };
         });
         
+        // 热门查询点击
         document.querySelectorAll('.hot-item').forEach(item => {
             item.onclick = function() {
+                const text = this.querySelector('.hot-text').textContent;
+                // 记录查询
+                addQueryRecord(text, '疾病');
                 location.href = '疾病详情_skill版.html';
             };
         });
         
+        // 搜索功能
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const keyword = this.value.trim();
+                if (keyword) {
+                    // 记录查询
+                    addQueryRecord(keyword, '搜索');
+                    // 跳转到药品查询页
+                    location.href = '药品查询_skill版.html?search=' + encodeURIComponent(keyword);
+                }
+            }
+        });
+        
+        // 导航点击
         document.querySelectorAll('.nav-item').forEach(item => {
             item.onclick = function() {
                 const text = this.querySelector('.nav-text').textContent;
                 if (text === '首页') return;
                 if (text === '查询') location.href = '症状自查_skill版.html';
                 if (text === '提醒') location.href = '用药提醒_skill版.html';
+                if (text === '我的') location.href = '查询记录_skill版.html';
             };
         });
+        
+        // 查询记录工具
+        function addQueryRecord(name, type) {
+            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
+            records.unshift({
+                name: name,
+                type: type,
+                time: new Date().toISOString()
+            });
+            localStorage.setItem('queryRecords', JSON.stringify(records.slice(0, 50)));
+        }
     </script>
 </body>
 </html>

@@ -418,6 +418,14 @@
     <script>
         document.querySelector('.back-btn').onclick = () => history.back();
         
+        // 检查URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+        if (searchParam) {
+            document.querySelector('.search-input').value = searchParam;
+            filterDrugs(searchParam, '全部');
+        }
+        
         // 筛选标签切换
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.onclick = function() {
@@ -426,7 +434,8 @@
                 
                 // 筛选药品
                 const filter = this.textContent;
-                filterDrugs('', filter);
+                const keyword = document.querySelector('.search-input').value.trim();
+                filterDrugs(keyword, filter);
             };
         });
         
