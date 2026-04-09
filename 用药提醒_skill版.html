@@ -4,25 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>用药提醒 - Skill版</title>
+    <link rel="stylesheet" href="colors.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'DM Sans', -apple-system, sans-serif;
-            background: #0A0A0A;
+            background: var(--bg-secondary);
             max-width: 375px;
             margin: 0 auto;
             min-height: 100vh;
-            color: #F5F5F5;
+            color: var(--text-primary);
         }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(255,107,107,0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(78,205,196,0.08) 0%, transparent 50%);
-            z-index: -1;
-        }
+        body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(74,144,226,0.03) 0%, rgba(126,211,178,0.03) 100%); z-index: -1; }
         
         .top-section {
             padding: 24px;
@@ -43,7 +37,7 @@
         .back-btn {
             width: 44px;
             height: 44px;
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 2px solid var(--color-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -53,7 +47,7 @@
             transition: all 0.3s;
         }
         .back-btn:hover {
-            border-color: #FF6B6B;
+            border-color: var(--color-primary);
             transform: rotate(-10deg);
         }
         
@@ -86,8 +80,8 @@
         }
         
         .reminder-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
             border-radius: 20px;
             padding: 24px;
             margin-bottom: 16px;
@@ -133,7 +127,7 @@
         .drug-name {
             font-size: 18px;
             font-weight: 700;
-            color: #F5F5F5;
+            color: var(--text-primary);
         }
         
         .reminder-status {
@@ -144,11 +138,11 @@
         }
         .status-active {
             background: rgba(78,205,196,0.15);
-            color: #4ECDC4;
+            color: var(--color-primary);
         }
         .status-pending {
             background: rgba(255,107,107,0.15);
-            color: #FF6B6B;
+            color: var(--color-primary);
         }
         
         .reminder-time {
@@ -168,7 +162,7 @@
         .time-icon {
             width: 24px;
             height: 24px;
-            background: rgba(255,255,255,0.05);
+            background: var(--bg-primary);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -178,7 +172,7 @@
         
         .reminder-note {
             font-size: 13px;
-            color: rgba(255,255,255,0.5);
+            color: var(--text-secondary);
         }
         
         .footer-nav {
@@ -209,7 +203,7 @@
             justify-content: center;
             margin: 0 auto 6px;
             border-radius: 12px;
-            background: rgba(255,255,255,0.05);
+            background: var(--bg-primary);
             font-size: 16px;
         }
         .nav-item:hover .nav-icon { background: rgba(255,255,255,0.1); }
@@ -217,9 +211,9 @@
         
         .nav-text {
             font-size: 11px;
-            color: rgba(255,255,255,0.4);
+            color: var(--text-secondary);
         }
-        .nav-item.active .nav-text { color: #F5F5F5; }
+        .nav-item.active .nav-text { color: var(--text-primary); }
     </style>
 </head>
 <body>

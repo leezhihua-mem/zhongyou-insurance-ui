@@ -4,31 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>药品详情 - Skill设计版</title>
+    <link rel="stylesheet" href="colors.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'DM Sans', -apple-system, sans-serif;
-            background: #0A0A0A;
+            background: var(--bg-secondary);
             max-width: 375px;
             margin: 0 auto;
             padding-bottom: 100px;
-            color: #F5F5F5;
+            color: var(--text-primary);
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(255,107,107,0.08) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(78,205,196,0.08) 0%, transparent 50%);
-            z-index: -1;
-        }
+        body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(74,144,226,0.03) 0%, rgba(126,211,178,0.03) 100%); z-index: -1; }
         
         /* 顶部 */
         .top-section {
@@ -49,7 +39,7 @@
         .back-btn {
             width: 44px;
             height: 44px;
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 2px solid var(--color-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -60,7 +50,7 @@
         }
         
         .back-btn:hover {
-            border-color: #FF6B6B;
+            border-color: var(--color-primary);
             background: rgba(255,107,107,0.1);
             transform: rotate(-10deg);
         }
@@ -75,8 +65,8 @@
         
         /* 药品卡片 */
         .drug-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
             margin: 24px;
             border-radius: 24px;
             padding: 32px;
@@ -87,14 +77,14 @@
             font-family: 'Playfair Display', serif;
             font-size: 32px;
             font-weight: 900;
-            color: #F5F5F5;
+            color: var(--text-primary);
             margin-bottom: 8px;
             letter-spacing: -2px;
         }
         
         .drug-generic {
             font-size: 13px;
-            color: rgba(255,255,255,0.5);
+            color: var(--text-secondary);
             margin-bottom: 16px;
         }
         
@@ -103,7 +93,7 @@
             padding: 8px 18px;
             background: rgba(255,107,107,0.15);
             border: 1px solid rgba(255,107,107,0.3);
-            color: #FF6B6B;
+            color: var(--color-primary);
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
@@ -112,7 +102,7 @@
         
         /* 警告卡片 */
         .warning-card {
-            background: rgba(255,107,107,0.08);
+            background: var(--bg-light-yellow);
             border: 1px solid rgba(255,107,107,0.2);
             border-radius: 16px;
             padding: 20px 24px;
@@ -136,15 +126,15 @@
         
         .warning-text {
             font-size: 14px;
-            color: #FF6B6B;
+            color: var(--color-primary);
             font-weight: 600;
             line-height: 1.5;
         }
         
         /* 内容卡片 */
         .content-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
             margin: 24px;
             border-radius: 20px;
             padding: 24px;
@@ -184,7 +174,7 @@
         .section-title {
             font-size: 16px;
             font-weight: 700;
-            color: #F5F5F5;
+            color: var(--text-primary);
             letter-spacing: -0.3px;
         }
         
@@ -208,12 +198,12 @@
             margin: 16px 0;
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--border-light);
         }
         
         .dosage-table th {
             background: linear-gradient(135deg, rgba(255,107,107,0.2) 0%, rgba(78,205,196,0.2) 100%);
-            color: #F5F5F5;
+            color: var(--text-primary);
             padding: 14px;
             font-size: 13px;
             font-weight: 600;
@@ -227,7 +217,7 @@
         }
         
         .dosage-table tr:hover td {
-            background: rgba(255,255,255,0.03);
+            background: var(--bg-primary);
         }
         
         /* 提示卡片 */
@@ -241,7 +231,7 @@
             align-items: center;
             gap: 12px;
             font-size: 13px;
-            color: #4ECDC4;
+            color: var(--color-primary);
         }
         
         /* 不良反应标签 */
@@ -258,7 +248,7 @@
         
         .reaction-tag.common {
             background: rgba(255,107,107,0.15);
-            color: #FF6B6B;
+            color: var(--color-primary);
         }
         
         .reaction-tag.occasional {
@@ -268,7 +258,7 @@
         
         .reaction-tag.rare {
             background: rgba(78,205,196,0.15);
-            color: #4ECDC4;
+            color: var(--color-primary);
         }
         
         /* 疾病标签 */
@@ -277,11 +267,11 @@
         .disease-tag {
             display: inline-block;
             padding: 10px 20px;
-            background: rgba(255,255,255,0.05);
+            background: var(--bg-primary);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 24px;
             font-size: 13px;
-            color: #F5F5F5;
+            color: var(--text-primary);
             margin: 4px;
             cursor: pointer;
             transition: all 0.3s;
@@ -289,7 +279,7 @@
         
         .disease-tag:hover {
             background: rgba(255,255,255,0.1);
-            border-color: #4ECDC4;
+            border-color: var(--color-primary);
             transform: scale(1.05);
         }
         
@@ -323,9 +313,9 @@
         .action-btn:hover { transform: translateY(-2px); }
         
         .btn-secondary {
-            background: rgba(255,255,255,0.05);
+            background: var(--bg-primary);
             border: 1px solid rgba(255,255,255,0.15);
-            color: #F5F5F5;
+            color: var(--text-primary);
         }
         
         .btn-secondary:hover {
