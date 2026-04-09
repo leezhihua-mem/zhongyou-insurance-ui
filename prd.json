@@ -28,7 +28,7 @@
       "id": "med-004",
       "title": "整理消化系统药品（40种）",
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "description": "收集整理消化系统常用药品，包括：抗酸药、抑酸药（PPI、H2受体拮抗剂）、胃黏膜保护药、促胃肠动力药、止泻药、通便药、保肝药。写入文件：data/medicines-digestive.json"
     },
     {
