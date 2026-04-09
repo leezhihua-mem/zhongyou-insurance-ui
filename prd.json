@@ -21,7 +21,7 @@
       "id": "med-003",
       "title": "整理呼吸系统药品（40种）",
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "description": "收集整理呼吸系统常用药品，包括：止咳药、祛痰药、平喘药（β2受体激动剂、糖皮质激素、茶碱类、抗胆碱药）、感冒用药。写入文件：data/medicines-respiratory.json"
     },
     {
