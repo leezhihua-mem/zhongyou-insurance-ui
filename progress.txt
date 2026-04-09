@@ -1,0 +1,24 @@
+# Ralph Progress Log
+Started: 2026-04-09 20:08
+Project: 中邮保险健康平台 - 药品库整理
+Target: 300种常用药品
+---
+
+## Codebase Patterns
+- 药品数据格式遵循国家基本药物目录分类标准
+- 每条记录必需字段：name, genericName, category, indication, dosage, adverseReaction, contraindication, precaution, isPrescription
+- 数据来源优先级：国家药监局 > 丁香园 > 药品说明书
+- JSON文件使用UTF-8编码，确保中文正确显示
+- JSON文件顶部包含元数据：category, totalCount, lastUpdated
+- subcategory字段有助于精细分类（在category大类基础上进一步区分）
+
+---
+
+## 2026-04-09 - med-001
+- 整理心血管系统药品50种，涵盖：钙通道阻滞剂（氨氯地平、硝苯地平、非洛地平、地尔硫䓬、维拉帕米）、ACEI（卡托普利、依那普利、贝那普利、培哚普利）、ARB（氯沙坦、缬沙坦、厄贝沙坦、替米沙坦）、利尿剂（氢氯噻嗪、吲达帕胺、螺内酯、呋塞米、托拉塞米）、β受体阻滞剂（美托洛尔、阿替洛尔、比索洛尔、卡维地洛）、硝酸酯类（硝酸甘油、单硝酸异山梨酯）、抗心律失常药（胺碘酮、普罗帕酮、阿托品）、抗凝药（华法林、低分子肝素、利伐沙班、达比加群酯）、抗血小板药（阿司匹林、氯吡格雷、替格瑞洛）、调血脂药（辛伐他汀、阿托伐他汀、瑞舒伐他汀、普伐他汀、非诺贝特、依折麦布）、强心药（地高辛、多巴胺）、心力衰竭新药（沙库巴曲缬沙坦、依伐布雷定）、急救用药（肾上腺素、硝普钠、尼卡地平）及其他（尼莫地平、曲美他嗪）
+- 文件创建：data/medicines-cardiovascular.json（50条记录）
+- **Learnings for future iterations:**
+  - 每条记录包含完整字段：id, name, genericName, brandName, category, subcategory, indication, dosage, adverseReaction, contraindication, precaution, isPrescription
+  - 阿司匹林（心血管适应症时）为非处方药（OTC），其余心血管药均为处方药
+  - 药品ID格式：分类前缀-序号（如cv-001），后续分类使用dm-、resp-等前缀
+---
