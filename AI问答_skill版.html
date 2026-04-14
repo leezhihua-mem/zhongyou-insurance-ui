@@ -178,19 +178,22 @@
         
         <div class="message user">
             <div class="message-content">
-                高血压患者平时需要注意什么？
+                服用二甲双胍的用药禁忌是什么？
             </div>
         </div>
         
         <div class="message ai">
             <div class="ai-avatar">◉</div>
             <div class="message-content">
-                高血压患者需要注意以下几点：<br><br>
-                1. <strong>饮食管理</strong>：低盐低脂饮食，每日盐摄入不超过6克<br>
-                2. <strong>规律运动</strong>：每周至少150分钟中等强度运动<br>
-                3. <strong>按时服药</strong>：遵医嘱规律服药，不可自行停药<br>
-                4. <strong>定期监测</strong>：每天测量血压并记录<br>
-                5. <strong>戒烟限酒</strong>：避免吸烟，限制饮酒
+                二甲双胍的主要用药禁忌：<br><br>
+                1. <strong>肾功能不全</strong>：血清肌酐≥1.5mg/dL（男）或≥1.4mg/dL（女）禁用<br>
+                2. <strong>肝功能严重受损</strong>：肝功能不全患者禁用<br>
+                3. <strong>酗酒者</strong>：长期大量饮酒增加乳酸酸中毒风险<br>
+                4. <strong>乳酸酸中毒史</strong>：既往有乳酸酸中毒病史禁用<br>
+                5. <strong>严重感染/缺氧</strong>：如心衰、休克、肺部疾病<br>
+                6. <strong>手术前后</strong>：大手术前后48小时暂停使用<br>
+                7. <strong>碘造影剂检查</strong>：使用造影剂前后48小时暂停<br><br>
+                <em>提示：用药前请咨询医生，定期监测肾功能</em>
             </div>
         </div>
     </div>
@@ -207,6 +210,10 @@
         
         // AI知识库
         const knowledgeBase = {
+            '二甲双胍': {
+                keywords: ['二甲双胍', '格华止', '降糖药', '糖尿病用药', '二甲', 'metformin'],
+                answer: '二甲双胍的主要用药禁忌：<br><br>1. <strong>肾功能不全</strong>：血清肌酐≥1.5mg/dL（男）或≥1.4mg/dL（女）禁用<br>2. <strong>肝功能严重受损</strong>：肝功能不全患者禁用<br>3. <strong>酗酒者</strong>：长期大量饮酒增加乳酸酸中毒风险<br>4. <strong>乳酸酸中毒史</strong>：既往有乳酸酸中毒病史禁用<br>5. <strong>严重感染/缺氧</strong>：如心衰、休克、肺部疾病<br>6. <strong>手术前后</strong>：大手术前后48小时暂停使用<br>7. <strong>碘造影剂检查</strong>：使用造影剂前后48小时暂停<br><br><em>提示：用药前请咨询医生，定期监测肾功能</em>'
+            },
             '高血压': {
                 keywords: ['高血压', '血压高', '降压'],
                 answer: '高血压患者需要注意：<br><br>1. <strong>饮食管理</strong>：低盐低脂饮食，每日盐摄入不超过6克<br>2. <strong>规律运动</strong>：每周至少150分钟中等强度运动<br>3. <strong>按时服药</strong>：遵医嘱规律服药，不可自行停药<br>4. <strong>定期监测</strong>：每天测量血压并记录<br>5. <strong>戒烟限酒</strong>：避免吸烟，限制饮酒'
