@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>药品查询 - Skill设计版</title>
+    <title>药品查询 - 动态版</title>
     <link rel="stylesheet" href="colors.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'DM Sans', -apple-system, sans-serif;
             background: var(--bg-secondary);
@@ -16,62 +14,15 @@
             margin: 0 auto;
             min-height: 100vh;
             color: var(--text-primary);
-            overflow-x: hidden;
         }
-        
-        /* 背景纹理 */
-        body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(74,144,226,0.03) 0%, rgba(126,211,178,0.03) 100%); z-index: -1; }
-        
-        /* 顶部区域 */
         .top-section {
-            padding: 32px 24px 48px;
-            animation: fadeSlideDown 0.6s ease-out;
+            padding: 32px 24px 24px;
         }
-        
-        @keyframes fadeSlideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 40px;
-        }
-        
-        .back-btn {
-            width: 44px;
-            height: 44px;
-            border: 2px solid var(--color-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s;
-        }
-        
-        .back-btn:hover {
-            border-color: var(--color-primary);
-            background: rgba(255,107,107,0.1);
-            transform: rotate(-10deg);
-        }
-        
         .header-title {
-            font-family: 'Playfair Display', serif;
             font-size: 28px;
             font-weight: 900;
-            letter-spacing: -1px;
+            margin-bottom: 24px;
         }
-        
-        /* 搜索框 */
-        .search-container {
-            position: relative;
-            margin-bottom: 32px;
-        }
-        
         .search-box {
             background: var(--bg-primary);
             border: 1px solid var(--border-light);
@@ -80,441 +31,215 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            transition: all 0.3s;
+            margin-bottom: 24px;
         }
-        
-        .search-box:focus-within {
-            border-color: var(--color-primary);
-            background: var(--bg-light-blue);
-            box-shadow: var(--shadow-medium);
-        }
-        
-        .search-icon {
-            font-size: 22px;
-            color: var(--color-primary);
-        }
-        
         .search-input {
             flex: 1;
-            background: transparent;
             border: none;
+            background: transparent;
             font-size: 16px;
             color: var(--text-primary);
-            font-weight: 500;
+            outline: none;
         }
-        
-        .search-input:focus { outline: none; }
-        .search-input::placeholder { color: var(--text-tertiary); }
-        
-        /* 筛选区 */
-        .filter-section {
+        .category-tabs {
             display: flex;
             gap: 12px;
-            padding: 0 24px 24px;
-            animation: fadeSlideDown 0.6s ease-out 0.1s both;
+            overflow-x: auto;
+            padding-bottom: 16px;
         }
-        
-        .filter-tab {
-            padding: 12px 24px;
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 24px;
+        .category-tab {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            background: var(--bg-primary);
             font-size: 13px;
-            font-weight: 500;
-            color: rgba(255,255,255,0.6);
+            font-weight: 600;
+            white-space: nowrap;
             cursor: pointer;
             transition: all 0.3s;
         }
-        
-        .filter-tab:hover {
-            border-color: var(--text-tertiary);
-            color: var(--text-primary);
-        }
-        
-        .filter-tab.active {
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
-            border-color: transparent;
+        .category-tab.active {
+            background: var(--color-primary);
             color: white;
-            box-shadow: 0 8px 24px rgba(255,107,107,0.3);
+            border-color: var(--color-primary);
         }
-        
-        /* 提示卡片 */
-        .tip-card {
-            background: var(--bg-light-yellow);
-            border-left: 3px solid #FF6B6B;
-            padding: 16px 24px;
-            margin: 24px;
-            font-size: 13px;
-            color: var(--text-primary);
-            animation: fadeSlideDown 0.6s ease-out 0.2s both;
-        }
-        
-        /* 药品列表 */
         .drug-list {
-            padding: 0 24px 120px;
+            padding: 0 24px 100px;
         }
-        
         .drug-item {
             background: var(--bg-primary);
             border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 20px;
             margin-bottom: 16px;
             cursor: pointer;
-            transition: all 0.4s;
-            animation: fadeIn 0.5s ease-out both;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s;
         }
-        
-        .drug-item:nth-child(1) { animation-delay: 0.3s; }
-        .drug-item:nth-child(2) { animation-delay: 0.4s; }
-        .drug-item:nth-child(3) { animation-delay: 0.5s; }
-        .drug-item:nth-child(4) { animation-delay: 0.6s; }
-        .drug-item:nth-child(5) { animation-delay: 0.7s; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .drug-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, #FF6B6B 0%, #4ECDC4 100%);
-            transform: scaleY(0);
-            transition: transform 0.3s;
-        }
-        
         .drug-item:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.15);
-            transform: translateX(8px);
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
         }
-        
-        .drug-item:hover::before {
-            transform: scaleY(1);
-        }
-        
-        .drug-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-        
         .drug-name {
             font-size: 18px;
             font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
+            margin-bottom: 8px;
         }
-        
-        .drug-type {
-            padding: 6px 14px;
-            border-radius: 16px;
+        .drug-generic {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .drug-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .drug-tag {
+            padding: 4px 12px;
+            border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
-        
-        .drug-type.rx {
+        .drug-tag.rx {
             background: rgba(255,107,107,0.15);
             color: var(--color-primary);
         }
-        
-        .drug-type.otc {
+        .drug-tag.otc {
             background: rgba(78,205,196,0.15);
-            color: var(--color-primary);
+            color: #4ECDC4;
         }
-        
-        .drug-meta {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
+        .drug-tag.category {
+            background: rgba(74,144,226,0.15);
+            color: #4A90E2;
         }
-        
-        .meta-tag {
-            padding: 6px 12px;
-            background: var(--bg-primary);
-            border-radius: 12px;
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-        
-        .drug-indication {
-            font-size: 14px;
-            color: rgba(255,255,255,0.6);
-            line-height: 1.5;
-        }
-        
-        /* 底部导航 */
-        .footer-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 375px;
-            margin: 0 auto;
-            background: rgba(10,10,10,0.9);
-            border-top: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            justify-content: space-around;
-            padding: 16px 0 24px;
-            backdrop-filter: blur(20px);
-        }
-        
-        .nav-item {
+        .loading {
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .nav-item:hover { transform: scale(1.15); }
-        
-        .nav-icon {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 6px;
-            border-radius: 12px;
-            background: var(--bg-primary);
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .nav-item:hover .nav-icon {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .nav-item.active .nav-icon {
-            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
-        }
-        
-        .nav-text {
-            font-size: 11px;
+            padding: 40px;
             color: var(--text-secondary);
-            font-weight: 500;
         }
-        
-        .nav-item.active .nav-text {
-            color: var(--text-primary);
+        .no-result {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
         }
-        
-        /* 自定义滚动条 */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
     </style>
 </head>
 <body>
     <div class="top-section">
-        <div class="header">
-            <div class="back-btn">←</div>
-            <div class="header-title">药品查询</div>
+        <div class="header-title">药品查询</div>
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" class="search-input" placeholder="搜索药品名称、适应症..." id="searchInput">
         </div>
-        <div class="search-container">
-            <div class="search-box">
-                <span class="search-icon">⊙</span>
-                <input type="text" class="search-input" placeholder="搜索药品名称或适应症">
-            </div>
-        </div>
-    </div>
-    
-    <div class="filter-section">
-        <div class="filter-tab active">全部</div>
-        <div class="filter-tab">非处方药</div>
-        <div class="filter-tab">处方药</div>
-    </div>
-    
-    <div class="tip-card">
-        ⚠ 处方药须凭医师处方购买和使用，请勿自行购买服用
-    </div>
-    
-    <div class="drug-list">
-        <div class="drug-item">
-            <div class="drug-header">
-                <div class="drug-name">氨氯地平片</div>
-                <div class="drug-type rx">处方药</div>
-            </div>
-            <div class="drug-meta">
-                <span class="meta-tag">钙拮抗剂</span>
-                <span class="meta-tag">降压药</span>
-            </div>
-            <div class="drug-indication">适应症：高血压、冠心病</div>
-        </div>
-        
-        <div class="drug-item">
-            <div class="drug-header">
-                <div class="drug-name">厄贝沙坦片</div>
-                <div class="drug-type rx">处方药</div>
-            </div>
-            <div class="drug-meta">
-                <span class="meta-tag">ARB类</span>
-                <span class="meta-tag">降压药</span>
-            </div>
-            <div class="drug-indication">适应症：高血压</div>
-        </div>
-        
-        <div class="drug-item">
-            <div class="drug-header">
-                <div class="drug-name">布洛芬缓释胶囊</div>
-                <div class="drug-type otc">非处方药</div>
-            </div>
-            <div class="drug-meta">
-                <span class="meta-tag">解热镇痛</span>
-            </div>
-            <div class="drug-indication">适应症：发热、头痛、关节痛</div>
-        </div>
-        
-        <div class="drug-item">
-            <div class="drug-header">
-                <div class="drug-name">阿莫西林胶囊</div>
-                <div class="drug-type rx">处方药</div>
-            </div>
-            <div class="drug-meta">
-                <span class="meta-tag">抗生素</span>
-            </div>
-            <div class="drug-indication">适应症：细菌感染</div>
-        </div>
-        
-        <div class="drug-item">
-            <div class="drug-header">
-                <div class="drug-name">复方感冒灵片</div>
-                <div class="drug-type otc">非处方药</div>
-            </div>
-            <div class="drug-meta">
-                <span class="meta-tag">感冒药</span>
-            </div>
-            <div class="drug-indication">适应症：感冒、发热、头痛</div>
+        <div class="category-tabs" id="categoryTabs">
+            <div class="category-tab active" data-category="all">全部</div>
+            <div class="category-tab" data-category="心血管">心血管</div>
+            <div class="category-tab" data-category="糖尿病">糖尿病</div>
+            <div class="category-tab" data-category="呼吸">呼吸</div>
+            <div class="category-tab" data-category="消化">消化</div>
+            <div class="category-tab" data-category="神经">神经</div>
+            <div class="category-tab" data-category="抗感染">抗感染</div>
+            <div class="category-tab" data-category="皮肤">皮肤</div>
         </div>
     </div>
     
-    <div class="footer-nav">
-        <div class="nav-item">
-            <div class="nav-icon">⌂</div>
-            <div class="nav-text">首页</div>
-        </div>
-        <div class="nav-item active">
-            <div class="nav-icon">◎</div>
-            <div class="nav-text">查询</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">⏱</div>
-            <div class="nav-text">提醒</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">◉</div>
-            <div class="nav-text">我的</div>
-        </div>
+    <div class="drug-list" id="drugList">
+        <div class="loading">加载中...</div>
     </div>
-    
+
+    <script src="js/medicine-data.js"></script>
     <script>
-        document.querySelector('.back-btn').onclick = () => history.back();
+        let allMedicines = [];
+        let currentCategory = 'all';
         
-        // 检查URL参数
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchParam = urlParams.get('search');
-        if (searchParam) {
-            document.querySelector('.search-input').value = searchParam;
-            filterDrugs(searchParam, '全部');
+        // 初始化
+        async function init() {
+            allMedicines = await MedicineData.loadAll();
+            renderList(allMedicines);
+            console.log(`加载 ${allMedicines.length} 种药品`);
         }
         
-        // 筛选标签切换
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-            tab.onclick = function() {
-                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                // 筛选药品
-                const filter = this.textContent;
-                const keyword = document.querySelector('.search-input').value.trim();
-                filterDrugs(keyword, filter);
-            };
-        });
-        
-        // 搜索过滤
-        const searchInput = document.querySelector('.search-input');
-        searchInput.addEventListener('input', function() {
-            const keyword = this.value.trim();
-            const activeFilter = document.querySelector('.filter-tab.active').textContent;
-            filterDrugs(keyword, activeFilter);
-        });
-        
-        // 过滤函数
-        function filterDrugs(keyword, category) {
-            const items = document.querySelectorAll('.drug-item');
-            let visibleCount = 0;
+        // 渲染列表
+        function renderList(medicines) {
+            const container = document.getElementById('drugList');
             
-            items.forEach(item => {
-                const name = item.querySelector('.drug-name').textContent;
-                const indication = item.querySelector('.drug-indication').textContent;
-                const tags = Array.from(item.querySelectorAll('.meta-tag')).map(t => t.textContent).join(' ');
-                
-                // 关键词匹配
-                const matchKeyword = !keyword || 
-                    name.includes(keyword) || 
-                    indication.includes(keyword) || 
-                    tags.includes(keyword);
-                
-                // 分类匹配
-                const matchCategory = category === '全部' || tags.includes(category);
-                
-                if (matchKeyword && matchCategory) {
-                    item.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-            
-            // 无结果提示
-            showNoResult(visibleCount === 0, keyword);
-        }
-        
-        // 无结果提示
-        function showNoResult(show, keyword) {
-            let noResult = document.querySelector('.no-result');
-            if (show) {
-                if (!noResult) {
-                    noResult = document.createElement('div');
-                    noResult.className = 'no-result';
-                    noResult.style.cssText = 'text-align:center;padding:60px;color:var(--text-tertiary);';
-                    document.querySelector('.drug-list').appendChild(noResult);
-                }
-                noResult.textContent = keyword ? `未找到"${keyword}"相关药品` : '暂无药品';
-                noResult.style.display = 'block';
-            } else if (noResult) {
-                noResult.style.display = 'none';
+            if (medicines.length === 0) {
+                container.innerHTML = '<div class="no-result">未找到相关药品</div>';
+                return;
             }
+            
+            container.innerHTML = medicines.map(m => `
+                <div class="drug-item" onclick="openDetail('${m.id}')">
+                    <div class="drug-name">${m.name}</div>
+                    <div class="drug-generic">${m.genericName} · ${m.brandName}</div>
+                    <div class="drug-tags">
+                        <span class="drug-tag ${m.isPrescription ? 'rx' : 'otc'}">
+                            ${m.isPrescription ? '处方药' : 'OTC'}
+                        </span>
+                        <span class="drug-tag category">${m.category}</span>
+                    </div>
+                </div>
+            `).join('');
         }
         
-        // 药品点击
-        document.querySelectorAll('.drug-item').forEach(item => {
-            item.onclick = function() {
-                const name = this.querySelector('.drug-name').textContent;
-                // 记录查询
-                addQueryRecord(name, '药品');
-                location.href = '药品详情_skill版.html';
-            };
-        });
+        // 搜索
+        function handleSearch(e) {
+            const query = e.target.value;
+            filterAndRender(query, currentCategory);
+        }
         
-        // 查询记录工具
-        function addQueryRecord(name, type) {
-            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
-            records.unshift({
-                name: name,
-                type: type,
-                time: new Date().toISOString()
+        // 分类过滤
+        function handleCategoryClick(e) {
+            if (!e.target.classList.contains('category-tab')) return;
+            
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
             });
-            localStorage.setItem('queryRecords', JSON.stringify(records.slice(0, 50)));
+            e.target.classList.add('active');
+            
+            currentCategory = e.target.dataset.category;
+            const query = document.getElementById('searchInput').value;
+            filterAndRender(query, currentCategory);
         }
+        
+        // 过滤并渲染
+        function filterAndRender(query, category) {
+            let filtered = allMedicines;
+            
+            // 分类过滤
+            if (category !== 'all') {
+                filtered = filtered.filter(m => 
+                  m.category.includes(category) || 
+                  (m.subcategory && m.subcategory.includes(category))
+                );
+            }
+            
+            // 关键词搜索
+            if (query) {
+                query = query.toLowerCase();
+                filtered = filtered.filter(m => 
+                    m.name.toLowerCase().includes(query) ||
+                    m.genericName.toLowerCase().includes(query) ||
+                    m.brandName.toLowerCase().includes(query) ||
+                    m.indication.toLowerCase().includes(query)
+                );
+            }
+            
+            renderList(filtered);
+        }
+        
+        // 打开详情
+        function openDetail(id) {
+            localStorage.setItem('currentMedicineId', id);
+            window.location.href = '药品详情_动态版.html';
+        }
+        
+        // 事件绑定
+        document.getElementById('searchInput').addEventListener('input', handleSearch);
+        document.getElementById('categoryTabs').addEventListener('click', handleCategoryClick);
+        
+        // 启动
+        init();
     </script>
 </body>
 </html>

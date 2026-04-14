@@ -2,330 +2,296 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI智能问答 - UI原型</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI问答 - Skill版</title>
+    <link rel="stylesheet" href="colors.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-            background: #f5f5f5;
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg-secondary);
             max-width: 375px;
             margin: 0 auto;
-            padding-bottom: 70px;
+            min-height: 100vh;
+            color: var(--text-primary);
         }
+        body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(74,144,226,0.03) 0%, rgba(126,211,178,0.03) 100%); z-index: -1; }
+        
+        .top-section {
+            padding: 24px;
+            animation: fadeSlideDown 0.6s ease-out;
+        }
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .header {
-            background: linear-gradient(135deg, #0097A7 0%, #00838F 100%);
-            color: white;
-            padding: 16px;
             display: flex;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            margin-bottom: 20px;
         }
-        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
-        .header-title { font-size: 18px; font-weight: 600; }
+        
+        .back-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            border-color: var(--color-primary);
+            transform: rotate(-10deg);
+        }
+        
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 900;
+            margin-left: 16px;
+            letter-spacing: -1px;
+        }
         
         .chat-container {
-            padding: 12px;
+            padding: 24px;
+            padding-bottom: 120px;
         }
         
         .message {
-            margin-bottom: 12px;
-            display: flex;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
         }
-        .message.user { justify-content: flex-end; }
-        .message.ai { justify-content: flex-start; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.user {
+            text-align: right;
+        }
         
         .message-content {
+            display: inline-block;
             max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 16px;
+            padding: 16px 20px;
+            border-radius: 20px;
             font-size: 14px;
             line-height: 1.5;
         }
+        
         .message.user .message-content {
-            background: #0097A7;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
             color: white;
             border-bottom-right-radius: 4px;
         }
+        
         .message.ai .message-content {
-            background: white;
-            color: #333;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
             border-bottom-left-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
         
         .ai-avatar {
             width: 32px;
             height: 32px;
-            background: #E0F7FA;
+            background: linear-gradient(135deg, #4ECDC4 0%, #6EE7DE 100%);
             border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
-            margin-right: 8px;
-        }
-        
-        .source-tag {
-            font-size: 11px;
-            color: #999;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid #F0F0F0;
-        }
-        
-        .quick-questions {
-            background: white;
-            margin: 12px;
-            padding: 16px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .quick-title {
-            font-size: 14px;
-            color: #999;
-            margin-bottom: 12px;
-        }
-        .quick-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .quick-tag {
-            padding: 6px 12px;
-            background: #E0F7FA;
-            border-radius: 16px;
-            font-size: 13px;
-            color: #0097A7;
-            cursor: pointer;
+            margin-bottom: 8px;
         }
         
         .input-area {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             max-width: 375px;
             margin: 0 auto;
-            background: white;
-            padding: 12px;
+            background: rgba(10,10,10,0.9);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 16px 24px 24px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .input-box {
             display: flex;
             gap: 12px;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+            align-items: center;
         }
-        .input-box {
+        
+        .message-input {
             flex: 1;
-            height: 40px;
-            border: 1px solid #E0E0E0;
-            border-radius: 20px;
-            padding: 0 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 14px 20px;
             font-size: 14px;
+            color: var(--text-primary);
         }
+        .message-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+        .message-input::placeholder { color: var(--text-tertiary); }
+        
         .send-btn {
-            width: 40px;
-            height: 40px;
-            background: #0097A7;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 18px;
             cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
         }
-        
-        .disclaimer {
-            background: #FFF3CD;
-            padding: 8px 12px;
-            margin: 8px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #856404;
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(255,107,107,0.3);
         }
-    
-        /* 底部导航 */
-        .footer-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 375px;
-            margin: 0 auto;
-            background: white;
-            border-top: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0 12px;
-            z-index: 100;
-        }
-        
-        .nav-item {
-            text-align: center;
-            padding: 4px 8px;
-            cursor: pointer;
-        }
-        
-        .nav-icon {
-            font-size: 18px;
-            color: #999;
-        }
-        
-        .nav-text {
-            font-size: 11px;
-            color: #999;
-            margin-top: 2px;
-        }
-        
-        .nav-item:hover .nav-icon,
-        .nav-item:hover .nav-text {
-            color: #4A90E2;
-        }
-</style>
+    </style>
 </head>
 <body>
-    <div class="header">
-        <div class="back-btn" onclick="location.href='index.html'">←</div>
-        <div class="header-title">AI健康助手</div>
-    </div>
-    
-    <div class="disclaimer">
-        ⚠️ AI回答仅供参考，不能替代医生诊断，如有不适请及时就医
+    <div class="top-section">
+        <div class="header">
+            <div class="back-btn">←</div>
+            <div class="header-title">AI问答</div>
+        </div>
     </div>
     
     <div class="chat-container">
-        <!-- AI欢迎消息 -->
         <div class="message ai">
-            <div class="ai-avatar">🤖</div>
+            <div class="ai-avatar">◉</div>
             <div class="message-content">
-                您好！我是AI健康助手，可以为您解答健康相关问题。请问有什么可以帮您的？
+                您好！我是您的健康助手，可以为您解答疾病、药品、症状等相关问题。请问有什么可以帮助您的？
             </div>
         </div>
         
-        <!-- 用户问题 -->
         <div class="message user">
-            <div class="message-content">服用二甲双胍时需要注意什么？</div>
-        </div>
-        
-        <!-- AI回答 -->
-        <div class="message ai">
-            <div class="ai-avatar">🤖</div>
             <div class="message-content">
-                二甲双胍是常用的降糖药，服用时需注意以下几点：<br><br>
-                <b>用药禁忌：</b><br>
-                • 肾功能不全（肌酐≥1.5mg/dL）禁用<br>
-                • 肝功能严重受损者禁用<br>
-                • 酗酒者禁用（增加乳酸酸中毒风险）<br>
-                • 既往有乳酸酸中毒病史禁用<br><br>
-                <b>服用注意事项：</b><br>
-                1. 餐中或餐后服用，减少胃肠道不适<br>
-                2. 从小剂量开始，逐渐加量<br>
-                3. 定期监测肾功能（每3-6个月）<br>
-                4. 使用碘造影剂前后48小时暂停<br>
-                5. 手术前后48小时暂停<br><br>
-                <b>常见副作用：</b><br>
-                • 胃肠道反应（恶心、腹泻）<br>
-                • 维生素B12缺乏（长期服用）<br>
-                <div class="source-tag">📚 来源：《中国2型糖尿病防治指南》2020版</div>
+                服用二甲双胍的用药禁忌是什么？
             </div>
         </div>
         
-        <!-- 用户追问 -->
-        <div class="message user">
-            <div class="message-content">出现恶心腹泻怎么办？</div>
-        </div>
-        
-        <!-- AI回答 -->
         <div class="message ai">
-            <div class="ai-avatar">🤖</div>
+            <div class="ai-avatar">◉</div>
             <div class="message-content">
-                二甲双胍常见的胃肠道反应处理方法：<br><br>
-                <b>轻微症状：</b><br>
-                • 继续服用，通常1-2周后会缓解<br>
-                • 餐中服用可减少不适<br>
-                • 避免空腹服药<br><br>
-                <b>中度症状：</b><br>
-                • 可考虑减量（从500mg减至250mg）<br>
-                • 分次服用（每日2-3次）<br>
-                • 换用缓释制剂<br><br>
-                <b>以下情况需就医：</b><br>
-                • 持续腹泻超过1周<br>
-                • 出现严重乏力、肌肉疼痛<br>
-                • 呼吸急促（警惕乳酸酸中毒）<br><br>
-                <span style="color:#F44336">⚠️ 切勿自行停药，请咨询医生</span>
-                <div class="source-tag">📚 来源：《二甲双胍临床应用专家共识》2018版</div>
+                二甲双胍的主要用药禁忌：<br><br>
+                1. <strong>肾功能不全</strong>：血清肌酐≥1.5mg/dL（男）或≥1.4mg/dL（女）禁用<br>
+                2. <strong>肝功能严重受损</strong>：肝功能不全患者禁用<br>
+                3. <strong>酗酒者</strong>：长期大量饮酒增加乳酸酸中毒风险<br>
+                4. <strong>乳酸酸中毒史</strong>：既往有乳酸酸中毒病史禁用<br>
+                5. <strong>严重感染/缺氧</strong>：如心衰、休克、肺部疾病<br>
+                6. <strong>手术前后</strong>：大手术前后48小时暂停使用<br>
+                7. <strong>碘造影剂检查</strong>：使用造影剂前后48小时暂停<br><br>
+                <em>提示：用药前请咨询医生，定期监测肾功能</em>
             </div>
         </div>
     </div>
     
-    <!-- 快捷问题 -->
-    <div class="quick-questions">
-        <div class="quick-title">💡 常见问题</div>
-        <div class="quick-tags">
-            <div class="quick-tag" onclick="alert('问题已发送：二甲双胍禁忌症？')">二甲双胍禁忌症？</div>
-            <div class="quick-tag" onclick="alert('问题已发送：降糖药有哪些')">降糖药有哪些</div>
-            <div class="quick-tag" onclick="alert('问题已发送：糖尿病饮食控制')">糖尿病饮食控制</div>
-            <div class="quick-tag" onclick="alert('问题已发送：胰岛素怎么用')">胰岛素怎么用</div>
-        </div>
-    </div>
-    
-    <!-- 输入区域 -->
     <div class="input-area">
-        <input type="text" class="input-box" placeholder="输入您的健康问题..." id="questionInput">
-        <div class="send-btn" onclick="sendMessage()">➤</div>
+        <div class="input-box">
+            <input type="text" class="message-input" placeholder="输入您的问题">
+            <div class="send-btn">→</div>
+        </div>
     </div>
     
     <script>
-        function sendMessage() {
-            const input = document.getElementById('questionInput');
-            const question = input.value.trim();
-            if (question) {
-                alert('问题已发送：' + question + '\n（演示原型）');
-                input.value = '';
-            }
-        }
+        document.querySelector('.back-btn').onclick = () => location.href = '首页_skill版.html';
         
-        document.getElementById('questionInput').addEventListener('keypress', function(e) {
+        // AI知识库
+        const knowledgeBase = {
+            '二甲双胍': {
+                keywords: ['二甲双胍', '格华止', '降糖药', '糖尿病用药', '二甲', 'metformin'],
+                answer: '二甲双胍的主要用药禁忌：<br><br>1. <strong>肾功能不全</strong>：血清肌酐≥1.5mg/dL（男）或≥1.4mg/dL（女）禁用<br>2. <strong>肝功能严重受损</strong>：肝功能不全患者禁用<br>3. <strong>酗酒者</strong>：长期大量饮酒增加乳酸酸中毒风险<br>4. <strong>乳酸酸中毒史</strong>：既往有乳酸酸中毒病史禁用<br>5. <strong>严重感染/缺氧</strong>：如心衰、休克、肺部疾病<br>6. <strong>手术前后</strong>：大手术前后48小时暂停使用<br>7. <strong>碘造影剂检查</strong>：使用造影剂前后48小时暂停<br><br><em>提示：用药前请咨询医生，定期监测肾功能</em>'
+            },
+            '高血压': {
+                keywords: ['高血压', '血压高', '降压'],
+                answer: '高血压患者需要注意：<br><br>1. <strong>饮食管理</strong>：低盐低脂饮食，每日盐摄入不超过6克<br>2. <strong>规律运动</strong>：每周至少150分钟中等强度运动<br>3. <strong>按时服药</strong>：遵医嘱规律服药，不可自行停药<br>4. <strong>定期监测</strong>：每天测量血压并记录<br>5. <strong>戒烟限酒</strong>：避免吸烟，限制饮酒'
+            },
+            '糖尿病': {
+                keywords: ['糖尿病', '血糖', '降糖'],
+                answer: '糖尿病患者需要注意：<br><br>1. <strong>饮食控制</strong>：控制碳水摄入，选择低GI食物<br>2. <strong>规律运动</strong>：每周至少150分钟中等强度运动<br>3. <strong>血糖监测</strong>：定期监测空腹和餐后血糖<br>4. <strong>按时服药</strong>：遵医嘱规律服药或注射胰岛素<br>5. <strong>足部护理</strong>：每天检查足部，避免受伤'
+            },
+            '感冒': {
+                keywords: ['感冒', '发烧', '咳嗽', '流鼻涕'],
+                answer: '感冒患者建议：<br><br>1. <strong>多休息</strong>：保证充足睡眠<br>2. <strong>多喝水</strong>：每日饮水2000-3000ml<br>3. <strong>对症用药</strong>：发热可用布洛芬，咳嗽可用止咳药<br>4. <strong>注意隔离</strong>：避免传染他人<br>5. <strong>及时就医</strong>：症状持续超过1周或加重时就医'
+            },
+            '胃痛': {
+                keywords: ['胃痛', '胃病', '胃溃疡', '胃炎'],
+                answer: '胃病患者建议：<br><br>1. <strong>规律饮食</strong>：定时定量进食，避免过饱<br>2. <strong>饮食禁忌</strong>：避免辛辣、油腻、生冷食物<br>3. <strong>戒烟限酒</strong>：烟酒会刺激胃黏膜<br>4. <strong>减压</strong>：避免精神紧张和焦虑<br>5. <strong>及时就医</strong>：疼痛持续或加重时就医'
+            },
+            '失眠': {
+                keywords: ['失眠', '睡不着', '睡眠'],
+                answer: '改善失眠建议：<br><br>1. <strong>规律作息</strong>：固定睡眠和起床时间<br>2. <strong>睡眠环境</strong>：安静、黑暗、温度适宜<br>3. <strong>睡前准备</strong>：避免咖啡、浓茶、剧烈运动<br>4. <strong>放松技巧</strong>：深呼吸、冥想、热水澡<br>5. <strong>避免午睡</strong>：白天午睡不超过30分钟'
+            }
+        };
+        
+        // 发送消息
+        document.querySelector('.send-btn').onclick = sendMessage;
+        document.querySelector('.message-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendMessage();
         });
-    
-        // 底部导航
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const text = this.querySelector('.nav-text').textContent;
-                const navMap = {
-                    '首页': 'index.html',
-                    '查询': 'UI原型_症状自查.html',
-                    '提醒': 'UI原型_用药提醒.html'
-                };
-                if (text === '我的') {
-                    alert('个人中心开发中...');
-                } else if (navMap[text]) {
-                    location.href = navMap[text];
+        
+        function sendMessage() {
+            const input = document.querySelector('.message-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            // 显示用户消息
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // 匹配知识库
+            setTimeout(() => {
+                const answer = findAnswer(message);
+                addMessage(answer, 'ai');
+            }, 500);
+        }
+        
+        // 查找答案
+        function findAnswer(question) {
+            for (const [disease, data] of Object.entries(knowledgeBase)) {
+                if (data.keywords.some(keyword => question.includes(keyword))) {
+                    return data.answer;
                 }
-            });
-        });
-</script>
-
-    <!-- 底部导航 -->
-    <div class="footer-nav">
-        <div class="nav-item">
-            <div class="nav-icon">🏠</div>
-            <div class="nav-text">首页</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">🔍</div>
-            <div class="nav-text">查询</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">⏰</div>
-            <div class="nav-text">提醒</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">👤</div>
-            <div class="nav-text">我的</div>
-        </div>
-    </div>
+            }
+            
+            // 默认回复
+            return '感谢您的提问！我已记录您的问题。如需更详细的解答，建议咨询专业医生。您也可以尝试问我关于高血压、糖尿病、感冒、胃痛、失眠等问题。';
+        }
+        
+        // 添加消息
+        function addMessage(text, type) {
+            const container = document.querySelector('.chat-container');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            if (type === 'ai') {
+                messageDiv.innerHTML = `
+                    <div class="ai-avatar">◉</div>
+                    <div class="message-content">${text}</div>
+                `;
+            } else {
+                messageDiv.innerHTML = `<div class="message-content">${text}</div>`;
+            }
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+            
+            // 滚动到新消息
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
 </body>
 </html>

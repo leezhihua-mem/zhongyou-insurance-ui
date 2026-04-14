@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>药品详情 - Skill设计版</title>
+    <title>药品详情</title>
     <link rel="stylesheet" href="colors.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
             font-family: 'DM Sans', -apple-system, sans-serif;
             background: var(--bg-secondary);
@@ -17,25 +15,14 @@
             padding-bottom: 100px;
             color: var(--text-primary);
         }
-        
-        body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(74,144,226,0.03) 0%, rgba(126,211,178,0.03) 100%); z-index: -1; }
-        
-        /* 顶部 */
         .top-section {
             padding: 24px 24px 32px;
-            animation: fadeSlideDown 0.6s ease-out;
         }
-        
-        @keyframes fadeSlideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         .header {
             display: flex;
             align-items: center;
+            margin-bottom: 24px;
         }
-        
         .back-btn {
             width: 44px;
             height: 44px;
@@ -46,73 +33,62 @@
             justify-content: center;
             cursor: pointer;
             font-size: 20px;
-            transition: all 0.3s;
+            margin-right: 16px;
         }
-        
-        .back-btn:hover {
-            border-color: var(--color-primary);
-            background: rgba(255,107,107,0.1);
-            transform: rotate(-10deg);
-        }
-        
         .header-title {
-            font-family: 'Playfair Display', serif;
             font-size: 24px;
             font-weight: 900;
-            margin-left: 16px;
-            letter-spacing: -1px;
         }
-        
-        /* 药品卡片 */
         .drug-card {
             background: var(--bg-primary);
             border: 1px solid var(--border-light);
-            margin: 24px;
+            margin: 0 24px 24px;
             border-radius: 24px;
             padding: 32px;
-            animation: fadeSlideDown 0.6s ease-out 0.1s both;
         }
-        
         .drug-title {
-            font-family: 'Playfair Display', serif;
             font-size: 32px;
             font-weight: 900;
-            color: var(--text-primary);
             margin-bottom: 8px;
-            letter-spacing: -2px;
         }
-        
         .drug-generic {
             font-size: 13px;
             color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .drug-brand {
+            font-size: 14px;
+            color: var(--color-primary);
+            font-weight: 600;
             margin-bottom: 16px;
         }
-        
-        .drug-type.rx {
+        .drug-type {
             display: inline-block;
             padding: 8px 18px;
-            background: rgba(255,107,107,0.15);
-            border: 1px solid rgba(255,107,107,0.3);
-            color: var(--color-primary);
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
-            letter-spacing: 1px;
         }
-        
-        /* 警告卡片 */
+        .drug-type.rx {
+            background: rgba(255,107,107,0.15);
+            border: 1px solid rgba(255,107,107,0.3);
+            color: var(--color-primary);
+        }
+        .drug-type.otc {
+            background: rgba(78,205,196,0.15);
+            border: 1px solid rgba(78,205,196,0.3);
+            color: #4ECDC4;
+        }
         .warning-card {
             background: var(--bg-light-yellow);
             border: 1px solid rgba(255,107,107,0.2);
             border-radius: 16px;
             padding: 20px 24px;
-            margin: 24px;
+            margin: 0 24px 24px;
             display: flex;
             align-items: center;
             gap: 16px;
-            animation: fadeSlideDown 0.6s ease-out 0.2s both;
         }
-        
         .warning-icon {
             width: 48px;
             height: 48px;
@@ -123,42 +99,24 @@
             justify-content: center;
             font-size: 24px;
         }
-        
         .warning-text {
             font-size: 14px;
             color: var(--color-primary);
             font-weight: 600;
-            line-height: 1.5;
         }
-        
-        /* 内容卡片 */
         .content-card {
             background: var(--bg-primary);
             border: 1px solid var(--border-light);
-            margin: 24px;
+            margin: 0 24px 24px;
             border-radius: 20px;
             padding: 24px;
-            animation: fadeIn 0.5s ease-out both;
         }
-        
-        .content-card:nth-child(4) { animation-delay: 0.3s; }
-        .content-card:nth-child(5) { animation-delay: 0.4s; }
-        .content-card:nth-child(6) { animation-delay: 0.5s; }
-        .content-card:nth-child(7) { animation-delay: 0.6s; }
-        .content-card:nth-child(8) { animation-delay: 0.7s; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         .section-header {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 20px;
         }
-        
         .section-icon {
             width: 40px;
             height: 40px;
@@ -170,336 +128,168 @@
             color: white;
             font-size: 18px;
         }
-        
         .section-title {
             font-size: 16px;
             font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
         }
-        
         .section-content {
             font-size: 14px;
             color: rgba(255,255,255,0.7);
             line-height: 1.7;
         }
-        
-        .section-content ul {
-            margin-left: 20px;
-            margin-top: 12px;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
         }
-        
-        .section-content li { margin-bottom: 8px; }
-        
-        /* 用法用量表格 */
-        .dosage-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-light);
+        .info-row:last-child {
+            border-bottom: none;
         }
-        
-        .dosage-table th {
-            background: linear-gradient(135deg, rgba(255,107,107,0.2) 0%, rgba(78,205,196,0.2) 100%);
-            color: var(--text-primary);
-            padding: 14px;
-            font-size: 13px;
+        .info-label {
             font-weight: 600;
+            color: var(--text-secondary);
         }
-        
-        .dosage-table td {
-            padding: 14px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 13px;
-            color: rgba(255,255,255,0.7);
-        }
-        
-        .dosage-table tr:hover td {
-            background: var(--bg-primary);
-        }
-        
-        /* 提示卡片 */
-        .tip-box {
-            background: rgba(78,205,196,0.08);
-            border: 1px solid rgba(78,205,196,0.2);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin: 16px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 13px;
-            color: var(--color-primary);
-        }
-        
-        /* 不良反应标签 */
-        .reaction-tags { margin-top: 16px; }
-        
-        .reaction-tag {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 16px;
-            font-size: 12px;
-            margin: 4px;
-            font-weight: 500;
-        }
-        
-        .reaction-tag.common {
-            background: rgba(255,107,107,0.15);
-            color: var(--color-primary);
-        }
-        
-        .reaction-tag.occasional {
-            background: rgba(255,255,255,0.08);
-            color: rgba(255,255,255,0.6);
-        }
-        
-        .reaction-tag.rare {
-            background: rgba(78,205,196,0.15);
-            color: var(--color-primary);
-        }
-        
-        /* 疾病标签 */
-        .disease-tags { margin-top: 16px; }
-        
-        .disease-tag {
-            display: inline-block;
-            padding: 10px 20px;
-            background: var(--bg-primary);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 24px;
-            font-size: 13px;
+        .info-value {
             color: var(--text-primary);
-            margin: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .disease-tag:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--color-primary);
-            transform: scale(1.05);
-        }
-        
-        /* 底部按钮 */
-        .footer-btns {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 375px;
-            margin: 0 auto;
-            background: rgba(10,10,10,0.9);
-            border-top: 1px solid rgba(255,255,255,0.08);
-            padding: 20px 24px 24px;
-            display: flex;
-            gap: 16px;
-            backdrop-filter: blur(20px);
-        }
-        
-        .action-btn {
+            text-align: right;
             flex: 1;
-            padding: 16px;
-            border-radius: 24px;
+            margin-left: 16px;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tag {
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            background: rgba(74,144,226,0.15);
+            color: #4A90E2;
+        }
+        .loading {
             text-align: center;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .action-btn:hover { transform: translateY(-2px); }
-        
-        .btn-secondary {
-            background: var(--bg-primary);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: var(--text-primary);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
-            color: white;
-            border: none;
-            box-shadow: 0 8px 24px rgba(255,107,107,0.2);
-        }
-        
-        .btn-primary:hover {
-            box-shadow: 0 12px 32px rgba(255,107,107,0.3);
+            padding: 60px;
+            color: var(--text-secondary);
         }
     </style>
 </head>
 <body>
     <div class="top-section">
         <div class="header">
-            <div class="back-btn">←</div>
+            <div class="back-btn" onclick="history.back()">←</div>
             <div class="header-title">药品详情</div>
         </div>
     </div>
     
-    <div class="drug-card">
-        <div class="drug-title">氨氯地平</div>
-        <div class="drug-generic">通用名：苯磺酸氨氯地平片 | 商品名：络活喜</div>
-        <div class="drug-type rx">处方药</div>
+    <div id="content">
+        <div class="loading">加载中...</div>
     </div>
-    
-    <div class="warning-card">
-        <div class="warning-icon">⚠</div>
-        <div class="warning-text">处方药须凭医师处方购买和使用<br>请勿自行购买服用</div>
-    </div>
-    
-    <div class="content-card">
-        <div class="section-header">
-            <div class="section-icon">●</div>
-            <div class="section-title">适应症</div>
-        </div>
-        <div class="section-content">
-            <ul>
-                <li>高血压（单独或联合用药）</li>
-                <li>冠心病</li>
-                <li>慢性稳定性心绞痛</li>
-            </ul>
-        </div>
-    </div>
-    
-    <div class="content-card">
-        <div class="section-header">
-            <div class="section-icon">◫</div>
-            <div class="section-title">用法用量</div>
-        </div>
-        <table class="dosage-table">
-            <tr><th>人群</th><th>剂量</th><th>频次</th></tr>
-            <tr><td>成人高血压</td><td>5mg/次</td><td>每日1次</td></tr>
-            <tr><td>成人心绞痛</td><td>5-10mg/次</td><td>每日1次</td></tr>
-            <tr><td>老年人</td><td>2.5mg起</td><td>每日1次</td></tr>
-        </table>
-        <div class="tip-box">
-            ◐ 建议每天同一时间服用，可空腹或餐后服用
-        </div>
-    </div>
-    
-    <div class="content-card">
-        <div class="section-header">
-            <div class="section-icon">✕</div>
-            <div class="section-title">禁忌事项</div>
-        </div>
-        <div class="section-content">
-            <ul>
-                <li><strong>禁用：</strong>对本品过敏者、严重低血压、休克</li>
-                <li><strong>慎用：</strong>肝功能不全、心力衰竭患者</li>
-                <li><strong>孕妇：</strong>禁用</li>
-                <li><strong>哺乳期：</strong>暂停哺乳</li>
-            </ul>
-        </div>
-    </div>
-    
-    <div class="content-card">
-        <div class="section-header">
-            <div class="section-icon">⚡</div>
-            <div class="section-title">不良反应</div>
-        </div>
-        <div class="reaction-tags">
-            <span class="reaction-tag common">头痛（常见）</span>
-            <span class="reaction-tag common">水肿（常见）</span>
-            <span class="reaction-tag common">面部潮红（常见）</span>
-            <span class="reaction-tag occasional">头晕（偶见）</span>
-            <span class="reaction-tag occasional">恶心（偶见）</span>
-            <span class="reaction-tag rare">心悸（罕见）</span>
-        </div>
-        <div class="tip-box">
-            ⚠ 如出现严重不良反应，请立即停药并就医
-        </div>
-    </div>
-    
-    <div class="content-card">
-        <div class="section-header">
-            <div class="section-icon">▦</div>
-            <div class="section-title">注意事项</div>
-        </div>
-        <div class="section-content">
-            <ul>
-                <li>避免与葡萄柚汁同服</li>
-                <li>服药期间避免驾驶或操作机械</li>
-                <li>定期监测血压</li>
-                <li>不可突然停药，需逐渐减量</li>
-            </ul>
-        </div>
-    </div>
-    
-    <div class="content-card">
-        <div class="section-header">
-            <div class="section-icon">◆</div>
-            <div class="section-title">适用疾病</div>
-        </div>
-        <div class="disease-tags">
-            <span class="disease-tag">高血压</span>
-            <span class="disease-tag">冠心病</span>
-            <span class="disease-tag">心绞痛</span>
-        </div>
-    </div>
-    
-    <div class="footer-btns">
-        <div class="action-btn btn-secondary">相关疾病</div>
-        <div class="action-btn btn-primary">添加用药计划</div>
-    </div>
-    
+
+    <script src="js/medicine-data.js"></script>
     <script>
-        document.querySelector('.back-btn').onclick = () => history.back();
-        document.querySelector('.btn-primary').onclick = () => {
-            const name = document.querySelector('.drug-title').textContent;
-            showToast('已添加到用药提醒');
-            setTimeout(() => {
-                location.href = '用药提醒_skill版.html';
-            }, 1000);
-        };
-        document.querySelector('.btn-secondary').onclick = () => {
-            location.href = '疾病百科_skill版.html';
-        };
-        
-        // 适用疾病点击
-        document.querySelectorAll('.disease-tag').forEach(tag => {
-            tag.onclick = function() {
-                const name = this.textContent;
-                addQueryRecord(name, '疾病');
-                location.href = '疾病详情_skill版.html';
-            };
-        });
-        
-        // 查询记录工具
-        function addQueryRecord(name, type) {
-            const records = JSON.parse(localStorage.getItem('queryRecords') || '[]');
-            records.unshift({
-                name: name,
-                type: type,
-                time: new Date().toISOString()
-            });
-            localStorage.setItem('queryRecords', JSON.stringify(records.slice(0, 50)));
+        async function loadDetail() {
+            const id = localStorage.getItem('currentMedicineId');
+            if (!id) {
+                document.getElementById('content').innerHTML = '<div class="loading">未找到药品信息</div>';
+                return;
+            }
+            
+            const medicine = await MedicineData.getById(id);
+            if (!medicine) {
+                document.getElementById('content').innerHTML = '<div class="loading">药品不存在</div>';
+                return;
+            }
+            
+            renderDetail(medicine);
         }
         
-        // Toast提示
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 100px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(0,0,0,0.8);
-                color: white;
-                padding: 12px 24px;
-                border-radius: 24px;
-                font-size: 14px;
-                z-index: 2000;
+        function renderDetail(m) {
+            document.getElementById('content').innerHTML = `
+                <div class="drug-card">
+                    <div class="drug-title">${m.name}</div>
+                    <div class="drug-generic">${m.genericName}</div>
+                    <div class="drug-brand">商品名：${m.brandName}</div>
+                    <span class="drug-type ${m.isPrescription ? 'rx' : 'otc'}">
+                        ${m.isPrescription ? '处方药' : '非处方药（OTC）'}
+                    </span>
+                </div>
+                
+                ${m.isPrescription ? `
+                <div class="warning-card">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-text">处方药需凭医生处方购买和使用</div>
+                </div>
+                ` : ''}
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">📋</div>
+                        <div class="section-title">基本信息</div>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-row">
+                            <span class="info-label">分类</span>
+                            <span class="info-value">${m.category}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">子分类</span>
+                            <span class="info-value">${m.subcategory || '-'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">药品ID</span>
+                            <span class="info-value">${m.id}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">💊</div>
+                        <div class="section-title">适应症</div>
+                    </div>
+                    <div class="section-content">${m.indication}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">📏</div>
+                        <div class="section-title">用法用量</div>
+                    </div>
+                    <div class="section-content">${m.dosage}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">⚡</div>
+                        <div class="section-title">不良反应</div>
+                    </div>
+                    <div class="section-content">${m.adverseReaction}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">🚫</div>
+                        <div class="section-title">禁忌症</div>
+                    </div>
+                    <div class="section-content">${m.contraindication}</div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-header">
+                        <div class="section-icon">⚠️</div>
+                        <div class="section-title">注意事项</div>
+                    </div>
+                    <div class="section-content">${m.precaution}</div>
+                </div>
             `;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
+            
+            // 更新页面标题
+            document.title = `${m.name} - 药品详情`;
         }
+        
+        loadDetail();
     </script>
 </body>
 </html>
