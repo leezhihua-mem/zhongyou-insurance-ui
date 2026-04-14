@@ -73,34 +73,34 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            padding: 0 24px 12px;
+            margin-top: 24px;
+        }
+        
         .symptom-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            padding: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 24px 24px;
         }
         
         .symptom-card {
             background: var(--bg-primary);
             border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 16px 12px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s;
+            transition: all 0.3s;
             animation: fadeIn 0.5s ease-out both;
         }
-        .symptom-card:nth-child(1) { animation-delay: 0.2s; }
-        .symptom-card:nth-child(2) { animation-delay: 0.3s; }
-        .symptom-card:nth-child(3) { animation-delay: 0.4s; }
-        .symptom-card:nth-child(4) { animation-delay: 0.5s; }
-        .symptom-card:nth-child(5) { animation-delay: 0.6s; }
-        .symptom-card:nth-child(6) { animation-delay: 0.7s; }
-        
         .symptom-card:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.15);
-            transform: translateY(-4px);
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
         }
         
         .symptom-card.selected {
@@ -109,21 +109,52 @@
         }
         
         .symptom-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 16px;
-            border-radius: 16px;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             background: linear-gradient(135deg, rgba(255,107,107,0.2) 0%, rgba(78,205,196,0.2) 100%);
         }
         
         .symptom-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-primary);
+        }
+        
+        .duration-section {
+            padding: 24px;
+            margin-top: 16px;
+        }
+        
+        .duration-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .duration-card {
+            padding: 12px 20px;
+            border-radius: 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .duration-card:hover {
+            border-color: var(--color-primary);
+        }
+        
+        .duration-card.selected {
+            background: rgba(78,205,196,0.15);
+            border-color: #4ECDC4;
         }
         
         .footer-btns {
@@ -131,7 +162,7 @@
             bottom: 0; left: 0; right: 0;
             max-width: 375px;
             margin: 0 auto;
-            background: rgba(10,10,10,0.9);
+            background: rgba(10,10,10,0.95);
             border-top: 1px solid rgba(255,255,255,0.08);
             padding: 20px 24px 24px;
             display: flex;
@@ -176,35 +207,92 @@
         ⚠ 本功能仅供参考，不能替代医师诊断。如有严重症状请及时就医。
     </div>
     
+    <!-- 症状选择（18种） -->
+    <div class="section-title">选择症状（可多选）</div>
     <div class="symptom-grid">
         <div class="symptom-card">
             <div class="symptom-icon">◉</div>
             <div class="symptom-title">头痛</div>
         </div>
-        
         <div class="symptom-card">
             <div class="symptom-icon">◎</div>
             <div class="symptom-title">发热</div>
         </div>
-        
         <div class="symptom-card">
             <div class="symptom-icon">◇</div>
             <div class="symptom-title">咳嗽</div>
         </div>
-        
         <div class="symptom-card">
             <div class="symptom-icon">●</div>
             <div class="symptom-title">胸闷</div>
         </div>
-        
         <div class="symptom-card">
             <div class="symptom-icon">⏱</div>
             <div class="symptom-title">失眠</div>
         </div>
-        
         <div class="symptom-card">
             <div class="symptom-icon">≡</div>
             <div class="symptom-title">胃痛</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◈</div>
+            <div class="symptom-title">头晕</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◇</div>
+            <div class="symptom-title">恶心</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◉</div>
+            <div class="symptom-title">腹泻</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◎</div>
+            <div class="symptom-title">乏力</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">●</div>
+            <div class="symptom-title">心悸</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">⏱</div>
+            <div class="symptom-title">便秘</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◈</div>
+            <div class="symptom-title">皮疹</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◇</div>
+            <div class="symptom-title">关节痛</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◉</div>
+            <div class="symptom-title">鼻塞</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">◎</div>
+            <div class="symptom-title">流涕</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">●</div>
+            <div class="symptom-title">咽痛</div>
+        </div>
+        <div class="symptom-card">
+            <div class="symptom-icon">⏱</div>
+            <div class="symptom-title">食欲不振</div>
+        </div>
+    </div>
+    
+    <!-- 持续时间 -->
+    <div class="duration-section">
+        <div class="section-title">持续时间</div>
+        <div class="duration-grid">
+            <div class="duration-card">今天</div>
+            <div class="duration-card">1-3天</div>
+            <div class="duration-card">3-7天</div>
+            <div class="duration-card">1周以上</div>
+            <div class="duration-card">反复发作</div>
         </div>
     </div>
     
@@ -223,58 +311,100 @@
             };
         });
         
+        // 持续时间选择
+        document.querySelectorAll('.duration-card').forEach(card => {
+            card.onclick = function() {
+                document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+            };
+        });
+        
         // 清空选择
         document.querySelector('.btn-secondary').onclick = () => {
             document.querySelectorAll('.symptom-card').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.duration-card').forEach(c => c.classList.remove('selected'));
         };
         
-        // 症状-疾病映射
+        // 扩展症状-疾病映射（18种症状）
         const symptomDiseaseMap = {
-            '头痛': ['高血压', '偏头痛', '感冒', '颈椎病'],
-            '发热': ['感冒', '流感', '肺炎', '扁桃体炎'],
-            '咳嗽': ['感冒', '支气管炎', '肺炎', '哮喘'],
-            '胸闷': ['冠心病', '心律失常', '焦虑症', '哮喘'],
-            '失眠': ['失眠症', '焦虑症', '抑郁症', '神经衰弱'],
-            '胃痛': ['胃炎', '胃溃疡', '消化不良', '胆囊炎']
+            '头痛': ['高血压', '偏头痛', '感冒', '颈椎病', '紧张性头痛', '脑供血不足'],
+            '发热': ['感冒', '流感', '肺炎', '扁桃体炎', '尿路感染', '中耳炎'],
+            '咳嗽': ['感冒', '支气管炎', '肺炎', '哮喘', '过敏性鼻炎', '慢性咽炎'],
+            '胸闷': ['冠心病', '心律失常', '焦虑症', '哮喘', '心肌炎', '肺气肿'],
+            '失眠': ['失眠症', '焦虑症', '抑郁症', '神经衰弱', '更年期综合征'],
+            '胃痛': ['胃炎', '胃溃疡', '消化不良', '胆囊炎', '胰腺炎', '胃食管反流'],
+            '头晕': ['高血压', '低血压', '贫血', '颈椎病', '脑供血不足', '美尼尔综合征'],
+            '恶心': ['胃炎', '消化不良', '早孕反应', '肝炎', '食物中毒', '药物反应'],
+            '腹泻': ['急性肠炎', '消化不良', '食物中毒', '肠易激综合征', '痢疾', '肠道感染'],
+            '乏力': ['贫血', '甲状腺功能减退', '糖尿病', '肝炎', '抑郁症', '慢性疲劳综合征'],
+            '心悸': ['心律失常', '甲状腺功能亢进', '焦虑症', '心肌炎', '贫血', '低血糖'],
+            '便秘': ['功能性便秘', '肠易激综合征', '痔疮', '结肠炎', '甲状腺功能减退', '药物副作用'],
+            '皮疹': ['过敏', '湿疹', '荨麻疹', '皮炎', '药物过敏', '病毒感染'],
+            '关节痛': ['关节炎', '风湿性关节炎', '痛风', '骨质疏松', '类风湿关节炎', '外伤'],
+            '鼻塞': ['感冒', '过敏性鼻炎', '鼻窦炎', '鼻息肉', '慢性鼻炎', '腺样体肥大'],
+            '流涕': ['感冒', '过敏性鼻炎', '鼻窦炎', '慢性鼻炎', '流感', '血管运动性鼻炎'],
+            '咽痛': ['感冒', '扁桃体炎', '咽炎', '流感', '喉炎', '干燥性咽炎'],
+            '食欲不振': ['胃炎', '消化不良', '肝炎', '抑郁症', '甲状腺功能减退', '药物反应']
+        };
+        
+        // 持续时间权重（影响概率计算）
+        const durationWeight = {
+            '今天': 1.0,
+            '1-3天': 1.2,
+            '3-7天': 1.5,
+            '1周以上': 1.8,
+            '反复发作': 2.0
         };
         
         // 开始分析
         document.querySelector('.btn-primary').onclick = () => {
-            const selected = document.querySelectorAll('.symptom-card.selected');
-            if (selected.length === 0) {
+            const selectedSymptoms = document.querySelectorAll('.symptom-card.selected');
+            if (selectedSymptoms.length === 0) {
                 showToast('请选择至少一个症状');
                 return;
             }
             
+            const selectedDuration = document.querySelector('.duration-card.selected');
+            if (!selectedDuration) {
+                showToast('请选择持续时间');
+                return;
+            }
+            
             // 获取选中症状
-            const symptoms = Array.from(selected).map(card => 
+            const symptoms = Array.from(selectedSymptoms).map(card => 
                 card.querySelector('.symptom-title').textContent
             );
+            
+            // 获取持续时间
+            const duration = selectedDuration.textContent;
+            const weight = durationWeight[duration] || 1.0;
             
             // 分析可能疾病
             const diseaseCount = {};
             symptoms.forEach(symptom => {
                 const diseases = symptomDiseaseMap[symptom] || [];
                 diseases.forEach(disease => {
-                    diseaseCount[disease] = (diseaseCount[disease] || 0) + 1;
+                    diseaseCount[disease] = (diseaseCount[disease] || 0) + weight;
                 });
             });
             
-            // 排序
+            // 排序（按权重）
+            const totalWeight = symptoms.length * weight;
             const results = Object.entries(diseaseCount)
                 .sort((a, b) => b[1] - a[1])
-                .slice(0, 3)
+                .slice(0, 5)
                 .map(([disease, count]) => ({
                     name: disease,
-                    probability: Math.round((count / symptoms.length) * 100)
+                    probability: Math.min(Math.round((count / totalWeight) * 100), 95),
+                    matchScore: count
                 }));
             
             // 显示结果
-            showAnalysisResult(symptoms, results);
+            showAnalysisResult(symptoms, duration, results);
         };
         
         // 显示分析结果
-        function showAnalysisResult(symptoms, results) {
+        function showAnalysisResult(symptoms, duration, results) {
             const resultHTML = `
                 <div class="analysis-result" style="
                     position: fixed;
@@ -296,14 +426,21 @@
                             <div style="font-size: 20px; font-weight: 700; margin-left: 16px; color: var(--color-primary);">分析结果</div>
                         </div>
                         
-                        <div style="background: var(--bg-light-blue); border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+                        <div style="background: var(--bg-light-blue); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
                             <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px;">已选症状</div>
                             <div style="font-size: 14px; color: var(--text-primary);">
                                 ${symptoms.join('、')}
                             </div>
                         </div>
                         
-                        <div style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text-primary);">可能疾病</div>
+                        <div style="background: rgba(78,205,196,0.15); border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+                            <div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px;">持续时间</div>
+                            <div style="font-size: 14px; color: var(--text-primary); font-weight: 600;">
+                                ${duration}
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text-primary);">可能疾病（Top 5）</div>
                         
                         ${results.map((r, i) => `
                             <div style="
@@ -315,14 +452,28 @@
                                 cursor: pointer;
                             " onclick="location.href='疾病详情_skill版.html'">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div style="font-size: 16px; font-weight: 600; color: var(--text-primary);">${r.name}</div>
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="
+                                            width: 32px; height: 32px;
+                                            background: ${i === 0 ? 'var(--color-primary)' : 'var(--bg-secondary)'};
+                                            border-radius: 8px;
+                                            display: flex; align-items: center; justify-content: center;
+                                            color: ${i === 0 ? 'white' : 'var(--text-tertiary)'};
+                                            font-size: 14px; font-weight: 700;
+                                        ">${i + 1}</div>
+                                        <div style="font-size: 16px; font-weight: 600; color: var(--text-primary);">${r.name}</div>
+                                    </div>
                                     <div style="
-                                        background: ${i === 0 ? 'var(--color-primary)' : 'var(--bg-secondary)'};
-                                        color: ${i === 0 ? 'white' : 'var(--text-tertiary)'};
-                                        padding: 4px 12px;
+                                        background: ${r.probability >= 70 ? 'rgba(255,107,107,0.15)' : r.probability >= 50 ? 'rgba(78,205,196,0.15)' : 'var(--bg-secondary)'};
+                                        color: ${r.probability >= 70 ? 'var(--color-primary)' : r.probability >= 50 ? '#4ECDC4' : 'var(--text-tertiary)'};
+                                        padding: 6px 14px;
                                         border-radius: 12px;
-                                        font-size: 12px;
+                                        font-size: 14px;
+                                        font-weight: 600;
                                     ">${r.probability}%</div>
+                                </div>
+                                <div style="font-size: 12px; color: var(--text-tertiary); margin-top: 8px;">
+                                    匹配度：${r.matchScore.toFixed(1)} | 点击查看详情
                                 </div>
                             </div>
                         `).join('')}
@@ -335,7 +486,20 @@
                             margin-top: 24px;
                         ">
                             <div style="font-size: 14px; color: var(--text-primary); line-height: 1.6;">
-                                <strong>温馨提示：</strong>本分析结果仅供参考，不能替代医师诊断。如症状持续或加重，请及时就医。
+                                <strong>温馨提示：</strong>本分析结果仅供参考，不能替代医师诊断。如症状持续或加重，请及时就医。建议优先关注概率最高的疾病。
+                            </div>
+                        </div>
+                        
+                        <div style="
+                            background: rgba(74,144,226,0.1);
+                            border-radius: 12px;
+                            padding: 16px;
+                            margin-top: 16px;
+                            text-align: center;
+                            cursor: pointer;
+                        " onclick="location.href='AI问答_skill版.html'">
+                            <div style="font-size: 14px; color: #4A90E2; font-weight: 600;">
+                                ◉ AI咨询医生建议
                             </div>
                         </div>
                     </div>
@@ -344,7 +508,7 @@
             document.body.insertAdjacentHTML('beforeend', resultHTML);
             
             // 记录查询
-            addQueryRecord(symptoms.join('+'), '症状自查');
+            addQueryRecord(symptoms.join('+') + '(' + duration + ')', '症状自查');
         }
         
         // Toast提示
