@@ -17,7 +17,8 @@ const MedicineData = {
     
     for (const cat of categories) {
       try {
-        const res = await fetch(`../data/medicines-${cat}.json`);
+        // 使用绝对路径（相对于网站根目录）
+        const res = await fetch(`data/medicines-${cat}.json`);
         const data = await res.json();
         allMedicines = allMedicines.concat(data.medicines);
       } catch (e) {
