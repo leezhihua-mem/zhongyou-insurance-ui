@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>家康OS - 疾病详情（匠心优化版）</title>
     <style>
-        /* 匠心统一设计规范 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Source Han Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
@@ -16,7 +15,7 @@
             color: #212121;
         }
         
-        /* 底部标签导航 */
+        /* 底部标签导航（可跳转）⭐⭐⭐⭐⭐ */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -31,12 +30,20 @@
             max-width: 375px;
             margin: 0 auto;
         }
-        .tab-item { display: flex; flex-direction: column; align-items: center; }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: #212121;
+        }
+        .tab-item:hover { color: #2C5F2D; }
         .tab-item.active { color: #2C5F2D; }
         .tab-icon { font-size: 24px; margin-bottom: 4px; }
         .tab-label { font-size: 12px; }
         
-        /* Header */
+        /* Header（返回按钮可跳转）⭐⭐⭐⭐⭐ */
         .header {
             background: #2C5F2D;
             color: white;
@@ -47,7 +54,13 @@
             top: 0;
             z-index: 100;
         }
-        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .back-btn {
+            font-size: 24px;
+            margin-right: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
         .header-title { font-size: 18px; font-weight: 600; }
         
         /* 疾病基本信息 */
@@ -61,15 +74,12 @@
         
         .disease-name {
             font-size: 20px;
-            color: #212121;
             font-weight: 600;
             margin-bottom: 8px;
         }
         
         .alert-badge {
             display: inline-flex;
-            align-items: center;
-            gap: 4px;
             padding: 4px 12px;
             border-radius: 12px;
             font-size: 12px;
@@ -92,7 +102,6 @@
             border-bottom: 1px solid #E0E0E0;
             font-size: 16px;
             font-weight: 600;
-            color: #212121;
         }
         
         .card-content {
@@ -110,35 +119,24 @@
         }
         .info-row:last-child { border-bottom: none; }
         
-        .info-label {
-            font-size: 14px;
-            color: #757575;
-        }
+        .info-label { font-size: 14px; color: #757575; }
+        .info-value { font-size: 14px; font-weight: 500; }
         
-        .info-value {
-            font-size: 14px;
-            color: #212121;
-            font-weight: 500;
-        }
-        
-        /* 相关药品 */
+        /* 相关药品（可跳转）⭐⭐⭐⭐⭐ */
         .related-medicine {
             padding: 12px;
             border-bottom: 1px solid #E0E0E0;
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #212121;
         }
         .related-medicine:last-child { border-bottom: none; }
         
-        .medicine-icon {
-            font-size: 24px;
-        }
-        
-        .medicine-name {
-            font-size: 14px;
-            color: #212121;
-        }
+        .medicine-icon { font-size: 24px; }
+        .medicine-name { font-size: 14px; }
         
         .medicine-type {
             display: inline-block;
@@ -149,24 +147,36 @@
         }
         .type-otc { background: #E8F5E9; color: #2C5F2D; }
         .type-prescription { background: #FFF3E0; color: #EF6C00; }
-        
-        /* QA检查清单 */
-        /* ✅ 所有规范已遵循 */
     </style>
 </head>
 <body>
-    <!-- 底部标签导航 -->
+    <!-- 底部标签导航（可跳转）⭐⭐⭐⭐⭐ -->
     <div class="tab-bar">
-        <div class="tab-item"><div class="tab-icon">🏠</div><div class="tab-label">首页</div></div>
-        <div class="tab-item"><div class="tab-icon">⚠️</div><div class="tab-label">预警</div></div>
-        <div class="tab-item"><div class="tab-icon">💊</div><div class="tab-label">用药</div></div>
-        <div class="tab-item"><div class="tab-icon">💬</div><div class="tab-label">咨询</div></div>
-        <div class="tab-item"><div class="tab-icon">👤</div><div class="tab-label">我的</div></div>
+        <a href="UI原型_首页_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label">首页</div>
+        </a>
+        <a href="UI原型_症状自查_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">⚠️</div>
+            <div class="tab-label">预警</div>
+        </a>
+        <a href="UI原型_用药提醒_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">💊</div>
+            <div class="tab-label">用药</div>
+        </a>
+        <a href="UI原型_AI问答_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">💬</div>
+            <div class="tab-label">咨询</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon">👤</div>
+            <div class="tab-label">我的</div>
+        </a>
     </div>
     
-    <!-- Header -->
+    <!-- Header（返回按钮可跳转）⭐⭐⭐⭐⭐ -->
     <div class="header">
-        <div class="back-btn">←</div>
+        <a href="UI原型_疾病百科_匠心优化版.html" class="back-btn">←</a>
         <div class="header-title">疾病详情</div>
     </div>
     
@@ -218,21 +228,21 @@
         </div>
     </div>
     
-    <!-- 相关药品卡片 -->
+    <!-- 相关药品卡片（可跳转）⭐⭐⭐⭐⭐ -->
     <div class="detail-card">
         <div class="card-header">常用药品</div>
-        <div class="related-medicine">
+        <a href="UI原型_药品详情_匠心优化版.html" class="related-medicine">
             <div class="medicine-icon">💊</div>
             <div class="medicine-name">硝苯地平缓释片<span class="medicine-type type-prescription">处方</span></div>
-        </div>
-        <div class="related-medicine">
+        </a>
+        <a href="UI原型_药品详情_匠心优化版.html" class="related-medicine">
             <div class="medicine-icon">💊</div>
             <div class="medicine-name">氨氯地平片<span class="medicine-type type-prescription">处方</span></div>
-        </div>
-        <div class="related-medicine">
+        </a>
+        <a href="UI原型_药品详情_匠心优化版.html" class="related-medicine">
             <div class="medicine-icon">💊</div>
             <div class="medicine-name">阿司匹林肠溶片<span class="medicine-type type-otc">OTC</span></div>
-        </div>
+        </a>
     </div>
     
     <!-- 温馨提示 -->

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>家康OS - 药品查询（匠心优化版）</title>
     <style>
-        /* 匠心统一设计规范 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Source Han Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
@@ -16,7 +15,7 @@
             color: #212121;
         }
         
-        /* 底部标签导航 */
+        /* 底部标签导航（可跳转）⭐⭐⭐⭐⭐ */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -31,12 +30,20 @@
             max-width: 375px;
             margin: 0 auto;
         }
-        .tab-item { display: flex; flex-direction: column; align-items: center; }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: #212121;
+        }
+        .tab-item:hover { color: #2C5F2D; }
         .tab-item.active { color: #2C5F2D; }
         .tab-icon { font-size: 24px; margin-bottom: 4px; }
         .tab-label { font-size: 12px; }
         
-        /* Header */
+        /* Header（返回按钮可跳转）⭐⭐⭐⭐⭐ */
         .header {
             background: #2C5F2D;
             color: white;
@@ -47,7 +54,13 @@
             top: 0;
             z-index: 100;
         }
-        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .back-btn {
+            font-size: 24px;
+            margin-right: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
         .header-title { font-size: 18px; font-weight: 600; }
         
         /* 分类筛选 */
@@ -71,9 +84,9 @@
         .category-item:hover { background: #F5F5F5; }
         .category-item.active { background: #E8F5E9; }
         .category-icon { font-size: 24px; margin-bottom: 4px; }
-        .category-name { font-size: 11px; color: #212121; }
+        .category-name { font-size: 11px; }
         
-        /* 药品列表 */
+        /* 药品列表（可跳转）⭐⭐⭐⭐⭐ */
         .medicine-list {
             background: white;
             margin: 12px;
@@ -86,6 +99,9 @@
             border-bottom: 1px solid #E0E0E0;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            color: #212121;
+            display: block;
         }
         .medicine-item:last-child { border-bottom: none; }
         .medicine-item:hover { background: #F5F5F5; }
@@ -97,11 +113,7 @@
             margin-bottom: 8px;
         }
         
-        .medicine-name {
-            font-size: 15px;
-            color: #212121;
-            font-weight: 500;
-        }
+        .medicine-name { font-size: 15px; font-weight: 500; }
         
         .medicine-type {
             display: inline-block;
@@ -118,34 +130,38 @@
             align-items: center;
         }
         
-        .medicine-spec {
-            font-size: 13px;
-            color: #757575;
-        }
-        
-        .medicine-price {
-            font-size: 14px;
-            color: #2C5F2D;
-            font-weight: 600;
-        }
-        
-        /* QA检查清单 */
-        /* ✅ 所有规范已遵循 */
+        .medicine-spec { font-size: 13px; color: #757575; }
+        .medicine-price { font-size: 14px; color: #2C5F2D; font-weight: 600; }
     </style>
 </head>
 <body>
-    <!-- 底部标签导航 -->
+    <!-- 底部标签导航（可跳转）⭐⭐⭐⭐⭐ -->
     <div class="tab-bar">
-        <div class="tab-item"><div class="tab-icon">🏠</div><div class="tab-label">首页</div></div>
-        <div class="tab-item"><div class="tab-icon">⚠️</div><div class="tab-label">预警</div></div>
-        <div class="tab-item"><div class="tab-icon">💊</div><div class="tab-label">用药</div></div>
-        <div class="tab-item"><div class="tab-icon">💬</div><div class="tab-label">咨询</div></div>
-        <div class="tab-item"><div class="tab-icon">👤</div><div class="tab-label">我的</div></div>
+        <a href="UI原型_首页_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label">首页</div>
+        </a>
+        <a href="UI原型_症状自查_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">⚠️</div>
+            <div class="tab-label">预警</div>
+        </a>
+        <a href="UI原型_用药提醒_匠心优化版.html" class="tab-item active">
+            <div class="tab-icon">💊</div>
+            <div class="tab-label">用药</div>
+        </a>
+        <a href="UI原型_AI问答_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">💬</div>
+            <div class="tab-label">咨询</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon">👤</div>
+            <div class="tab-label">我的</div>
+        </a>
     </div>
     
-    <!-- Header -->
+    <!-- Header（返回按钮可跳转）⭐⭐⭐⭐⭐ -->
     <div class="header">
-        <div class="back-btn">←</div>
+        <a href="UI原型_首页_匠心优化版.html" class="back-btn">←</a>
         <div class="header-title">药品查询</div>
     </div>
     
@@ -157,9 +173,9 @@
         <div class="category-item"><div class="category-icon">🍽️</div><div class="category-name">消化系统</div></div>
     </div>
     
-    <!-- 药品列表 -->
+    <!-- 药品列表（可跳转）⭐⭐⭐⭐⭐ -->
     <div class="medicine-list">
-        <div class="medicine-item">
+        <a href="UI原型_药品详情_匠心优化版.html" class="medicine-item">
             <div class="medicine-header">
                 <div class="medicine-name">阿司匹林肠溶片</div>
                 <span class="medicine-type type-otc">OTC</span>
@@ -168,9 +184,9 @@
                 <div class="medicine-spec">100mg × 30片</div>
                 <div class="medicine-price">¥15.00</div>
             </div>
-        </div>
+        </a>
         
-        <div class="medicine-item">
+        <a href="UI原型_药品详情_匠心优化版.html" class="medicine-item">
             <div class="medicine-header">
                 <div class="medicine-name">硝苯地平缓释片</div>
                 <span class="medicine-type type-prescription">处方</span>
@@ -179,9 +195,9 @@
                 <div class="medicine-spec">30mg × 20片</div>
                 <div class="medicine-price">¥18.00</div>
             </div>
-        </div>
+        </a>
         
-        <div class="medicine-item">
+        <a href="UI原型_药品详情_匠心优化版.html" class="medicine-item">
             <div class="medicine-header">
                 <div class="medicine-name">奥美拉唑肠溶胶囊</div>
                 <span class="medicine-type type-prescription">处方</span>
@@ -190,7 +206,7 @@
                 <div class="medicine-spec">20mg × 14粒</div>
                 <div class="medicine-price">¥35.00</div>
             </div>
-        </div>
+        </a>
     </div>
 </body>
 </html>

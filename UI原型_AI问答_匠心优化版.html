@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>家康OS - AI问答（匠心优化版）</title>
     <style>
-        /* 匠心统一设计规范 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Source Han Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
@@ -16,7 +15,7 @@
             color: #212121;
         }
         
-        /* 底部标签导航 */
+        /* 底部标签导航（可跳转）⭐⭐⭐⭐⭐ */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -31,7 +30,15 @@
             max-width: 375px;
             margin: 0 auto;
         }
-        .tab-item { display: flex; flex-direction: column; align-items: center; }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: #212121;
+        }
+        .tab-item:hover { color: #2C5F2D; }
         .tab-item.active { color: #2C5F2D; }
         .tab-icon { font-size: 24px; margin-bottom: 4px; }
         .tab-label { font-size: 12px; }
@@ -130,19 +137,31 @@
             margin: 8px 0;
             text-align: center;
         }
-        
-        /* QA检查清单 */
-        /* ✅ 所有规范已遵循 */
     </style>
 </head>
 <body>
-    <!-- 底部标签导航 -->
+    <!-- 底部标签导航（可跳转）⭐⭐⭐⭐⭐ -->
     <div class="tab-bar">
-        <div class="tab-item"><div class="tab-icon">🏠</div><div class="tab-label">首页</div></div>
-        <div class="tab-item"><div class="tab-icon">⚠️</div><div class="tab-label">预警</div></div>
-        <div class="tab-item"><div class="tab-icon">💊</div><div class="tab-label">用药</div></div>
-        <div class="tab-item active"><div class="tab-icon">💬</div><div class="tab-label">咨询</div></div>
-        <div class="tab-item"><div class="tab-icon">👤</div><div class="tab-label">我的</div></div>
+        <a href="UI原型_首页_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label">首页</div>
+        </a>
+        <a href="UI原型_症状自查_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">⚠️</div>
+            <div class="tab-label">预警</div>
+        </a>
+        <a href="UI原型_用药提醒_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">💊</div>
+            <div class="tab-label">用药</div>
+        </a>
+        <a href="#" class="tab-item active">
+            <div class="tab-icon">💬</div>
+            <div class="tab-label">咨询</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon">👤</div>
+            <div class="tab-label">我的</div>
+        </a>
     </div>
     
     <!-- Header -->
@@ -157,7 +176,7 @@
         </div>
         
         <div class="message message-ai">
-           您好！我是家康OS健康助手。我可以帮您：
+            您好！我是家康OS健康助手。我可以帮您：
             <br>• 了解疾病和药品知识
             <br>• 分析健康风险
             <br>• 提供用药提醒建议

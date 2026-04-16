@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家康OS - 药品详情（匠心优化版）</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Han Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+            background: #F5F5F5;
+            max-width: 375px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+            color: #212121;
+        }
+        
+        /* 底部标签导航（可跳转）⭐⭐⭐⭐⭐ */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid #E0E0E0;
+            z-index: 1000;
+            max-width: 375px;
+            margin: 0 auto;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: #212121;
+        }
+        .tab-item:hover { color: #2C5F2D; }
+        .tab-item.active { color: #2C5F2D; }
+        .tab-icon { font-size: 24px; margin-bottom: 4px; }
+        .tab-label { font-size: 12px; }
+        
+        /* Header（返回按钮可跳转）⭐⭐⭐⭐⭐ */
+        .header {
+            background: #2C5F2D;
+            color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            font-size: 24px;
+            margin-right: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+        .header-title { font-size: 18px; font-weight: 600; }
+        
+        /* 药品基本信息 */
+        .medicine-summary {
+            background: white;
+            margin: 12px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .medicine-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .medicine-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .medicine-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .type-otc { background: #E8F5E9; color: #2C5F2D; }
+        .type-prescription { background: #FFF3E0; color: #EF6C00; }
+        
+        .medicine-price {
+            font-size: 18px;
+            color: #2C5F2D;
+            font-weight: 700;
+        }
+        
+        /* 详情卡片 */
+        .detail-card {
+            background: white;
+            margin: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .card-header {
+            padding: 16px;
+            border-bottom: 1px solid #E0E0E0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .card-content {
+            padding: 16px;
+            line-height: 1.6;
+            color: #424242;
+            font-size: 14px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .info-row:last-child { border-bottom: none; }
+        
+        .info-label { font-size: 14px; color: #757575; }
+        .info-value { font-size: 14px; font-weight: 500; }
+        
+        /* 用药提醒按钮（跳转到用药提醒页面）⭐⭐⭐⭐⭐ */
+        .add-reminder-btn {
+            background: #2C5F2D;
+            color: white;
+            margin: 16px 12px;
+            padding: 14px;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(44,95,45,0.3);
+            text-decoration: none;
+            display: block;
+        }
+        
+        .add-reminder-btn:hover {
+            background: #97BC62;
+        }
+    </style>
+</head>
+<body>
+    <!-- 底部标签导航（可跳转）⭐⭐⭐⭐⭐ -->
+    <div class="tab-bar">
+        <a href="UI原型_首页_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label">首页</div>
+        </a>
+        <a href="UI原型_症状自查_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">⚠️</div>
+            <div class="tab-label">预警</div>
+        </a>
+        <a href="UI原型_用药提醒_匠心优化版.html" class="tab-item active">
+            <div class="tab-icon">💊</div>
+            <div class="tab-label">用药</div>
+        </a>
+        <a href="UI原型_AI问答_匠心优化版.html" class="tab-item">
+            <div class="tab-icon">💬</div>
+            <div class="tab-label">咨询</div>
+        </a>
+        <a href="#" class="tab-item">
+            <div class="tab-icon">👤</div>
+            <div class="tab-label">我的</div>
+        </a>
+    </div>
+    
+    <!-- Header（返回按钮可跳转）⭐⭐⭐⭐⭐ -->
+    <div class="header">
+        <a href="UI原型_药品查询_匠心优化版.html" class="back-btn">←</a>
+        <div class="header-title">药品详情</div>
+    </div>
+    
+    <!-- 药品基本信息 -->
+    <div class="medicine-summary">
+        <div class="medicine-name">硝苯地平缓释片</div>
+        <div class="medicine-meta">
+            <span class="medicine-type type-prescription">处方药</span>
+            <div class="medicine-price">¥18.00</div>
+        </div>
+    </div>
+    
+    <!-- 基本信息 -->
+    <div class="detail-card">
+        <div class="card-header">基本信息</div>
+        <div class="card-content">
+            <div class="info-row">
+                <div class="info-label">药品规格</div>
+                <div class="info-value">30mg × 20片</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">生产厂商</div>
+                <div class="info-value">拜耳医药</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">批准文号</div>
+                <div class="info-value">国药准字H20123456</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">药品分类</div>
+                <div class="info-value">心血管系统用药</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 功能主治 -->
+    <div class="detail-card">
+        <div class="card-header">功能主治</div>
+        <div class="card-content">
+            用于治疗高血压、冠心病、心绞痛。硝苯地平是一种钙通道阻滞剂，通过扩张血管降低血压，改善心肌供血。
+        </div>
+    </div>
+    
+    <!-- 用法用量 -->
+    <div class="detail-card">
+        <div class="card-header">用法用量</div>
+        <div class="card-content">
+            <strong style="color: #2C5F2D;">口服，一次30mg，一日1次。</strong>
+            <br><br>
+            具体剂量请遵医嘱，根据病情调整。
+        </div>
+    </div>
+    
+    <!-- 注意事项 -->
+    <div class="detail-card">
+        <div class="card-header">注意事项</div>
+        <div class="card-content" style="background: #FFF3E0; padding: 12px; border-radius: 8px;">
+            ⚠️ <strong style="color: #EF6C00;">注意事项：</strong>
+            <br>• 服药期间避免饮酒
+            <br>• 孕妇慎用
+            <br>• 肝功能不全者减量
+            <br>• 可能出现头晕、头痛等副作用
+        </div>
+    </div>
+    
+    <!-- 药品相互作用 -->
+    <div class="detail-card">
+        <div class="card-header">药品相互作用</div>
+        <div class="card-content">
+            <div style="background: #FFEBEE; padding: 12px; border-radius: 8px; color: #C62828; margin-bottom: 12px;">
+                🔴 <strong>禁止联用：</strong>
+                <br>• 与强效CYP3A4抑制剂联用可能增加血药浓度
+            </div>
+            <div style="background: #FFF3E0; padding: 12px; border-radius: 8px; color: #EF6C00;">
+                ⚠️ <strong>谨慎联用：</strong>
+                <br>• 与β受体阻滞剂联用需监测血压
+                <br>• 与地高辛联用需监测血药浓度
+            </div>
+        </div>
+    </div>
+    
+    <!-- 用药提醒按钮（跳转到用药提醒页面）⭐⭐⭐⭐⭐ -->
+    <a href="UI原型_用药提醒_匠心优化版.html" class="add-reminder-btn">添加用药提醒</a>
+    
+    <!-- 温馨提示 -->
+    <div class="detail-card">
+        <div class="card-header">温馨提示</div>
+        <div class="card-content" style="font-size: 13px; color: #757575;">
+            本信息仅供参考，不替代专业医生指导。用药前请咨询医生或药师，遵医嘱服药。
+        </div>
+    </div>
+</body>
+</html>
