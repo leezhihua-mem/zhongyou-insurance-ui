@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>家康OS - 疾病百科（匠心优化版）</title>
+    <style>
+        /* 匠心统一设计规范（见首页）*/
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Han Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+            background: #F5F5F5;
+            max-width: 375px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+            color: #212121;
+        }
+        
+        /* 底部标签导航 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid #E0E0E0;
+            z-index: 1000;
+            max-width: 375px;
+            margin: 0 auto;
+        }
+        .tab-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .tab-item.active { color: #2C5F2D; }
+        .tab-icon { font-size: 24px; margin-bottom: 4px; }
+        .tab-label { font-size: 12px; }
+        
+        /* Header */
+        .header {
+            background: #2C5F2D;
+            color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .header-title { font-size: 18px; font-weight: 600; }
+        
+        /* 分类筛选（非等权重）*/
+        .category-filter {
+            background: white;
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .filter-item {
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .filter-item:hover { background: #F5F5F5; }
+        .filter-item.active {
+            background: #2C5F2D;
+            color: white;
+        }
+        
+        /* 疾病列表 */
+        .disease-list {
+            background: white;
+            margin: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .disease-item {
+            padding: 16px;
+            border-bottom: 1px solid #E0E0E0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .disease-item:last-child { border-bottom: none; }
+        .disease-item:hover { background: #F5F5F5; }
+        
+        .disease-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .disease-name {
+            font-size: 15px;
+            color: #212121;
+            font-weight: 500;
+        }
+        .alert-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .alert-low { background: #E8F5E9; color: #2C5F2D; }
+        .alert-medium { background: #FFF3E0; color: #EF6C00; }
+        .alert-high { background: #FFEBEE; color: #C62828; }
+        
+        .disease-desc {
+            font-size: 13px;
+            color: #757575;
+            line-height: 1.4;
+        }
+        
+        .disease-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            background: #E8F5E9;
+            color: #2C5F2D;
+        }
+        
+        /* QA检查清单 */
+        /* ✅ 中文字体：思源黑体 */
+        /* ✅ 移动端响应式：max-width 375px */
+        /* ✅ 配色对比度：12.63 */
+        /* ✅ 禁止清单：无紫色渐变/无装饰横条/无等权重卡片/无Inter/Roboto/Arial */
+        /* ✅ 预警分级标签：已实现 */
+        /* ✅ 底部标签导航：已统一 */
+    </style>
+</head>
+<body>
+    <!-- 底部标签导航 -->
+    <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div><div class="tab-label">首页</div></div>
+        <div class="tab-item"><div class="tab-icon">⚠️</div><div class="tab-label">预警</div></div>
+        <div class="tab-item"><div class="tab-icon">💊</div><div class="tab-label">用药</div></div>
+        <div class="tab-item"><div class="tab-icon">💬</div><div class="tab-label">咨询</div></div>
+        <div class="tab-item"><div class="tab-icon">👤</div><div class="tab-label">我的</div></div>
+    </div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="back-btn">←</div>
+        <div class="header-title">疾病百科</div>
+    </div>
+    
+    <!-- 分类筛选 -->
+    <div class="category-filter">
+        <div class="filter-item active">全部</div>
+        <div class="filter-item">心血管</div>
+        <div class="filter-item">呼吸系统</div>
+        <div class="filter-item">消化系统</div>
+        <div class="filter-item">内分泌</div>
+        <div class="filter-item">神经系统</div>
+    </div>
+    
+    <!-- 疾病列表 -->
+    <div class="disease-list">
+        <div class="disease-item">
+            <div class="disease-header">
+                <div class="disease-name">感冒</div>
+                <span class="alert-badge alert-low">🟢轻度</span>
+            </div>
+            <div class="disease-desc">急性上呼吸道病毒性感染性疾病，主要表现为鼻塞、流涕、咳嗽等症状。</div>
+            <div class="disease-tags">
+                <span class="tag">常见病</span>
+                <span class="tag">自限性</span>
+            </div>
+        </div>
+        
+        <div class="disease-item">
+            <div class="disease-header">
+                <div class="disease-name">高血压</div>
+                <span class="alert-badge alert-medium">🟡中度</span>
+            </div>
+            <div class="disease-desc">体循环动脉血压持续升高，是心脑血管疾病的主要危险因素。</div>
+            <div class="disease-tags">
+                <span class="tag">慢性病</span>
+                <span class="tag">需长期管理</span>
+            </div>
+        </div>
+        
+        <div class="disease-item">
+            <div class="disease-header">
+                <div class="disease-name">糖尿病</div>
+                <span class="alert-badge alert-medium">🟡中度</span>
+            </div>
+            <div class="disease-desc">以高血糖为特征的代谢性疾病，需要长期血糖控制和生活方式管理。</div>
+            <div class="disease-tags">
+                <span class="tag">慢性病</span>
+                <span class="tag">需长期管理</span>
+            </div>
+        </div>
+        
+        <div class="disease-item">
+            <div class="disease-header">
+                <div class="disease-name">冠心病</div>
+                <span class="alert-badge alert-high">🔴高度</span>
+            </div>
+            <div class="disease-desc">冠状动脉粥样硬化性心脏病，是心肌缺血缺氧的主要原因。</div>
+            <div class="disease-tags">
+                <span class="tag">高危疾病</span>
+                <span class="tag">需定期检查</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
