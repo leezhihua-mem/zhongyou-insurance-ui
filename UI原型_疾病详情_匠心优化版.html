@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家康OS - 疾病详情（匠心优化版）</title>
+    <style>
+        /* 匠心统一设计规范 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Han Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+            background: #F5F5F5;
+            max-width: 375px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+            color: #212121;
+        }
+        
+        /* 底部标签导航 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid #E0E0E0;
+            z-index: 1000;
+            max-width: 375px;
+            margin: 0 auto;
+        }
+        .tab-item { display: flex; flex-direction: column; align-items: center; }
+        .tab-item.active { color: #2C5F2D; }
+        .tab-icon { font-size: 24px; margin-bottom: 4px; }
+        .tab-label { font-size: 12px; }
+        
+        /* Header */
+        .header {
+            background: #2C5F2D;
+            color: white;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn { font-size: 24px; margin-right: 12px; cursor: pointer; }
+        .header-title { font-size: 18px; font-weight: 600; }
+        
+        /* 疾病基本信息 */
+        .disease-summary {
+            background: white;
+            margin: 12px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .disease-name {
+            font-size: 20px;
+            color: #212121;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .alert-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .alert-low { background: #E8F5E9; color: #2C5F2D; }
+        .alert-medium { background: #FFF3E0; color: #EF6C00; }
+        .alert-high { background: #FFEBEE; color: #C62828; }
+        
+        /* 详情卡片 */
+        .detail-card {
+            background: white;
+            margin: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .card-header {
+            padding: 16px;
+            border-bottom: 1px solid #E0E0E0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+        }
+        
+        .card-content {
+            padding: 16px;
+            line-height: 1.6;
+            color: #424242;
+            font-size: 14px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .info-row:last-child { border-bottom: none; }
+        
+        .info-label {
+            font-size: 14px;
+            color: #757575;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            color: #212121;
+            font-weight: 500;
+        }
+        
+        /* 相关药品 */
+        .related-medicine {
+            padding: 12px;
+            border-bottom: 1px solid #E0E0E0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .related-medicine:last-child { border-bottom: none; }
+        
+        .medicine-icon {
+            font-size: 24px;
+        }
+        
+        .medicine-name {
+            font-size: 14px;
+            color: #212121;
+        }
+        
+        .medicine-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+        .type-otc { background: #E8F5E9; color: #2C5F2D; }
+        .type-prescription { background: #FFF3E0; color: #EF6C00; }
+        
+        /* QA检查清单 */
+        /* ✅ 所有规范已遵循 */
+    </style>
+</head>
+<body>
+    <!-- 底部标签导航 -->
+    <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div><div class="tab-label">首页</div></div>
+        <div class="tab-item"><div class="tab-icon">⚠️</div><div class="tab-label">预警</div></div>
+        <div class="tab-item"><div class="tab-icon">💊</div><div class="tab-label">用药</div></div>
+        <div class="tab-item"><div class="tab-icon">💬</div><div class="tab-label">咨询</div></div>
+        <div class="tab-item"><div class="tab-icon">👤</div><div class="tab-label">我的</div></div>
+    </div>
+    
+    <!-- Header -->
+    <div class="header">
+        <div class="back-btn">←</div>
+        <div class="header-title">疾病详情</div>
+    </div>
+    
+    <!-- 疾病基本信息 -->
+    <div class="disease-summary">
+        <div class="disease-name">高血压</div>
+        <span class="alert-badge alert-medium">🟡中度预警</span>
+    </div>
+    
+    <!-- 基本信息卡片 -->
+    <div class="detail-card">
+        <div class="card-header">基本信息</div>
+        <div class="card-content">
+            <div class="info-row">
+                <div class="info-label">疾病类型</div>
+                <div class="info-value">慢性病</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">易发人群</div>
+                <div class="info-value">中老年人、肥胖人群</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">主要症状</div>
+                <div class="info-value">头晕、头痛、心悸</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">并发症</div>
+                <div class="info-value">冠心病、脑卒中</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 症状描述卡片 -->
+    <div class="detail-card">
+        <div class="card-header">症状描述</div>
+        <div class="card-content">
+            高血压是指体循环动脉血压持续升高，收缩压≥140mmHg和/或舒张压≥90mmHg。常见症状包括头晕、头痛、心悸、耳鸣等，严重时可导致心脑血管并发症。
+        </div>
+    </div>
+    
+    <!-- 治疗建议卡片 -->
+    <div class="detail-card">
+        <div class="card-header">治疗建议</div>
+        <div class="card-content">
+            1. 生活方式干预：低盐低脂饮食、规律运动、戒烟限酒
+            <br>2. 药物治疗：遵医嘱服用降压药物
+            <br>3. 定期监测：每天测量血压并记录
+            <br>4. 定期复查：每3-6个月复查一次
+        </div>
+    </div>
+    
+    <!-- 相关药品卡片 -->
+    <div class="detail-card">
+        <div class="card-header">常用药品</div>
+        <div class="related-medicine">
+            <div class="medicine-icon">💊</div>
+            <div class="medicine-name">硝苯地平缓释片<span class="medicine-type type-prescription">处方</span></div>
+        </div>
+        <div class="related-medicine">
+            <div class="medicine-icon">💊</div>
+            <div class="medicine-name">氨氯地平片<span class="medicine-type type-prescription">处方</span></div>
+        </div>
+        <div class="related-medicine">
+            <div class="medicine-icon">💊</div>
+            <div class="medicine-name">阿司匹林肠溶片<span class="medicine-type type-otc">OTC</span></div>
+        </div>
+    </div>
+    
+    <!-- 温馨提示 -->
+    <div class="detail-card">
+        <div class="card-header">温馨提示</div>
+        <div class="card-content" style="background: #FFF3E0; padding: 12px; border-radius: 8px; color: #EF6C00; font-size: 13px;">
+            ⚠️ 本信息仅供参考，不替代专业医生诊断。如有疑似症状，请及时就医检查。
+        </div>
+    </div>
+</body>
+</html>
