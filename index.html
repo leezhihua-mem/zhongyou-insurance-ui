@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>家康OS - 用药手册（匠心优化版）</title>
+    <title>家康OS - 用药手册（匠心优化版）- 新版首页</title>
     <style>
         /* 匠心统一设计规范 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -55,7 +55,7 @@
         
         .prototype-list {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 16px;
         }
         
@@ -83,25 +83,41 @@
             font-weight: 500;
         }
         
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            font-size: 13px;
-            color: #757575;
-        }
-        
         .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 12px;
-            border-radius: 12px;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
             font-size: 12px;
             font-weight: 600;
             background: #E8F5E9;
             color: #2C5F2D;
             margin-left: 8px;
+        }
+        
+        /* AI应用实验室特殊样式 */
+        .ai-lab-card {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            border: 2px solid #4CAF50;
+        }
+        
+        .ai-lab-card:hover {
+            background: linear-gradient(135deg, #c8e6c9, #dcedc8);
+            transform: scale(1.05);
+        }
+        
+        .ai-stats {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+            justify-content: center;
+        }
+        
+        .ai-stat-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
         }
     </style>
 </head>
@@ -111,6 +127,21 @@
         <div class="logo">🏥</div>
         <div class="title">家康OS - 用药手册</div>
         <div class="subtitle">匠心优化版（符合前端设计规范v2.0）<span class="badge">⭐⭐⭐⭐⭐</span></div>
+    </div>
+    
+    <!-- AI应用实验室入口 -->
+    <div class="section">
+        <div class="section-title">🥔 AI应用实验室（新功能）</div>
+        <a href="ai-app-lab.html" class="prototype-item ai-lab-card">
+            <div class="prototype-icon">🥔</div>
+            <div class="prototype-name" style="color: #2C5F2D; font-weight: 600;">AI应用实验室</div>
+            <div style="font-size: 11px; color: #666; margin-top: 5px;">病例OCR小程序</div>
+            <div class="ai-stats">
+                <span class="ai-stat-badge">99%</span>
+                <span class="ai-stat-badge">95%</span>
+                <span class="ai-stat-badge">25</span>
+            </div>
+        </a>
     </div>
     
     <!-- 原型列表 -->
@@ -152,25 +183,11 @@
         </div>
     </div>
     
-    <!-- 设计规范 -->
-    <div class="section">
-        <div class="section-title">🎨 设计规范（匠心Agent）</div>
-        <div style="line-height: 1.8; color: #424242;">
-            ✅ **底部标签导航**：首页/预警/用药/咨询/我的（所有页面统一）<br>
-            ✅ **配色方案**：深绿#2C5F2D + 辅色#97BC62 + 强调色#F5F5F5<br>
-            ✅ **字体**：思源黑体（中文）+ 系统默认（英文）<br>
-            ✅ **预警分级标签**：🟢轻度/🟡中度/🔴高度<br>
-            ✅ **OTC/处方标签**：分类可视化<br>
-            ❌ **禁止清单**：无紫色渐变/无装饰横条/无等权重卡片/无Inter/Roboto/Arial
-        </div>
-    </div>
-    
     <!-- Footer -->
-    <div class="footer">
-        匠心Agent前端设计能力已内化<br>
-        符合知识库10_frontend_generation.md规范<br>
-        GitHub：https://github.com/leezhihua-mem/zhongyou-insurance-ui.git<br>
-        优化时间：2026-04-16
+    <div style="text-align: center; margin-top: 40px; padding: 20px; font-size: 13px; color: #757575;">
+        <div>GitHub: https://github.com/leezhihua-mem/zhongyou-insurance-ui.git</div>
+        <div style="margin-top: 8px;">优化时间：2026-04-18 | 匠心Agent</div>
+        <div style="margin-top: 8px;">新增：AI应用实验室（病例OCR小程序）</div>
     </div>
 </body>
 </html>
