@@ -230,11 +230,77 @@
         </div>
         
         <!-- 立即使用按钮 -->
-        <button class="button-primary" style="margin-top: 20px;" 
-                onclick="window.location.href='https://leezhihua-mem.github.io/ai-app-lab/apps/medical-ocr/web/index.html'">
-            立即使用
-        </button>
+        <div style="margin-top: 20px;">
+            <button class="button-primary" onclick="showDemo()">
+                立即使用
+            </button>
+        </div>
     </div>
+    
+    <!-- OCR功能演示区域 -->
+    <div class="card" id="demoSection" style="display: none;">
+        <div class="card-title">🩺 OCR功能演示</div>
+        
+        <!-- 上传区域 -->
+        <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #4CAF50, #66BB6A); border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; cursor: pointer;" onclick="simulateOCR()">
+            <div style="font-size: 48px;">📷</div>
+            <div style="font-size: 18px; font-weight: 600;">点击演示OCR识别</div>
+        </div>
+        
+        <!-- 进度显示 -->
+        <div id="progressDemo" style="display: none; margin-top: 20px;">
+            <div style="font-size: 14px; color: #666;">识别进度：<span id="progressText">0</span>%</div>
+            <div style="width: 100%; height: 10px; background: #ddd; border-radius: 5px; margin-top: 10px;">
+                <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #4CAF50, #66BB6A); border-radius: 5px;"></div>
+            </div>
+        </div>
+        
+        <!-- 结果显示 -->
+        <div id="resultDemo" style="display: none; margin-top: 20px;">
+            <div style="font-size: 16px; font-weight: 600; color: #2C5F2D; margin-bottom: 15px;">识别结果（模拟）</div>
+            
+            <!-- 异常指标 -->
+            <div style="background: linear-gradient(135deg, #ffebee, #ffcdd2); border: 2px solid #f44336; border-radius: 10px; padding: 15px; margin-bottom: 10px;">
+                <div style="font-size: 16px; font-weight: 600;">血糖</div>
+                <div style="font-size: 24px; color: #f44336; margin: 10px 0;">7.2 mmol/L</div>
+                <span style="background: #f44336; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">偏高 · 红色预警</span>
+                <div style="margin-top: 5px; font-size: 12px; color: #666;">正常范围：3.9-6.1 mmol/L</div>
+            </div>
+            
+            <!-- 正常指标 -->
+            <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; margin-bottom: 10px;">
+                <div style="font-size: 16px; font-weight: 600;">血压</div>
+                <div style="font-size: 24px; margin: 10px 0;">120/80 mmHg</div>
+                <span style="background: #4CAF50; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">正常</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showDemo() {
+            document.getElementById('demoSection').style.display = 'block';
+        }
+        
+        function simulateOCR() {
+            // 显示进度
+            document.getElementById('progressDemo').style.display = 'block';
+            
+            // 模拟进度动画
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progressText').innerText = progress;
+                document.getElementById('progressBar').style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // 显示结果
+                    document.getElementById('progressDemo').style.display = 'none';
+                    document.getElementById('resultDemo').style.display = 'block';
+                }
+            }, 500);
+        }
+    </script>
     
     <!-- 家康OS集成模块 -->
     <div class="card">
