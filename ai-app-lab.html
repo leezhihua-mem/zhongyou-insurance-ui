@@ -333,55 +333,5 @@
             </div>
         </div>
     </div>
-    
-    <!-- 底部标签导航 -->
-    <div class="bottom-nav">
-        <div class="nav-item active">
-            <div class="nav-icon">🏠</div>
-            <div>首页</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">⚠️</div>
-            <div>预警</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">💊</div>
-            <div>用药</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">🤖</div>
-            <div>咨询</div>
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon">👤</div>
-            <div>我的</div>
-        </div>
-    </div>
-    
-    <script>
-        function showOCRDemo() {
-            document.getElementById('ocrDemo').style.display = 'block';
-        }
-        
-        function simulateOCR() {
-            // 显示进度
-            document.getElementById('progressDemo').style.display = 'block';
-            
-            // 模拟进度动画
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 10;
-                document.getElementById('progressText').innerText = progress;
-                document.getElementById('progressFill').style.width = progress + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    // 显示结果
-                    document.getElementById('progressDemo').style.display = 'none';
-                    document.getElementById('resultDemo').style.display = 'block';
-                }
-            }, 500);
-        }
-    </script>
 </body>
 </html>
