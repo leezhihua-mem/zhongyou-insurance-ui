@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🥔 AI应用实验室 - 病例OCR小程序</title>
+    <title>🥔 AI应用实验室 - 统一入口</title>
     <link rel="stylesheet" href="colors.css">
     <style>
         /* 继承用药手册设计规范 */
@@ -39,45 +39,106 @@
             margin-top: 5px;
         }
         
-        /* 预警分级标签 */
-        .alert-green {
-            background: #4CAF50;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-        
-        .alert-orange {
-            background: #FF9800;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-        
-        .alert-red {
-            background: #F44336;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-        
         /* 卡片设计 */
-        .card {
+        .app-card {
             background: white;
             border-radius: 15px;
             padding: 20px;
             margin: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            font-size: 40px;
+            margin-right: 15px;
         }
         
         .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2C5F2D;
+        }
+        
+        .card-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        /* 功能标签 */
+        .card-tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        
+        /* 核心数据 */
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .stat-value {
             font-size: 18px;
             font-weight: 600;
             color: #2C5F2D;
-            margin-bottom: 15px;
+        }
+        
+        /* 按钮 */
+        .button-primary {
+            background: linear-gradient(135deg, #2C5F2D, #97BC62);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .button-secondary {
+            background: white;
+            color: #2C5F2D;
+            padding: 15px 30px;
+            border-radius: 25px;
+            border: 2px solid #2C5F2D;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
         }
         
         /* 底部标签导航 */
@@ -110,97 +171,108 @@
             color: #2C5F2D;
         }
         
-        /* 病例OCR小程序卡片 */
-        .ocr-card {
-            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
-            border: 2px solid #4CAF50;
+        /* OCR演示区域 */
+        .ocr-demo {
+            display: none;
+            margin-top: 20px;
         }
         
-        .ocr-icon {
-            font-size: 32px;
-            margin-right: 10px;
-        }
-        
-        .ocr-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .stat-value {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2C5F2D;
-        }
-        
-        /* 按钮 */
-        .button-primary {
-            background: linear-gradient(135deg, #2C5F2D, #97BC62);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
+        .upload-area {
             width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            cursor: pointer;
         }
         
-        /* 返回按钮 */
-        .back-button {
-            background: white;
-            color: #2C5F2D;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 2px solid #2C5F2D;
-            font-size: 14px;
-            cursor: pointer;
-            margin: 15px;
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #66BB6A);
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- 返回按钮 -->
-    <button class="back-button" onclick="window.location.href='https://leezhihua-mem.github.io/zhongyou-insurance-ui/'">
-        ← 返回用药手册
-    </button>
-    
     <!-- 顶部导航栏 -->
     <div class="header">
         <div class="header-title">🥔 AI应用实验室</div>
-        <div class="header-desc">病例OCR小程序 - 医疗文档智能识别工具</div>
+        <div class="header-desc">统一入口 · 家康OS生态</div>
     </div>
     
-    <!-- 病例OCR小程序卡片 -->
-    <div class="card ocr-card">
-        <div style="display: flex; align-items: center;">
-            <span class="ocr-icon">🩺</span>
-            <div class="card-title">病例OCR小程序</div>
+    <!-- 应用卡片1：用药手册 -->
+    <div class="app-card" onclick="window.location.href='https://leezhihua-mem.github.io/zhongyou-insurance-ui/'">
+        <div class="card-header">
+            <span class="card-icon">🏥</span>
+            <div class="card-title">用药手册</div>
         </div>
         
-        <div style="margin-top: 10px; color: #666;">
-            医疗文档智能识别与结构化工具
+        <div class="card-desc">
+            家康OS核心应用 · 疾病知识+药品知识+用药提醒+AI问答
         </div>
         
         <!-- 功能标签 -->
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <span class="alert-green">OCR识别</span>
-            <span class="alert-green">家康OS集成</span>
-            <span class="alert-green">MCP协议</span>
+        <div class="card-tags">
+            <span class="tag">疾病知识</span>
+            <span class="tag">药品知识</span>
+            <span class="tag">用药提醒</span>
         </div>
         
         <!-- 核心数据 -->
-        <div class="ocr-stats">
+        <div class="card-stats">
+            <div class="stat-item">
+                <div class="stat-label">原型页面</div>
+                <div class="stat-value">8个</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">疾病库</div>
+                <div class="stat-value">100+</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">药品库</div>
+                <div class="stat-value">500+</div>
+            </div>
+        </div>
+        
+        <!-- 进入按钮 -->
+        <button class="button-secondary">
+            进入用药手册
+        </button>
+    </div>
+    
+    <!-- 应用卡片2：病例OCR -->
+    <div class="app-card" id="ocrCard">
+        <div class="card-header">
+            <span class="card-icon">🩺</span>
+            <div class="card-title">病例OCR小程序</div>
+        </div>
+        
+        <div class="card-desc">
+            医疗文档智能识别与结构化工具 · 家康OS深度集成
+        </div>
+        
+        <!-- 功能标签 -->
+        <div class="card-tags">
+            <span class="tag">OCR识别</span>
+            <span class="tag">家康OS集成</span>
+            <span class="tag">MCP协议</span>
+        </div>
+        
+        <!-- 核心数据 -->
+        <div class="card-stats">
             <div class="stat-item">
                 <div class="stat-label">文件识别</div>
                 <div class="stat-value">99%</div>
@@ -215,121 +287,49 @@
             </div>
         </div>
         
-        <!-- 功能列表 -->
-        <div style="margin-top: 20px;">
-            <div style="font-size: 14px; color: #666; margin-bottom: 10px;">
-                📋 核心功能
-            </div>
-            <div style="font-size: 14px; line-height: 1.8;">
-                • 文件识别（Magika 99%准确率）<br>
-                • PDF解析（MinerU 95%表格识别）<br>
-                • 数据结构化（家康OS医学知识库）<br>
-                • 异常预警（25个医学预警模型）<br>
-                • 家康OS深度集成（5个模块）
-            </div>
-        </div>
-        
         <!-- 立即使用按钮 -->
-        <div style="margin-top: 20px;">
-            <button class="button-primary" onclick="showDemo()">
-                立即使用
-            </button>
-        </div>
-    </div>
-    
-    <!-- OCR功能演示区域 -->
-    <div class="card" id="demoSection" style="display: none;">
-        <div class="card-title">🩺 OCR功能演示</div>
+        <button class="button-primary" onclick="showOCRDemo()">
+            立即使用
+        </button>
         
-        <!-- 上传区域 -->
-        <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #4CAF50, #66BB6A); border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; cursor: pointer;" onclick="simulateOCR()">
-            <div style="font-size: 48px;">📷</div>
-            <div style="font-size: 18px; font-weight: 600;">点击演示OCR识别</div>
-        </div>
-        
-        <!-- 进度显示 -->
-        <div id="progressDemo" style="display: none; margin-top: 20px;">
-            <div style="font-size: 14px; color: #666;">识别进度：<span id="progressText">0</span>%</div>
-            <div style="width: 100%; height: 10px; background: #ddd; border-radius: 5px; margin-top: 10px;">
-                <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #4CAF50, #66BB6A); border-radius: 5px;"></div>
-            </div>
-        </div>
-        
-        <!-- 结果显示 -->
-        <div id="resultDemo" style="display: none; margin-top: 20px;">
-            <div style="font-size: 16px; font-weight: 600; color: #2C5F2D; margin-bottom: 15px;">识别结果（模拟）</div>
-            
-            <!-- 异常指标 -->
-            <div style="background: linear-gradient(135deg, #ffebee, #ffcdd2); border: 2px solid #f44336; border-radius: 10px; padding: 15px; margin-bottom: 10px;">
-                <div style="font-size: 16px; font-weight: 600;">血糖</div>
-                <div style="font-size: 24px; color: #f44336; margin: 10px 0;">7.2 mmol/L</div>
-                <span style="background: #f44336; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">偏高 · 红色预警</span>
-                <div style="margin-top: 5px; font-size: 12px; color: #666;">正常范围：3.9-6.1 mmol/L</div>
+        <!-- OCR演示区域 -->
+        <div class="ocr-demo" id="ocrDemo">
+            <!-- 上传区域 -->
+            <div class="upload-area" onclick="simulateOCR()">
+                <div style="font-size: 48px;">📷</div>
+                <div style="font-size: 16px; font-weight: 600;">点击演示OCR识别</div>
             </div>
             
-            <!-- 正常指标 -->
-            <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; margin-bottom: 10px;">
-                <div style="font-size: 16px; font-weight: 600;">血压</div>
-                <div style="font-size: 24px; margin: 10px 0;">120/80 mmHg</div>
-                <span style="background: #4CAF50; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">正常</span>
+            <!-- 进度显示 -->
+            <div id="progressDemo" style="display: none;">
+                <div style="font-size: 14px; color: #666; margin-top: 10px;">
+                    识别进度：<span id="progressText">0</span>%
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
             </div>
-        </div>
-    </div>
-    
-    <script>
-        function showDemo() {
-            document.getElementById('demoSection').style.display = 'block';
-        }
-        
-        function simulateOCR() {
-            // 显示进度
-            document.getElementById('progressDemo').style.display = 'block';
             
-            // 模拟进度动画
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 10;
-                document.getElementById('progressText').innerText = progress;
-                document.getElementById('progressBar').style.width = progress + '%';
+            <!-- 结果显示 -->
+            <div id="resultDemo" style="display: none; margin-top: 20px;">
+                <div style="font-size: 16px; font-weight: 600; color: #2C5F2D; margin-bottom: 15px;">
+                    识别结果（模拟）
+                </div>
                 
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    // 显示结果
-                    document.getElementById('progressDemo').style.display = 'none';
-                    document.getElementById('resultDemo').style.display = 'block';
-                }
-            }, 500);
-        }
-    </script>
-    
-    <!-- 家康OS集成模块 -->
-    <div class="card">
-        <div class="card-title">家康OS深度集成</div>
-        
-        <div style="margin-top: 15px;">
-            <div style="display: flex; align-items: center; padding: 15px; background: #e8f5e9; border-radius: 10px; margin-bottom: 10px;">
-                <div style="font-size: 20px; margin-right: 15px;">⚠️</div>
-                <div style="font-size: 14px;">健康预警模块（25个医学预警模型）</div>
-            </div>
-            
-            <div style="display: flex; align-items: center; padding: 15px; background: #e8f5e9; border-radius: 10px; margin-bottom: 10px;">
-                <div style="font-size: 20px; margin-right: 15px;">💊</div>
-                <div style="font-size: 14px;">用药提醒模块（慢病用药管理）</div>
-            </div>
-            
-            <div style="display: flex; align-items: center; padding: 15px; background: #e8f5e9; border-radius: 10px; margin-bottom: 10px;">
-                <div style="font-size: 20px; margin-right: 15px;">📅</div>
-                <div style="font-size: 14px;">随访管理模块（复诊提醒+随访记录）</div>
-            </div>
-            
-            <div style="display: flex; align-items: center; padding: 15px; background: #e8f5e9; border-radius: 10px; margin-bottom: 10px;">
-                <div style="font-size: 20px; margin-right: 15px;">👨‍👩‍👧‍👦</div>
-                <div style="font-size: 14px;">家庭档案模块（多人健康管理）</div>
-            </div>
-            
-            <div style="display: flex; align-items: center; padding: 15px; background: #e8f5e9; border-radius: 10px;">
-                <div style="font-size: 20px; margin-right: 15px;">🤖</div>
-                <div style="font-size: 14px;">AI问诊模块（辅助诊断建议）</div>
+                <!-- 异常指标 -->
+                <div style="background: linear-gradient(135deg, #ffebee, #ffcdd2); border: 2px solid #f44336; border-radius: 10px; padding: 15px; margin-bottom: 10px;">
+                    <div style="font-size: 16px; font-weight: 600;">血糖</div>
+                    <div style="font-size: 24px; color: #f44336; margin: 10px 0;">7.2 mmol/L</div>
+                    <span style="background: #f44336; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">偏高 · 红色预警</span>
+                    <div style="margin-top: 5px; font-size: 12px; color: #666;">正常范围：3.9-6.1 mmol/L</div>
+                </div>
+                
+                <!-- 正常指标 -->
+                <div style="background: #f8f9fa; border-radius: 10px; padding: 15px;">
+                    <div style="font-size: 16px; font-weight: 600;">血压</div>
+                    <div style="font-size: 24px; margin: 10px 0;">120/80 mmHg</div>
+                    <span style="background: #4CAF50; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px;">正常</span>
+                </div>
             </div>
         </div>
     </div>
@@ -357,5 +357,31 @@
             <div>我的</div>
         </div>
     </div>
+    
+    <script>
+        function showOCRDemo() {
+            document.getElementById('ocrDemo').style.display = 'block';
+        }
+        
+        function simulateOCR() {
+            // 显示进度
+            document.getElementById('progressDemo').style.display = 'block';
+            
+            // 模拟进度动画
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progressText').innerText = progress;
+                document.getElementById('progressFill').style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // 显示结果
+                    document.getElementById('progressDemo').style.display = 'none';
+                    document.getElementById('resultDemo').style.display = 'block';
+                }
+            }, 500);
+        }
+    </script>
 </body>
 </html>
